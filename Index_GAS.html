@@ -21,27 +21,42 @@
   <!-- Google Fonts: Plus Jakarta Sans & Arabic/Jawi Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     .font-jawi {
-      font-family: 'Amiri', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
+      font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Traditional Arabic', serif;
       direction: rtl;
       text-align: right;
-      font-size: 1.05rem;
-      line-height: 1.8;
+      font-size: 1.15rem;
+      line-height: 2.2 !important;
     }
     .font-jawi-inline {
-      font-family: 'Amiri', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
+      font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Traditional Arabic', serif;
       unicode-bidi: embed;
+    }
+    select.font-jawi {
+      direction: rtl;
+      text-align: right;
+      font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif;
+      line-height: 2.2 !important;
+      padding-top: 6px;
+      padding-bottom: 6px;
     }
     select.font-jawi option {
       direction: rtl;
       text-align: right;
-      font-family: 'Amiri', 'Noto Naskh Arabic', serif;
-      font-size: 1.02rem;
-      padding: 4px 8px;
+      font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif;
+      font-size: 1.1rem;
+      padding: 6px 10px;
+      line-height: 2.2;
+    }
+    input.font-jawi {
+      direction: rtl;
+      text-align: right;
+      font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif;
+      line-height: 2.2 !important;
     }
     /* Animasi kemajuan progress bar */
     .progress-bar-fill {
@@ -114,14 +129,14 @@
     </div>
   </div>
 
-  <!-- ==================== STEP 1: BORANG PROFIL GURU & PENGESAHAN AKSES WHITELIST ==================== -->
+  <!-- ==================== STEP 1: BORANG PROFIL GURU & PENGESAHAN GURU BERDAFTAR ==================== -->
   <div class="max-w-2xl mx-auto px-3.5 sm:px-4 pt-3">
     <div id="kotakStep1Profil" class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border-2 border-indigo-200 space-y-4 transition-all">
       <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
         <div class="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center text-xl shadow-xs shrink-0">&#128737;&#65039;</div>
         <div>
           <h2 class="text-xs sm:text-sm font-black text-slate-900 tracking-tight">Langkah 1: Borang Profil Guru &amp; Pengesahan Akses</h2>
-          <p class="text-[11px] text-slate-500 leading-snug">Sila lengkapkan maklumat rasmi anda untuk mengesahkan kebenaran akses.</p>
+          <p class="text-[11px] text-slate-500 leading-snug">Sila lengkapkan maklumat rasmi anda untuk mengesahkan rekod pendidik.</p>
         </div>
       </div>
 
@@ -141,7 +156,7 @@
           <div class="space-y-1 text-left">
             <label class="text-[11px] font-bold text-slate-700 block">&#128231; Emel Rasmi / DELIMa <span class="text-rose-500">*</span></label>
             <input type="email" id="txtEmelProfil" placeholder="Cth: pendidik@moe-dl.edu.my" class="w-full bg-slate-50 border-2 border-slate-200 focus:border-indigo-600 focus:bg-white rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 outline-none transition" />
-            <p class="text-[10px] text-slate-400">Emel wajib tersenarai dalam tab 'Senarai_Whitelist'.</p>
+            <p class="text-[10px] text-slate-400">Gunakan emel rasmi DELIMa yang telah didaftarkan dalam sistem e-RPH sekolah.</p>
           </div>
         </div>
 
@@ -163,6 +178,34 @@
           </div>
         </div>
 
+        <!-- Aliran / Program Pengajaran Guru -->
+        <div class="space-y-1.5 text-left pt-1">
+          <label class="text-[11px] font-bold text-slate-700 block">&#127979; Aliran / Program Pengajaran <span class="text-rose-500">*</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <label class="flex items-center gap-2.5 p-2.5 bg-indigo-50/80 border-2 border-indigo-600 rounded-xl cursor-pointer transition shadow-xs" id="cardAliran_PERDANA">
+              <input type="radio" name="radAliranProfil" value="PERDANA" checked onchange="kemaskiniPilihanAliranUi()" class="text-indigo-600 focus:ring-0" />
+              <div class="text-left">
+                <div class="text-xs font-black text-slate-800">&#127979; Aliran Perdana</div>
+                <div class="text-[10px] text-slate-500 font-semibold leading-tight">Tahun 1 - 6 (KSSR)</div>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-amber-50/40 transition" id="cardAliran_PRASEKOLAH">
+              <input type="radio" name="radAliranProfil" value="PRASEKOLAH" onchange="kemaskiniPilihanAliranUi()" class="text-amber-600 focus:ring-0" />
+              <div class="text-left">
+                <div class="text-xs font-black text-slate-800">&#129528; Prasekolah</div>
+                <div class="text-[10px] text-slate-500 font-semibold leading-tight">KSPK (7 Slot Rutin)</div>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-purple-50/40 transition" id="cardAliran_PPKI">
+              <input type="radio" name="radAliranProfil" value="PPKI" onchange="kemaskiniPilihanAliranUi()" class="text-purple-600 focus:ring-0" />
+              <div class="text-left">
+                <div class="text-xs font-black text-slate-800">&#127775; Pendidikan Khas</div>
+                <div class="text-[10px] text-slate-500 font-semibold leading-tight">PPKI (KSSRPK)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
         <!-- Butang Tindakan Sahkan Profil -->
         <button type="button" onclick="prosesSahkanDanSimpanProfil()" id="btnSahkanProfil" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-black py-3.5 px-4 rounded-2xl text-xs shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 cursor-pointer">
           <span id="txtBtnSahkan">Sahkan Profil &amp; Teruskan</span>
@@ -178,7 +221,8 @@
           <div class="space-y-0.5 text-left">
             <div class="flex items-center gap-2 flex-wrap">
               <span class="text-xs font-black text-emerald-950" id="lblNamaDisahkan">-</span>
-              <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-extrabold uppercase">&#10004; Akses Whitelist Sah</span>
+              <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-extrabold uppercase">&#10004; Pendidik Berdaftar Sah</span>
+              <span class="text-[9px] bg-indigo-700 text-white px-2 py-0.5 rounded-full font-extrabold" id="badgeAliranDisahkan">&#127979; Aliran Perdana</span>
             </div>
             <div class="text-[11px] text-emerald-800" id="lblEmelDanSekolahDisahkan">-</div>
           </div>
@@ -298,9 +342,13 @@
           <button type="button" onclick="tambahSlotBaharu()" class="flex-1 py-2.5 border-2 border-dashed border-slate-300 hover:border-indigo-400 rounded-2xl text-[11px] font-bold text-slate-600 hover:text-indigo-600 transition flex items-center justify-center gap-1.5 bg-slate-50/50">
             <span>&#10133;</span> <span>Tambah Kelas Pada Hari Ini</span>
           </button>
-          <button type="button" onclick="muatTemplatJadualKspk()" id="btnTemplatKspk" title="Muat 7 slot jadual harian prasekolah automatik (08:00 - 11:30)" class="py-2.5 px-3 border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-2xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
-            <span>🧸</span> <span>Templat KSPK (7 Slot)</span>
+          <button type="button" onclick="muatTemplatJadualKspk()" id="btnTemplatKspk" title="Muat 7 slot jadual harian prasekolah automatik (08:00 - 11:30)" class="hidden py-2.5 px-3 border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-2xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <span>&#129528;</span> <span>Templat 7 Slot KSPK (Khas Prasekolah)</span>
           </button>
+        </div>
+        <!-- Nota Panduan Khas Prasekolah (Hanya muncul jika mod Prasekolah aktif) -->
+        <div id="notisPanduanKspk" class="hidden text-[10px] text-amber-800 bg-amber-50/90 border border-amber-200 rounded-xl px-2.5 py-1.5 font-medium flex items-center gap-1.5">
+          <span>ℹ️</span> <span><strong>Mod Prasekolah Aktif:</strong> Jadual mengikut struktur 7 slot rutin harian KSPK (08:00 - 11:30).</span>
         </div>
       </div>
 
@@ -609,6 +657,11 @@ var SUBJEK_PERDANA = [
 
     // Tentukan Kumpulan Subjek Berdasarkan Kategori Kelas
     function dapatkanKumpulanSubjek(namaKelas) {
+      var aliranGuru = (guruPilihanSemasa && guruPilihanSemasa.aliran) ? guruPilihanSemasa.aliran : "PERDANA";
+      if (aliranGuru === "PRASEKOLAH") return SUBJEK_PRA;
+      if (aliranGuru === "PPKI") return SUBJEK_PPKI;
+      if (aliranGuru === "PERDANA") return SUBJEK_PERDANA;
+
       if (!namaKelas) return SUBJEK_PERDANA;
       var info = kesanKategoriDanTahap(namaKelas);
       if (info.kategori === "Pra") return SUBJEK_PRA;
@@ -698,16 +751,21 @@ var SUBJEK_PERDANA = [
 
     function dapatkanCadanganKelasBagiKat(kodKat) {
       var cadangan = [];
+      var aliranGuru = (guruPilihanSemasa && guruPilihanSemasa.aliran) ? guruPilihanSemasa.aliran : "PERDANA";
       var katInfo = (kodKat === "Pra")
         ? { jenis: "pra" }
         : (kodKat.startsWith("PPKI") ? { jenis: "ppki", num: kodKat.replace(/\D/g, '') } : { jenis: "perdana", num: kodKat });
 
-      // 1. Cadangan daripada kelas tersuai pengguna yang sepadan
+      // 1. Cadangan daripada kelas tersuai pengguna yang sepadan dengan aliran guru
       (SENARAI_KELAS_CUSTOM || []).forEach(function(k) {
         if (!k || typeof k !== 'string') return;
         var kClean = k.trim();
         if (!kClean) return;
         var info = kesanKategoriDanTahap(kClean);
+        if (aliranGuru === "PRASEKOLAH" && info.kategori !== "Pra") return;
+        if (aliranGuru === "PPKI" && info.kategori !== "PPKI") return;
+        if (aliranGuru === "PERDANA" && info.kategori !== "Perdana") return;
+
         if (info.kodKat === kodKat && !cadangan.includes(kClean)) {
           cadangan.push(kClean);
         }
@@ -743,8 +801,8 @@ var SUBJEK_PERDANA = [
     function tukarDigitArabKeRumi(teks) {
       if (!teks) return "";
       var str = String(teks);
-      var arab = ['Ù ', 'Ù¡', 'Ù¢', 'Ù£', 'Ù¤', 'Ù¥', 'Ù¦', 'Ù§', 'Ù¨', 'Ù©'];
-      var persia = ['Û°', 'Û±', 'Û²', 'Û³', 'Û´', 'Ûµ', 'Û¶', 'Û·', 'Û¸', 'Û¹'];
+      var arab = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      var persia = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
       for (var i = 0; i < 10; i++) {
         str = str.replace(new RegExp(arab[i], 'g'), i).replace(new RegExp(persia[i], 'g'), i);
       }
@@ -759,7 +817,7 @@ var SUBJEK_PERDANA = [
     function adalahSubjekPendidikanIslam(sub) {
       if (!sub) return false;
       var up = String(sub).trim().toUpperCase();
-      return up.includes("ISLAM") || up.includes("PAI") || sub.includes("Ø§Ø³Ù„Ø§Ù…") || sub.includes("Ø¥Ø³Ù„Ø§Ù…") || sub.includes("Ú¤Ù†Ø¯ÙŠØ¯ÙŠÙ‚Ù†") || sub.includes("ÙÙ†Ø¯ÙŠØ¯ÙŠÙ‚Ù†") || sub.includes("Ø¬Ø§ÙˆÙŠ") || up.includes("JAWI");
+      return up.includes("ISLAM") || up.includes("PAI") || sub.includes("اسلام") || sub.includes("إسلام") || sub.includes("ڤنديديقن") || sub.includes("فنديديقن") || sub.includes("جاوي") || up.includes("JAWI");
     }
 
     // ==========================================================================
@@ -903,54 +961,53 @@ var SUBJEK_PERDANA = [
       { subjek: "REKA BENTUK DAN TEKNOLOGI", tahun: "4", tema: "Pengenalan kepada Teknologi", tajuk: "Unit 2: Asas Reka Bentuk Produk dan Bahan", sk: "2.1 Reka bentuk produk menggunakan bahan kitar semula", sp: "2.1.1 Menjana idea kreatif dan menghasilkan lakaran reka bentuk produk berfungsi" },
       { subjek: "REKA BENTUK DAN TEKNOLOGI", tahun: "5", tema: "Reka Bentuk Pengaturcaraan", tajuk: "Unit 3: Asas Pengaturcaraan Mikropengawal", sk: "3.1 Asas algoritma dan pseudokod", sp: "3.1.1 Membina carta alir dan algoritma kawalan perkakasan elektronik" },
       { subjek: "REKA BENTUK DAN TEKNOLOGI", tahun: "6", tema: "Teknologi Pertanian", tajuk: "Unit 4: Penanaman Tanaman Hidroponik", sk: "4.1 Sistem Hidroponik", sp: "4.1.1 Mengenal pasti sistem takung dan menyemai benih menggunakan span hidroponik" },
-
       // --- BAHASA ARAB ---
-      { subjek: "BAHASA ARAB", tahun: "1", tema: "Ù…ÙŽÙ‡ÙŽØ§Ø±ÙŽØ§ØªÙ Ø§Ù„Ù„ÙÙ‘ØºÙŽØ©Ù Ø§Ù„Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù (Kemahiran Bahasa Arab)", tajuk: "Ø§Ù„Ù’Ø£ÙŽØ¯ÙŽÙˆÙŽØ§ØªÙ Ø§Ù„Ø¯ÙÙ‘Ø±ÙŽØ§Ø³ÙÙŠÙŽÙ‘Ø©Ù (Peralatan Belajar)", sk: "Ù¡Ù«Ù¡ Ø§Ù„Ø§Ø³Ù’ØªÙÙ…ÙŽØ§Ø¹Ù Ø¥ÙÙ„ÙŽÙ‰ ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ø§Ù„Ù’Ù…ÙŽØ­ÙŽØ§ÙˆÙØ±Ù ÙˆÙŽÙ†ÙØ·Ù’Ù‚ÙÙ‡ÙŽØ§ Ù†ÙØ·Ù’Ù‚Ù‹Ø§ ØµÙŽØ­ÙÙŠØ­Ù‹Ø§", sp: "Ù¡Ù«Ù¡Ù«Ù¡ Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±ÙŽØ©Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ù…ÙØ­ÙŽØ§ÙƒÙŽØ§Ø©Ù Ø§Ù„Ù’ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ø§Ù„Ù’Ù…ÙŽØ³Ù’Ù…ÙÙˆØ¹ÙŽØ©Ù ÙˆÙŽØªÙŽØ±Ù’Ø¯ÙÙŠØ¯ÙÙ‡ÙŽØ§ Ø«ÙÙ…ÙŽÙ‘ Ù†ÙØ·Ù’Ù‚ÙÙ‡ÙŽØ§" },
-      { subjek: "BAHASA ARAB", tahun: "2", tema: "Ø§Ù„Ù’Ø­ÙŽÙŠÙŽØ§Ø©Ù Ø§Ù„Ù’ÙŠÙŽÙˆÙ’Ù…ÙÙŠÙŽÙ‘Ø©Ù (Kehidupan Seharian)", tajuk: "Ø£ÙØ³Ù’Ø±ÙŽØªÙÙŠ Ø§Ù„Ù’Ø­ÙŽØ¨ÙÙŠØ¨ÙŽØ©Ù (Keluargaku Tercinta)", sk: "Ù¢Ù«Ù¡ Ù‚ÙØ±ÙŽØ§Ø¡ÙŽØ©Ù Ø§Ù„Ù’ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ù‚ÙØ±ÙŽØ§Ø¡ÙŽØ©Ù‹ ØµÙŽØ­ÙÙŠØ­ÙŽØ©Ù‹ Ù…ÙŽØ¹ÙŽ Ø§Ù„Ù’ÙÙŽÙ‡Ù’Ù…Ù", sp: "Ù¢Ù«Ù¡Ù«Ù¡ Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±ÙŽØ©Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ù‚ÙØ±ÙŽØ§Ø¡ÙŽØ©Ù Ø§Ù„Ù’ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ø§Ù„ÙŽÙ‘ØªÙÙŠ ÙÙÙŠÙ‡ÙŽØ§ Ø§Ù„Ù’Ø­ÙŽØ±ÙŽÙƒÙŽØ§ØªÙ Ø§Ù„Ù’Ù…ÙØ®Ù’ØªÙŽÙ„ÙÙÙŽØ©Ù" },
-      { subjek: "BAHASA ARAB", tahun: "3", tema: "ÙÙÙŠ Ø§Ù„Ù’Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØ©Ù (Di Sekolah)", tajuk: "Ù…ÙŽØ±ÙŽØ§ÙÙÙ‚Ù Ø§Ù„Ù’Ù…ÙŽØ¯Ù’Ø±ÙŽØ³ÙŽØ©Ù (Kemudahan Sekolah)", sk: "Ù£Ù«Ù¡ ÙƒÙØªÙŽØ§Ø¨ÙŽØ©Ù Ø§Ù„Ù’ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ ÙƒÙØªÙŽØ§Ø¨ÙŽØ©Ù‹ ØµÙŽØ­ÙÙŠØ­ÙŽØ©Ù‹", sp: "Ù£Ù«Ù¡Ù«Ù¡ Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±ÙŽØ©Ù Ø¹ÙŽÙ„ÙŽÙ‰ ÙƒÙØªÙŽØ§Ø¨ÙŽØ©Ù Ø§Ù„Ù’ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ù…ÙŽØ¹ÙŽ Ø§Ù„Ù’ÙˆÙŽØµÙ’Ù„Ù ÙˆÙŽØ§Ù„Ù’ÙÙŽØµÙ’Ù„Ù" },
-      { subjek: "BAHASA ARAB", tahun: "4", tema: "Ù…ÙŽÙ‡ÙŽØ§Ø±ÙŽØ§ØªÙ Ø§Ù„Ù„ÙÙ‘ØºÙŽØ©Ù Ø§Ù„Ø¹ÙŽØ±ÙŽØ¨ÙÙŠÙŽÙ‘Ø©Ù (Kemahiran Bahasa Arab)", tajuk: "Ø§Ù„Ù’Ø£ÙŽØ¯ÙŽÙˆÙŽØ§ØªÙ Ø§Ù„Ø¯ÙÙ‘Ø±ÙŽØ§Ø³ÙÙŠÙŽÙ‘Ø©Ù ÙˆÙŽÙÙÙŠ Ø§Ù„Ù’ÙÙŽØµÙ’Ù„Ù (Peralatan Belajar)", sk: "Ù¡Ù«Ù¡ Ø§Ù„Ø§Ø³Ù’ØªÙÙ…ÙŽØ§Ø¹Ù Ø¥ÙÙ„ÙŽÙ‰ ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ø§Ù„Ù’Ù…ÙŽØ­ÙŽØ§ÙˆÙØ±Ù ÙˆÙŽÙ†ÙØ·Ù’Ù‚ÙÙ‡ÙŽØ§ Ù†ÙØ·Ù’Ù‚Ù‹Ø§ ØµÙŽØ­ÙÙŠØ­Ù‹Ø§", sp: "Ù¡Ù«Ù¡Ù«Ù¡ Ø§Ù„Ù’Ù‚ÙØ¯Ù’Ø±ÙŽØ©Ù Ø¹ÙŽÙ„ÙŽÙ‰ Ù…ÙØ­ÙŽØ§ÙƒÙŽØ§Ø©Ù Ø§Ù„Ù’ÙƒÙŽÙ„ÙÙ…ÙŽØ§ØªÙ Ø§Ù„Ù’Ù…ÙŽØ³Ù’Ù…ÙÙˆØ¹ÙŽØ©Ù ÙˆÙŽØªÙŽØ±Ù’Ø¯ÙÙŠØ¯ÙÙ‡ÙŽØ§ Ø«ÙÙ…ÙŽÙ‘ Ù†ÙØ·Ù’Ù‚ÙÙ‡ÙŽØ§" },
-
+      { subjek: "BAHASA ARAB", tahun: "1", tema: "مَهَارَاتُ اللُّغَةِ العَرَبِيَّةِ (Kemahiran Bahasa Arab)", tajuk: "الْأَدَوَاتُ الدِّرَاسِيَّةُ (Peralatan Belajar)", sk: "١٫١ الاسْتِمَاعُ إِلَى كَلِمَاتِ الْمَحَاوِرِ وَنُطْقُهَا نُطْقًا صَحِيحًا", sp: "١٫١٫١ الْقُدْرَةُ عَلَى مُحَاكَاةِ الْكَلِمَاتِ الْمَسْمُوعَةِ وَتَرْدِيدِهَا ثُمَّ نُطْقِهَا" },
+      { subjek: "BAHASA ARAB", tahun: "2", tema: "الْحَيَاةُ الْيَوْمِيَّةُ (Kehidupan Seharian)", tajuk: "أُسْرَتِي الْحَبِيبَةُ (Keluargaku Tercinta)", sk: "٢٫١ قِرَاءَةُ الْكَلِمَاتِ قِرَاءَةً صَحِيحَةً مَعَ الْفَهْمِ", sp: "٢٫١٫١ الْقُدْرَةُ عَلَى قِرَاءَةِ الْكَلِمَاتِ الَّتِي فِيهَا الْحَرَكَاتُ الْمُخْتَلِفَةُ" },
+      { subjek: "BAHASA ARAB", tahun: "3", tema: "فِي الْمَدْرَسَةِ (Di Sekolah)", tajuk: "مَرَافِقُ الْمَدْرَسَةِ (Kemudahan Sekolah)", sk: "٣٫١ كِتَابَةُ الْكَلِمَاتِ كِتَابَةً صَحِيحَةً", sp: "٣٫١٫١ الْقُدْرَةُ عَلَى كِتَابَةِ الْكَلِمَاتِ مَعَ الْوَصْلِ وَالْفَصْلِ" },
+      { subjek: "BAHASA ARAB", tahun: "4", tema: "مَهَارَاتُ اللُّغَةِ العَرَبِيَّةِ (Kemahiran Bahasa Arab)", tajuk: "الْأَدَوَاتُ الدِّرَاسِيَّةُ وَفِي الْفَصْلِ (Peralatan Belajar)", sk: "١٫١ الاسْتِمَاعُ إِلَى كَلِمَاتِ الْمَحَاوِرِ وَنُطْقُهَا نُطْقًا صَحِيحًا", sp: "١٫١٫١ الْقُدْرَةُ عَلَى مُحَاكَاةِ الْكَلِمَاتِ الْمَسْمُوعَةِ وَتَرْدِيدِهَا ثُمَّ نُطْقِهَا" },
+      
       // --- PENDIDIKAN ISLAM (KSSR SEMAKAN TAHUN 1 - 5 DALAM TULISAN JAWI & RUMI) ---
       // TAHUN 1
-      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "Ø§Ù„Ù‚Ø±Ø¡Ø§Ù† (ØªÙ„Ø§ÙˆØ© Ø¯Ø§Ù† Ø­Ø§ÙØ¸Ù†)", tajuk: "Ø³ÙˆØ±Ø© Ø§Ù„ÙØ§ØªØ­Ø© Ø¯Ø§Ù† Ø³ÙˆØ±Ø© Ø§Ù„Ø¥Ø®Ù„Ø§Øµ", sk: "1.1 ØªÙ„Ø§ÙˆØ© Ø¯Ø§Ù† Ø­Ø§ÙØ¸Ù† Ø³ÙˆØ±Ø© Ø§Ù„ÙØ§ØªØ­Ø© Ø¯Ø§Ù† Ø§Ù„Ø¥Ø®Ù„Ø§Øµ Ø¯Ú Ù† Ø¨ØªÙˆÙ„", sp: "1.1.1 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ú Ø­ÙØ¸ Ø§ÙŠØ©Ù¢ Ø¯Ú Ù† Ù…Ø®Ø±Ø¬ Ø­Ø±ÙˆÙ ÙŠÚ  Ø¨ØªÙˆÙ„ Ø¯Ø§Ù† Ø¨Ø±ØªØ¬ÙˆÙŠØ¯" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "Ø¹Ù‚ÙŠØ¯Ø© (Ø±ÙˆÙƒÙˆÙ† Ø§ÙŠÙ…Ø§Ù†)", tajuk: "Ø¨Ø±Ø§ÙŠÙ…Ø§Ù† ÙƒÚ¤Ø¯ Ø§Ù„Ù„Ù‡ Ø¯Ø§Ù† Ø±ÙˆÙƒÙˆÙ† Ø§ÙŠÙ…Ø§Ù†", sk: "2.1 Ù…Ù…ÙÙ‡Ù…ÙŠ Ø¯Ø§Ù† Ù…ÙŠÙ‚ÙŠÙ†ÙŠ Ø§Ø³Ø§Ø³ Ø±ÙˆÙƒÙˆÙ† Ø§ÙŠÙ…Ø§Ù†", sp: "2.1.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† Ú¤Ú Ø±ØªÙŠÙ† Ø±ÙˆÙƒÙˆÙ† Ø§ÙŠÙ…Ø§Ù† Ø¯Ø§Ù† Ù…Ú½Ù†Ø§Ø±Ø§ÙŠÙƒÙ† 6 Ú¤Ø±ÙƒØ§Ø±Ø§ Ø±ÙˆÙƒÙˆÙ† Ø§ÙŠÙ…Ø§Ù†" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "Ø¹Ø¨Ø§Ø¯Ø© (Ø·Ù‡Ø§Ø±Ù‡ Ø¯Ø§Ù† Ø¨Ø±Ø³ÙˆÚ†ÙŠ)", tajuk: "ÙƒÙˆÙ†Ø³ÙŠÚ¤ Ø¨Ø±Ø³ÙˆÚ†ÙŠ Ø¯Ø±Ú¤Ø¯ Ù†Ø¬ÙŠØ³ Ø¯Ø§Ù† Ø§Ø³ØªÙ†Ø¬Ø§Ø¡", sk: "3.1 Ù…Ù…ÙÙ‡Ù…ÙŠ Ø¯Ø§Ù† Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ú†ÙˆÙ†ØªÙˆÙ‡ Ø§Ø³ØªÙ†Ø¬Ø§Ø¡ Ø¯Ú Ù† Ø¨ØªÙˆÙ„", sp: "3.1.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† Ø§Ù„ØªÙ¢ Ø§Ø³ØªÙ†Ø¬Ø§Ø¡ Ø¯Ø§Ù† Ú†Ø§Ø±Ø§ Ø§Ø³ØªÙ†Ø¬Ø§Ø¡ ÙŠÚ  Ø³Ù…Ú¤ÙˆØ±Ù†Ø§" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "Ø³ÙŠØ±Ø© (ÙƒÙ„Ø§Ù‡ÙŠØ±Ø§Ù† Ù†Ø¨ÙŠ)", tajuk: "Ø±ÙŠÙˆØ§ÙŠØª Ù‡ÙŠØ¯ÙˆÚ¤ Ù†Ø¨ÙŠ Ù…Ø­Ù…Ø¯ SAW Ø¯ Ù…ÙƒØ©", sk: "5.1 Ù…Ú ØªØ§Ù‡ÙˆØ¡ÙŠ Ø¯Ø§Ù† Ù…Ù†Ù„Ø§Ø¯Ù†ÙŠ Ø³ÙŠØ±Ø© ÙƒÙ„Ø§Ù‡ÙŠØ±Ø§Ù† Ù†Ø¨ÙŠ Ù…Ø­Ù…Ø¯ SAW", sp: "5.1.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† ØªØ§Ø±ÙŠÙ€Ø® ÙƒÙ„Ø§Ù‡ÙŠØ±Ø§Ù† Ø¯Ø§Ù† Ø¨ÙˆÙ…ÙŠ Ø¨Ø±ØªÙˆØ§Ù‡ Ù…ÙƒØ© Ø§Ù„Ù…ÙƒØ±Ù…Ø©" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "Ø§Ø¯Ø¨ (Ø§Ø¯Ø¨ ÙƒÙ„ÙˆØ§Ø±Ý¢)", tajuk: "Ø§Ø¯Ø¨ ÙƒÚ¤Ø¯ Ø§ÙŠØ¨Ùˆ Ø¨Ø§Ú¤ Ø¯Ø§Ù† ÙƒÙ„ÙˆØ§Ø±Ý¢", sk: "6.1 Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø§Ø¯Ø¨ ØªØ±Ù‡Ø§Ø¯Ú¤ Ø§ÙŠØ¨Ùˆ Ø¨Ø§Ú¤ Ø¯Ø§Ù„Ù… ÙƒÙ‡ÙŠØ¯ÙˆÚ¤Ù†", sp: "6.1.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† Ú†Ø§Ø±Ø§ Ù…Ú Ø­Ø±Ù…ØªÙŠ Ø§ÙŠØ¨Ùˆ Ø¨Ø§Ú¤ Ø¯Ø§Ù† Ø¨Ø±ØªÙˆØªÙˆØ± Ø¯Ú Ù† Ø³ÙˆÚ¤Ù†" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "Ø¬Ø§ÙˆÙŠ (Ø­Ø±ÙˆÙ ØªÙˆÚ Ý¢Ù„)", tajuk: "Ù…Ú Ù†Ù„ Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ø­Ø±ÙˆÙ Ø¬Ø§ÙˆÙŠ ØªÙˆÚ Ý¢Ù„", sk: "7.1 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ø­Ø±ÙˆÙÙ¢ Ø¬Ø§ÙˆÙŠ ØªÙˆÚ Ý¢Ù„ Ø¯Ø§Ù† Ø³Ø§Ù…Ø¨ÙˆÚ ", sp: "7.1.1 Ù…Ú Ù†Ù„ØŒ Ù…Ú½Ø¨ÙˆØª Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ø­Ø±ÙˆÙ Ø¬Ø§ÙˆÙŠ ØªÙˆÚ Ý¢Ù„ Ø¯Ú Ù† Ø¨ØªÙˆÙ„" },
-
+      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "القرءان (تلاوة دان حافظن)", tajuk: "سورة الفاتحة دان سورة الإخلاص", sk: "1.1 تلاوة دان حافظن سورة الفاتحة دان الإخلاص دڠن بتول", sp: "1.1.1 ممباچ دان مڠحفظ اية٢ دڠن مخرج حروف يڠ بتول دان برتجويد" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "عقيدة (روكون ايمان)", tajuk: "برايمان كڤد الله دان روكون ايمان", sk: "2.1 ممفهمي دان ميقيني اساس روكون ايمان", sp: "2.1.1 مڽاتاكن ڤڠرتين روكون ايمان دان مڽنارايكن 6 ڤركارا روكون ايمان" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "عبادة (طهاره دان برسوچي)", tajuk: "كونسيڤ برسوچي درڤد نجيس دان استنجاء", sk: "3.1 ممفهمي دان مڠعملكن چونتوه استنجاء دڠن بتول", sp: "3.1.1 مڽاتاكن الت٢ استنجاء دان چارا استنجاء يڠ سمڤورنا" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "سيرة (كلاهيران نبي)", tajuk: "ريوايت هيدوڤ نبي محمد SAW د مكة", sk: "5.1 مڠتاهوءي دان منلادني سيرة كلاهيران نبي محمد SAW", sp: "5.1.1 مڽاتاكن تاريـخ كلاهيران دان بومي برتواه مكة المكرمة" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "ادب (ادب كلوارݢ)", tajuk: "ادب كڤد ايبو باڤ دان كلوارݢ", sk: "6.1 مڠعملكن ادب ترهادڤ ايبو باڤ دالم كهيدوڤن", sp: "6.1.1 منجلسكن چارا مڠحرمتي ايبو باڤ دان برتوتور دڠن سوڤن" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "1", tema: "جاوي (حروف توڠݢل)", tajuk: "مڠنل دان منوليس حروف جاوي توڠݢل", sk: "7.1 ممباچ دان منوليس حروف٢ جاوي توڠݢل دان سامبوڠ", sp: "7.1.1 مڠنل، مڽبوت دان منوليس حروف جاوي توڠݢل دڠن بتول" },
+      
       // TAHUN 2
-      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "Ø§Ù„Ù‚Ø±Ø¡Ø§Ù† (ØªÙ„Ø§ÙˆØ© Ø¯Ø§Ù† Ø­Ø§ÙØ¸Ù†)", tajuk: "Ø³ÙˆØ±Ø© Ø§Ù„Ù†Ø§Ø³ Ø¯Ø§Ù† Ø³ÙˆØ±Ø© Ø§Ù„ÙÙ„Ù‚", sk: "1.2 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ú Ø­ÙØ¸ Ø³ÙˆØ±Ø© Ø§Ù„Ù†Ø§Ø³ Ø¯Ø§Ù† Ø§Ù„ÙÙ„Ù‚ Ø¨Ø±ØªØ¬ÙˆÙŠØ¯", sp: "1.2.1 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ú Ø­ÙØ¸ Ø³ÙˆØ±Ø© Ø¯Ú Ù† Ù…Ø®Ø±Ø¬ Ø­Ø±ÙˆÙ ÙŠÚ  Ø¨ØªÙˆÙ„ Ø¯Ø§Ù† Ø·Ù…Ø£Ù†ÙŠÙ†Ø©" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "Ø¹Ù‚ÙŠØ¯Ø© (ØµÙØ©Ù¢ Ø§Ù„Ù„Ù‡)", tajuk: "Ø§Ù„Ù„Ù‡ ØªØ¹Ø§Ù„Ù‰ Ø¨Ø±ØµÙØ© Ø§Ù„Ù‚Ø¯ÙŠØ± Ø¯Ø§Ù† Ø§Ù„Ø¹Ù„ÙŠÙ…", sk: "2.2 Ù…ÙŠÙ‚ÙŠÙ†ÙŠ Ø¯Ø§Ù† Ù…Ù…Ø¨ÙˆÙ‚ØªÙŠÙƒÙ† ØµÙØ© Ø§Ù„Ù‚Ø¯ÙŠØ± Ø¯Ø§Ù† Ø§Ù„Ø¹Ù„ÙŠÙ… Ø¯Ø§Ù„Ù… ÙƒÙ‡ÙŠØ¯ÙˆÚ¤Ù†", sp: "2.2.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† Ø§Ø±ØªÙŠ Ø§Ù„Ù‚Ø¯ÙŠØ± Ø¯Ø§Ù† Ø§Ù„Ø¹Ù„ÙŠÙ… Ø³Ø±ØªØ§ Ø¯Ø§Ù„ÙŠÙ„ Ù†Ù‚Ù„ÙŠ Ø¯Ø§Ù† Ø¹Ù‚Ù„ÙŠ" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "Ø¹Ø¨Ø§Ø¯Ø© (ØµÙ„ÙˆØ© ÙØ±Ø¯Ùˆ)", tajuk: "Ø´Ø±Ø·Ù¢ ÙˆØ§Ø¬Ø¨ Ø¯Ø§Ù† 13 Ø±ÙƒÙˆÙ† ØµÙ„ÙˆØ©", sk: "3.2 Ù…Ù…ÙÙ‡Ù…ÙŠ Ø¯Ø§Ù† Ù…Ù„Ù‚Ø³Ø§Ù†Ø§ÙƒÙ† Ø±ÙƒÙˆÙ† ØµÙ„ÙˆØ© Ø¯Ú Ù† Ø³Ù…Ú¤ÙˆØ±Ù†Ø§", sp: "3.2.1 Ù…Ú½Ù†Ø§Ø±Ø§ÙŠÙƒÙ† 13 Ø±ÙƒÙˆÙ† ØµÙ„ÙˆØ© Ø³Ø±ØªØ§ Ù…Ù„Ø§ÙƒÙˆÙƒÙ† Ø¨Ø§Ú†Ø§Ø¡Ù† Ø¯Ø§Ù† Ú¤Ø±Ø¨ÙˆØ§ØªÙ† Ø¯Ú Ù† Ø¨ØªÙˆÙ„" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "Ø³ÙŠØ±Ø© (ÙƒØ§Ù†Ù‚Ù¢ Ø¨Ø±ÙƒØª)", tajuk: "ÙƒÚ¤Ø±ÙŠØ¨Ø§Ø¯ÙŠÙ† Ù†Ø¨ÙŠ Ù…Ø­Ù…Ø¯ SAW ÙƒØªÙŠÙƒ ÙƒØ§Ù†Ù‚Ù¢ Ø¯Ø§Ù† Ø±Ù…Ø§Ø¬Ø§", sk: "5.2 Ù…Ù†Ù„Ø§Ø¯Ù†ÙŠ ØµÙŠÙØª Ø§Ù…Ø§Ù†Ù‡ Ø¯Ø§Ù† ÙØ·Ø§Ù†Ø© Ø±Ø³ÙˆÙ„ Ø§Ù„Ù„Ù‡ SAW", sp: "5.2.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† ÙƒØ£ÙŠØ³ØªÙŠÙ…ÙŠÙˆØ§Ø¡Ù† ØµÙŠÙØª Ø±Ø³ÙˆÙ„ Ø§Ù„Ù„Ù‡ Ø³Ø¬Ù‚ Ø§ÙˆØ³ÙŠØ§ Ù…ÙˆØ¯Ø§" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "Ø§Ø¯Ø¨ (Ø§Ø¯Ø¨ Ø¯ Ø³ÙƒÙˆÙ„Ù‡)", tajuk: "Ø§Ø¯Ø¨ Ø¨Ø±Ø³Ø§Ù… Ý¢ÙˆØ±Ùˆ Ø¯Ø§Ù† Ø±Ø§ÙƒÙ† Ø³ÙƒÙˆÙ„Ù‡", sk: "6.2 Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø§Ø¯Ø¨ Ø¨Ø±Ø³Ø§Ù… Ý¢ÙˆØ±Ùˆ Ø¯Ø§Ù† Ø±Ø§ÙƒÙ† Ø³Ø¨Ø§ÙŠÙ„Ø§", sp: "6.2.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† ÙƒÚ¤Ù†ØªÙŠÚ Ù† Ù…Ú Ø­Ø±Ù…ØªÙŠ Ý¢ÙˆØ±Ùˆ Ø¯Ø§Ù† Ø¨Ø±ØªÙˆÙ„ÙŠØ±Ù†Ø³ÙŠ Ø¯Ú Ù† Ø±Ø§ÙƒÙ†" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "Ø¬Ø§ÙˆÙŠ (Ø³ÙˆÙƒÙˆ ÙƒØ§Øª)", tajuk: "Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ú¤Ø±ÙƒØ§ØªØ§Ø¡Ù† Ø³ÙˆÙƒÙˆ ÙƒØ§Øª ØªØ±Ø¨ÙˆÚ©", sk: "7.2 Ù…Ù…Ø¨Ø§Ú†ØŒ Ù…Ù…Ø¨ÙŠÙ†Ø§ Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ú¤Ø±ÙƒØ§ØªØ§Ø¡Ù† Ø¯Ø±Ú¤Ø¯ Ø³ÙˆÙƒÙˆ ÙƒØ§Øª ØªØ±Ø¨ÙˆÚ©", sp: "7.2.1 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ú¤Ø±ÙƒØ§ØªØ§Ø¡Ù† ÙŠÚ  Ù…Ú Ø§Ù†Ø¯ÙˆÚ ÙŠ Ø¯ÙˆØ§ Ø³ÙˆÙƒÙˆ ÙƒØ§Øª ØªØ±Ø¨ÙˆÚ© Ø¯Ú Ù† Ø¨ØªÙˆÙ„" },
-
+      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "القرءان (تلاوة دان حافظن)", tajuk: "سورة الناس دان سورة الفلق", sk: "1.2 ممباچ دان مڠحفظ سورة الناس دان الفلق برتجويد", sp: "1.2.1 ممباچ دان مڠحفظ سورة دڠن مخرج حروف يڠ بتول دان طمأنينة" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "عقيدة (صفة٢ الله)", tajuk: "الله تعالى برصفة القدير دان العليم", sk: "2.2 ميقيني دان ممبوقتيكن صفة القدير دان العليم دالم كهيدوڤن", sp: "2.2.1 مڽاتاكن ارتي القدير دان العليم سرتا داليل نقلي دان عقلي" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "عبادة (صلوة فردو)", tajuk: "شرط٢ واجب دان 13 ركون صلوة", sk: "3.2 ممفهمي دان ملقساناكن ركون صلوة دڠن سمڤورنا", sp: "3.2.1 مڽنارايكن 13 ركون صلوة سرتا ملاكوكن باچاءن دان ڤربواتن دڠن بتول" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "سيرة (كانق٢ بركت)", tajuk: "كڤريبادين نبي محمد SAW كتيك كانق٢ دان رماجا", sk: "5.2 منلادني صيفت امانه دان فطانة رسول الله SAW", sp: "5.2.1 منجلسكن كأيستيميواءن صيفت رسول الله سجق اوسيا مودا" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "ادب (ادب د سكوله)", tajuk: "ادب برسام ݢورو دان راكن سكوله", sk: "6.2 مڠعملكن ادب برسام ݢورو دان راكن سبايلا", sp: "6.2.1 منجلسكن كڤنتيڠن مڠحرمتي ݢورو دان برتوليرنسي دڠن راكن" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "2", tema: "جاوي (سوكو كات)", tajuk: "ممباچ دان منوليس ڤركاتاءن سوكو كات تربوک", sk: "7.2 ممباچ، ممبينا دان منوليس ڤركاتاءن درڤد سوكو كات تربوک", sp: "7.2.1 ممباچ دان منوليس ڤركاتاءن يڠ مڠاندوڠي دوا سوكو كات تربوک دڠن بتول" },
+      
       // TAHUN 3
-      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "Ø§Ù„Ù‚Ø±Ø¡Ø§Ù† (ØªÙ„Ø§ÙˆØ© Ø¯Ø§Ù† ÙƒÙÙ‡Ù…Ù†)", tajuk: "Ø³ÙˆØ±Ø© Ø§Ù„ÙƒØ§ÙØ±ÙˆÙ† Ø¯Ø§Ù† Ø³ÙˆØ±Ø© Ø§Ù„Ù†ØµØ±", sk: "1.3 Ù…Ù…Ø¨Ø§Ú†ØŒ Ù…Ú Ø­ÙØ¸ Ø¯Ø§Ù† Ù…Ù…ÙÙ‡Ù…ÙŠ Ø³ÙˆØ±Ø© Ø§Ù„ÙƒØ§ÙØ±ÙˆÙ† Ø¯Ø§Ù† Ø§Ù„Ù†ØµØ±", sp: "1.3.1 Ù…Ù…Ø¨Ø§Ú† Ø¯Ú Ù† Ø¨Ø±ØªØ¬ÙˆÙŠØ¯ Ø¯Ø§Ù† Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† Ú¤Ú Ø§Ø¬Ø±Ù† Ø³ÙˆØ±Ø© Ø§Ù„ÙƒØ§ÙØ±ÙˆÙ† Ø¯Ø§Ù„Ù… ÙƒÙÙ‡Ù…Ù†" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "Ø¹Ù‚ÙŠØ¯Ø© (Ø¨Ø±Ø§ÙŠÙ…Ø§Ù† ÙƒÚ¤Ø¯ ÙƒØªØ§Ø¨)", tajuk: "Ø¨Ø±Ø§ÙŠÙ…Ø§Ù† ÙƒÚ¤Ø¯ ÙƒØªØ§Ø¨Ù¢ Ø§Ù„Ù„Ù‡ Ø¯Ø§Ù† Ø§Ù„Ù‚Ø±Ø¡Ø§Ù† ÙƒØ±ÙŠÙ…", sk: "2.3 Ù…ÙŠÙ‚ÙŠÙ†ÙŠ ÙƒÚ¤Ù†ØªÙŠÚ Ù† Ø¨Ø±Ø§ÙŠÙ…Ø§Ù† ÙƒÚ¤Ø¯ ÙƒØªØ§Ø¨Ù¢ Ø§Ù„Ù„Ù‡ Ø¯Ø§Ù† Ù…Ú Ø¹Ù…Ù„ÙƒÙ†Ú½", sp: "2.3.1 Ù…Ú½Ù†Ø§Ø±Ø§ÙŠÙƒÙ† 4 ÙƒØªØ§Ø¨ Ø¯Ø§Ù† Ø±Ø³ÙˆÙ„ ÙŠÚ  Ù…Ù†Ø±ÙŠÙ…Ø§Ú½ Ø³Ø±ØªØ§ ÙƒÙ„ÙŠØ¨Ù‡Ù† Ø§Ù„Ù‚Ø±Ø¡Ø§Ù†" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "Ø¹Ø¨Ø§Ø¯Ø© (ØµÙ„Ø§Ø© Ø¨Ø±Ø¬Ù…Ø§Ø¹Ù‡)", tajuk: "ÙƒÙˆÙ†Ø³ÙŠÚ¤ Ø¯Ø§Ù† ÙƒØ£ÙˆØªØ§Ù…Ø§Ø¡Ù† ØµÙ„ÙˆØ© Ø¨Ø±Ø¬Ù…Ø§Ø¹Ù‡", sk: "3.3 Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø¯Ø§Ù† Ù…Ù„Ù‚Ø³Ø§Ù†Ø§ÙƒÙ† ØµÙ„ÙˆØ© Ø¨Ø±Ø¬Ù…Ø§Ø¹Ù‡ Ø¯Ø§Ù„Ù… ÙƒÙ‡ÙŠØ¯ÙˆÚ¤Ù† Ø³Ù‡Ø§Ø±ÙŠÙ†", sp: "3.3.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† ÙƒØ¯ÙˆØ¯ÙˆÙ‚Ù† Ø§Ù…Ø§Ù… Ø¯Ø§Ù† Ù…Ø£Ù…ÙˆÙ… Ø³Ø±ØªØ§ ÙƒØ£ÙˆØªØ§Ù…Ø§Ø¡Ù† ØµÙ„ÙˆØ© Ø¨Ø±Ø¬Ù…Ø§Ø¹Ù‡" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "Ø³ÙŠØ±Ø© (Ú¤Ø±Ø³ØªÙŠÙˆØ§ Ú¤Ù†ØªÙŠÚ )", tajuk: "Ú¤Ø±ÙŠØ³ØªÙŠÙˆØ§ Ù†Ø¨ÙŠ Ù…Ø­Ù…Ø¯ SAW Ù…Ù†Ø±ÙŠÙ…Ø§ ÙˆØ­ÙŠ Ú¤Ø±ØªØ§Ù…", sk: "5.3 Ù…Ú Ø­ÙŠØ§ØªÙŠ Ø¯Ø§Ù† Ù…Ù…ÙÙ‡Ù…ÙŠ Ú¤Ø±ÙŠØ³ØªÙŠÙˆØ§ Ú¤Ù†ÙˆØ±ÙˆÙ†Ù† ÙˆØ­ÙŠ Ø¯ Ý¢ÙˆØ§ Ø­Ø±Ø§Ø¡", sp: "5.3.1 Ù…Ú Ù‡ÙˆØ±Ø§ÙŠÙƒÙ† Ú¤Ø±ÙŠØ³ØªÙŠÙˆØ§ ÙˆØ­ÙŠ Ú¤Ø±ØªØ§Ù… Ø¯Ø§Ù† Ú¤Ø±Ø§Ù†Ù† Ø³ÙŠØ¯Ù†Ø§ Ø®Ø¯ÙŠØ¬Ø©" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "Ø§Ø¯Ø¨ (Ø§Ø¯Ø¨ Ø¨Ø±Ø¬Ø§Ù„Ù† Ø¯Ø§Ù† Ø¨Ø±ØªØ§ØªØ±ÙŠ)", tajuk: "Ø§Ø¯Ø¨ Ø¨Ø±ÙƒÙˆÙ…ÙˆÙ†ÙŠÙƒØ§Ø³ÙŠ Ø¯Ø§Ù† Ù…Ù†Ø²ÙŠØ§Ø±Ù‡ÙŠ Ø¬ÙŠØ±Ø§Ú½", sk: "6.3 Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø§Ø¯Ø¨ Ø¨Ø±Ø¬ÙŠØ±Ù† Ø¯Ø§Ù† Ø¨Ø±ØªØ§ØªØ§Ø³ÙˆØ³ÙŠÙ„Ø§ Ø¯Ø§Ù„Ù… Ù…Ø´Ø§Ø±ÙƒØª", sp: "6.3.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† Ø­Ù‚Ù¢ Ø¬ÙŠØ±Ù† Ø¯Ø§Ù† Ø§Ø¯Ø¨ Ù…Ù†Ø²ÙŠØ§Ø±Ù‡ÙŠ Ø¬ÙŠØ±Ù† Ù…Ú ÙŠÙƒÙˆØª Ø³Ù†Ø©" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "Ø¬Ø§ÙˆÙŠ (ØªÙŠÙƒ Ø³ Ù…ÙˆØ¯Ù‡)", tajuk: "Ù…Ù…Ø¨ÙŠÙ†Ø§ Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ ØªÙŠÙƒ Ø³ Ú¤ÙŠÙ†Ø¯ÙŠÙ‚ Ø¬Ø§ÙˆÙŠ", sk: "7.3 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ ØªÙŠÙƒ Ø³ Ø¨Ø±ØªÙˆÙ„ÙŠØ³Ù† Ø¬Ø§ÙˆÙŠ ÙŠÚ  Ù…Ú Ø§Ù†Ø¯ÙˆÚ ÙŠ Ø§ÙŠÙ…Ø¨ÙˆÙ‡Ù†", sp: "7.3.1 Ù…Ù…Ø¨ÙŠÙ†Ø§ØŒ Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ø§ÙŠØ§Øª Ù…ÙˆØ¯Ù‡ Ù…Ú Ý¢ÙˆÙ†Ø§ÙƒÙ† ØªÙˆÙ„ÙŠØ³Ù† Ø¬Ø§ÙˆÙŠ Ø¯Ú Ù† Ù„Ù†Ú†Ø±" },
-
+      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "القرءان (تلاوة دان كفهمن)", tajuk: "سورة الكافرون دان سورة النصر", sk: "1.3 ممباچ، مڠحفظ دان ممفهمي سورة الكافرون دان النصر", sp: "1.3.1 ممباچ دڠن برتجويد دان منجلسكن ڤڠاجرن سورة الكافرون دالم كفهمن" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "عقيدة (برايمان كڤد كتاب)", tajuk: "برايمان كڤد كتاب٢ الله دان القرءان كريم", sk: "2.3 ميقيني كڤنتيڠن برايمان كڤد كتاب٢ الله دان مڠعملكنڽ", sp: "2.3.1 مڽنارايكن 4 كتاب دان رسول يڠ منريماڽ سرتا كليبهن القرءان" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "عبادة (صلاة برجماعه)", tajuk: "كونسيڤ دان كأوتاماءن صلوة برجماعه", sk: "3.3 مڠعملكن دان ملقساناكن صلوة برجماعه دالم كهيدوڤن سهارين", sp: "3.3.1 منجلسكن كدودوقن امام دان مأموم سرتا كأوتاماءن صلوة برجماعه" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "سيرة (ڤرستيوا ڤنتيڠ)", tajuk: "ڤريستيوا نبي محمد SAW منريما وحي ڤرتام", sk: "5.3 مڠحياتي دان ممفهمي ڤريستيوا ڤنورونن وحي د ݢوا حراء", sp: "5.3.1 مڠهورايكن ڤريستيوا وحي ڤرتام دان ڤرانن سيدنا خديجة" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "ادب (ادب برجالن دان برتاتري)", tajuk: "ادب بركومونيكاسي دان منزيارهي جيراڽ", sk: "6.3 مڠعملكن ادب برجيرن دان برتاتاسوسيلا دالم مشاركت", sp: "6.3.1 مڽاتاكن حق٢ جيرن دان ادب منزيارهي جيرن مڠيكوت سنة" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "3", tema: "جاوي (تيك س موده)", tajuk: "ممبينا دان منوليس تيك س ڤينديق جاوي", sk: "7.3 ممباچ دان منوليس تيك س برتوليسن جاوي يڠ مڠاندوڠي ايمبوهن", sp: "7.3.1 ممبينا، ممباچ دان منوليس ايات موده مڠݢوناكن توليسن جاوي دڠن لنچر" },
+      
       // TAHUN 4
-      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "Ø§Ù„Ù‚Ø±Ø¡Ø§Ù† (ØªÙ„Ø§ÙˆØ©ØŒ Ø­Ø§ÙØ¸Ù† Ø¯Ø§Ù† ØªØ¬ÙˆÙŠØ¯)", tajuk: "Ø³ÙˆØ±Ø© Ø§Ù„Ù‚Ø§Ø±Ø¹Ø© Ø¯Ø§Ù† Ø³ÙˆØ±Ø© Ø§Ù„ØªÙƒØ§Ø«Ø± Ø¯Ø§Ù† Ø­ÙƒÙˆÙ… Ù†ÙˆÙ† Ø³Ø§ÙƒÙ†Ø©", sk: "1.4 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ú Ø­ÙØ¸ Ø³ÙˆØ±Ø© Ø§Ù„Ù‚Ø§Ø±Ø¹Ø© Ø³Ø±ØªØ§ Ù…Ú ÙÙ„ÙŠÙƒØ§Ø³ÙŠ Ø­ÙƒÙˆÙ… Ù†ÙˆÙ† Ø³Ø§ÙƒÙ†Ø©", sp: "1.4.1 Ù…Ù…Ø¨Ø§Ú† Ø§ÙŠØ§Øª Ø³ÙˆØ±Ø© Ø¨Ø±ØªØ¬ÙˆÙŠØ¯ Ø¯Ø§Ù† Ù…Ú Ù†Ù„ Ú¤Ø³ØªÙŠ Ú†ÙˆÙ†ØªÙˆÙ‡ Ø¥Ø¸Ù‡Ø§Ø± Ø­Ù„Ù‚ÙŠ Ø¯Ø§Ù† Ø¥Ø¯ØºØ§Ù…" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "Ø¹Ù‚ÙŠØ¯Ø© (ØµÙØ©Ù¢ Ø±Ø³ÙˆÙ„)", tajuk: "ØµÙØ©Ù¢ ÙˆØ§Ø¬Ø¨ØŒ Ù…Ø³ØªØ­ÙŠÙ„ Ø¯Ø§Ù† Ù‡Ø§Ø±Ø³ Ø¨Ø§Ý¢ÙŠ Ø±Ø³ÙˆÙ„", sk: "2.4 Ù…Ù…ÙÙ‡Ù…ÙŠ Ø¯Ø§Ù† Ù…Ù†Ù„Ø§Ø¯Ù†ÙŠ ØµÙØ©Ù¢ ÙƒÙ…Ø§Ø¡Ù†Ø³ÙŠØ§Ø¡Ù† Ø¯Ø§Ù† ÙƒØ±ÙˆØ³ÙˆÙ„Ù†", sp: "2.4.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† 4 ØµÙØ© ÙˆØ§Ø¬Ø¨ (ØµØ¯ÙŠÙ‚ØŒ Ø£Ù…Ø§Ù†Ø©ØŒ ØªØ¨Ù„ÙŠØºØŒ ÙØ·Ø§Ù†Ø©) Ø¯Ø§Ù† Ù„Ø§ÙˆÙ†Ú½" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "Ø¹Ø¨Ø§Ø¯Ø© (ØµÙŠØ§Ù… Ø±Ù…Ø¶Ø§Ù† Ø¯Ø§Ù† ÙˆØ¶ÙˆØ¡)", tajuk: "Ø­ÙƒÙˆÙ… Ø¯Ø§Ù† Ø´Ø±Ø· ØµÙŠØ§Ù… Ø¨ÙˆÙ„Ù† Ø±Ù…Ø¶Ø§Ù†", sk: "3.4 Ù…Ú Ø­ÙŠØ§ØªÙŠ Ø¯Ø§Ù† Ù…Ù„Ù‚Ø³Ø§Ù†Ø§ÙƒÙ† Ø¹Ø¨Ø§Ø¯Ø© Ú¤ÙˆØ§Ø³Ø§ Ø±Ù…Ø¶Ø§Ù† Ø¯Ú Ù† Ø¨ØªÙˆÙ„", sp: "3.4.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† Ø´Ø±Ø· ÙˆØ§Ø¬Ø¨ØŒ Ø´Ø±Ø· ØµØ­ØŒ Ø±ÙƒÙˆÙ† Ø¯Ø§Ù† Ú¤Ø±ÙƒØ§Ø±Ø§ Ù…Ù…Ø¨Ø·Ù„ÙƒÙ† Ú¤ÙˆØ§Ø³Ø§" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "Ø³ÙŠØ±Ø© (Ø¯Ø¹ÙˆØ© Ø±Ø³ÙˆÙ„ Ø§Ù„Ù„Ù‡)", tajuk: "Ø¯Ø¹ÙˆØ© Ù†Ø¨ÙŠ Ø³Ú†Ø§Ø±Ø§ Ø±Ù‡Ø³ÙŠØ§ Ø¯Ø§Ù† ØªØ±ØªØ±Ú -ØªØ±Ú Ù† Ø¯ Ù…ÙƒØ©", sk: "5.4 Ù…Ú Ø§Ù†Ø§Ù„ÙŠØ³ÙŠØ³ Ú†Ø§Ø¨Ø±Ø§Ù† Ø¯Ø¹ÙˆØ© Ø±Ø³ÙˆÙ„ Ø§Ù„Ù„Ù‡ SAW Ø¯Ø§Ù† ÙƒØµØ¨Ø±Ù† Ø¨Ý¢ÙŠÙ†Ø¯Ø§", sp: "5.4.1 Ù…Ú Ù‡ÙˆØ±Ø§ÙŠÙƒÙ† Ú¤Ø±ÙŠØ³ØªÙŠÙˆØ§ Ø¯Ø¹ÙˆØ© Ù†Ø¨ÙŠ Ø¯Ø§Ù† Ú†Ø§Ø±Ø§ Ù…Ú Ù‡Ø§Ø¯Ú¤ÙŠ ØªÙ†ØªÚ Ù† Ù‚ÙˆÙ… Ù‚Ø±ÙŠØ´" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "Ø§Ø¯Ø¨ (Ø§Ø¯Ø¨ Ø¨Ø±Ø³Ø§Ù… Ø¹Ù„Ù…)", tajuk: "Ø§Ø¯Ø¨ Ù…Ù†ÙˆÙ†ØªÙˆØª Ø¹Ù„Ù…Ùˆ Ø¯Ø§Ù† Ù…Ú Ø­Ø±Ù…ØªÙŠ Ø¨ÙˆÙƒÙˆ", sk: "6.4 Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø§Ø¯Ø¨ Ù…Ù†ÙˆÙ†ØªÙˆØª Ø¹Ù„Ù…Ùˆ Ø¯Ø§Ù„Ù… ÙƒÙ‡ÙŠØ¯ÙˆÚ¤Ù† Ù‡Ø§Ø±ÙŠÙ†", sp: "6.4.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† ÙƒÚ¤Ù†ØªÙŠÚ Ù† Ø§Ø®Ù„Ø§ØµØŒ Ø¨Ø±ØªØ±ÙŠÙ…Ø§ ÙƒØ§Ø³ÙŠÙ‡ Ø¯Ø§Ù† Ù…Ù†Ø¬Ø§Ý¢ ÙƒØ³ÙˆÚ†ÙŠÙ† Ø¨ÙˆÙƒÙˆ Ø¹Ù„Ù…Ùˆ" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "Ø¬Ø§ÙˆÙŠ (Ú¤Ø±ÙŠÚ Ý¢Ù† Ø¬Ø§ÙˆÙŠ)", tajuk: "Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ú¤Ø±ÙŠÚ Ý¢Ù† Ø¬Ø§ÙˆÙŠ Ø¨Ø±Ø§ÙŠÙ†ÙÙˆØ±Ù…Ø§Ø³ÙŠ", sk: "7.4 Ù…Ù…Ø¨Ø§Ú† Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ú¤ØªÙŠÙ‚Ù† Ú¤Ù†Ø¯ÙŠÙ‚ Ø¨Ø±ØªÙˆÙ„ÙŠØ³Ù† Ø¬Ø§ÙˆÙŠ Ø¨Ø±ØªÙŠÙ…Ø§ÙƒÙ† Ø§ÙŠØ³ÙŠ Ø³Ù…Ø¡Ø§Ø³", sp: "7.4.1 Ù…Ú ÙˆØ¨Ù‡ Ø³ÙˆØ£ÙŠ Ø¯Ø§Ù† Ù…Ù†ÙˆÙ„ÙŠØ³ Ú¤Ø±ÙŠÚ Ý¢Ù† Ø¬Ø§ÙˆÙŠ Ø¯Ú Ù† Ø§ÙŠØ§Ø¡Ù† ÙŠÚ  Ø¨ØªÙˆÙ„ Ø¯Ø§Ù† ØªØ±Ø§ØªÙˆØ±" },
-
+      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "القرءان (تلاوة، حافظن دان تجويد)", tajuk: "سورة القارعة دان سورة التكاثر دان حكوم نون ساكنة", sk: "1.4 ممباچ دان مڠحفظ سورة القارعة سرتا مڠفليكاسي حكوم نون ساكنة", sp: "1.4.1 ممباچ ايات سورة برتجويد دان مڠنل ڤستي چونتوه إظهار حلقي دان إدغام" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "عقيدة (صفة٢ رسول)", tajuk: "صفة٢ واجب، مستحيل دان هارس باݢي رسول", sk: "2.4 ممفهمي دان منلادني صفة٢ كماءنسياءن دان كروسولن", sp: "2.4.1 مڽاتاكن 4 صفة واجب (صديق، أمانة، تبليغ، فطانة) دان لاونڽ" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "عبادة (صيام رمضان دان وضوء)", tajuk: "حكوم دان شرط صيام بولن رمضان", sk: "3.4 مڠحياتي دان ملقساناكن عبادة ڤواسا رمضان دڠن بتول", sp: "3.4.1 مڽاتاكن شرط واجب، شرط صح، ركون دان ڤركارا ممبطلكن ڤواسا" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "سيرة (دعوة رسول الله)", tajuk: "دعوة نبي سچارا رهسيا دان ترترڠ-ترڠن د مكة", sk: "5.4 مڠاناليسيس چابران دعوة رسول الله SAW دان كصبرن بݢيندا", sp: "5.4.1 مڠهورايكن ڤريستيوا دعوة نبي دان چارا مڠهادڤي تنتڠن قوم قريش" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "ادب (ادب برسام علم)", tajuk: "ادب منونتوت علمو دان مڠحرمتي بوكو", sk: "6.4 مڠعملكن ادب منونتوت علمو دالم كهيدوڤن هارين", sp: "6.4.1 منجلسكن كڤنتيڠن اخلاص، برتريما كاسيه دان منجاݢ كسوچين بوكو علمو" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "4", tema: "جاوي (ڤريڠݢن جاوي)", tajuk: "ممباچ دان منوليس ڤريڠݢن جاوي براينفورماسي", sk: "7.4 ممباچ دان منوليس ڤتيقن ڤنديق برتوليسن جاوي برتيماكن ايسي سمءاس", sp: "7.4.1 مڠوبه سوأي دان منوليس ڤريڠݢن جاوي دڠن اياءن يڠ بتول دان تراتور" },
+      
       // TAHUN 5
-      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "Ø§Ù„Ù‚Ø±Ø¡Ø§Ù† (ØªÙ„Ø§ÙˆØ© Ø¯Ø§Ù† ÙƒÙÙ‡Ù…Ù†)", tajuk: "Ø³ÙˆØ±Ø© Ø§Ù„Ù‚Ø¯Ø± Ø¯Ø§Ù† Ø³ÙˆØ±Ø© Ø§Ù„Ø¹ØµØ± Ø³Ø±ØªØ§ Ø­ÙƒÙˆÙ… Ù…Ø¯", sk: "1.5 Ù…Ù…Ø¨Ø§Ú†ØŒ Ù…Ú Ø­ÙØ¸ Ø¯Ø§Ù† Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø³ÙˆØ±Ø© Ø§Ù„Ù‚Ø¯Ø± Ø¯Ø§Ù† Ø§Ù„Ø¹ØµØ± Ø³Ø±ØªØ§ ØªØ¬ÙˆÙŠØ¯ Ù…Ø¯ Ø¹Ø§Ø±Ø¶", sp: "1.5.1 Ù…Ú Ø­ÙØ¸ Ø¯Ø§Ù† Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† Ø§Ø±ØªÙŠ Ø§ÙŠØ§Øª Ø³ÙˆØ±Ø© Ø§Ù„Ù‚Ø¯Ø± Ø³Ø±ØªØ§ ÙƒØ£ÙˆØªØ§Ù…Ø§Ø¡Ù† Ù…Ø§Ù„Ù… Ù„ÙŠÙ„Ø© Ø§Ù„Ù‚Ø¯Ø±" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "Ø¹Ù‚ÙŠØ¯Ø© (Ø¨Ø±Ø§ÙŠÙ…Ø§Ù† ÙƒÚ¤Ø¯ Ù‡Ø§Ø±ÙŠ Ø§Ø®Ø±Ø©)", tajuk: "ÙƒÙˆÙ†Ø³ÙŠÚ¤ Ù‡Ø§Ø±ÙŠ Ù‚ÙŠØ§Ù…Ø©ØŒ ØªÙŠÙ…Ø¨Ú Ù† Ø¹Ù…Ù„ Ø¯Ø§Ù† Ø´Ø±Ý¢Ø§ Ù†Ø±Ø§Ùƒ", sk: "2.5 Ù…ÙŠÙ‚ÙŠÙ†ÙŠ ÙƒØ¬Ø§Ø¯ÙŠÙ† Ù‡Ø§Ø±ÙŠ Ù‚ÙŠØ§Ù…Ø© Ø¯Ø§Ù† Ø¨Ø±Ø¹Ù…Ù„ Ø§ÙˆÙ†ØªÙˆÙ‚ ÙƒÙ‡ÙŠØ¯ÙˆÚ¤Ù† Ø§Ø®Ø±Ø©", sp: "2.5.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† ØªÙ†Ø¯Ø§Ù¢ Ù‚ÙŠØ§Ù…Ø© Ø¯Ø§Ù† Ù…Ù…Ø¨ÙˆÙ‚ØªÙŠÙƒÙ† ÙƒØ£ÙŠÙ…Ø§Ù†Ù† Ù…Ù„Ø§Ù„ÙˆØ¡ÙŠ Ø¹Ù…Ù„Ù† ØµØ§Ù„Ø­" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "Ø¹Ø¨Ø§Ø¯Ø© (ØµÙ„ÙˆØ© Ø¬Ù…Ø¹Ø© Ø¯Ø§Ù† Ø¬Ù†Ø§Ø²Ø©)", tajuk: "ØªÙˆÙ†ØªÙˆØªÙ† ØµÙ„ÙˆØ© Ø¬Ù…Ø¹Ø© Ø¯Ø§Ù† ÙÙ‚Ù‡ ØµÙ„ÙˆØ© Ø¬Ù†Ø§Ø²Ø©", sk: "3.5 Ù…Ú Ø­ÙŠØ§ØªÙŠ ÙƒØ£ÙˆØªØ§Ù…Ø§Ø¡Ù† ØµÙ„ÙˆØ© Ø¬Ù…Ø¹Ø© Ø³Ø±ØªØ§ Ø´Ø±Ø· ØµØ­ Ø¯Ø§Ù† Ø®Ø·Ø¨Ø©", sp: "3.5.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† ÙƒÙˆØ§Ø¬ÙŠÙÙ† ØµÙ„ÙˆØ© Ø¬Ù…Ø¹Ø© Ø¯Ø§Ù† Ø§Ø¯Ø¨Ù¢ ÙƒØªÙŠÙƒ Ù…Ù†Ø¯Ú Ø± Ø®Ø·Ø¨Ø© Ø¯Ø§Ù† ØªØ§ØªØ§Ú†Ø§Ø±Ø§ ØµÙ„ÙˆØ©" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "Ø³ÙŠØ±Ø© (Ù‡Ø¬Ø±Ø© Ø±Ø³ÙˆÙ„ Ø§Ù„Ù„Ù‡)", tajuk: "Ú¤Ø±ÙŠØ³ØªÙŠÙˆØ§ Ù‡Ø¬Ø±Ø© Ù†Ø¨ÙŠ Ùƒ ÙŠØ«Ø±Ø¨ Ø¯Ø§Ù† Ú¤Ù…Ø¨Ù†ØªÙˆÙ‚Ù† Ù…Ø¯Ù†ÙŠØ©", sk: "5.5 Ù…Ú Ø­ÙŠØ§ØªÙŠ Ø§Ø¹ØªØ¨Ø§Ø±Ù‡ Ø¯Ø±Ú¤Ø¯ Ú¤Ø±ÙŠØ³ØªÙŠÙˆØ§ Ù‡Ø¬Ø±Ø© Ø¯Ø§Ù† ØµÙŠÙØª Ú¤Ø±Ú¤Ø§Ø¯ÙˆØ§Ù†", sp: "5.5.1 Ù…Ù†Ø¬Ù„Ø³ÙƒÙ† ÙÙƒØªÙˆØ± Ù‡Ø¬Ø±Ø© Ø¯Ø§Ù† Ú¤Ø±Ø³ÙˆØ¯Ø§Ø±Ø§Ø¡Ù† Ø§Ù†ØªØ§Ø±Ø§ Ù‚ÙˆÙ… Ù…Ù‡Ø§Ø¬Ø±ÙŠÙ† Ø¯Ø§Ù† Ø§Ù†ØµØ§Ø±" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "Ø§Ø¯Ø¨ (Ø§Ø¯Ø¨ Ø¯ Ù…Ø³Ø¬ÙŠØ¯)", tajuk: "Ø§Ø¯Ø¨ Ù…Ù…Ø§Ø³ÙˆÙ‚ÙŠ Ø¯Ø§Ù† Ù…Ù…Ù…Ø¹Ù…ÙˆØ±ÙƒÙ† Ù…Ø³Ø¬ÙŠØ¯ Ø¯Ø§Ù† Ø³ÙˆØ±Ø§Ùˆ", sk: "6.5 Ù…Ú Ø¹Ù…Ù„ÙƒÙ† Ø§Ø¯Ø¨ Ù…Ù…Ø§Ø³ÙˆÙ‚ÙŠØŒ Ø¨Ø±Ø§Ø¯Ø§ Ø¯Ø§Ù† ÙƒÙ„ÙˆØ§Ø± Ø¯Ø±Ú¤Ø¯ Ù…Ø³Ø¬ÙŠØ¯", sp: "6.5.1 Ù…Ú½Ø§ØªØ§ÙƒÙ† Ø¯Ø¹Ø§Ø¡ØŒ Ù„Ø§ÙƒÙˆÙƒÙ† ØµÙ„ÙˆØ© ØªØ­ÙŠØ© Ø§Ù„Ù…Ø³Ø¬Ø¯ Ø¯Ø§Ù† Ù…Ù†Ø¬Ø§Ý¢ ÙƒØªÙ†ØªØ±Ù…Ù† Ø¯ Ø¯Ø§Ù„Ù… Ù…Ø³Ø¬ÙŠØ¯" },
-      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "Ø¬Ø§ÙˆÙŠ (Ø®Ø· Ø¬Ø§ÙˆÙŠ Ù†Ø³Ø® & Ø±Ù‚Ø¹Ù‡)", tajuk: "Ù…Ù†ÙˆÙ„ÙŠØ³ Ø®Ø· Ø±Ù‚Ø¹Ù‡ Ø¯Ø§Ù† Ø®Ø· Ù†Ø³Ø® Ù…ÙˆØ¯Ù‡", sk: "7.5 Ù…Ù†ÙˆÙ„ÙŠØ³ Ø¯Ø§Ù† Ù…Ú Ø­ÙŠØ§ØªÙŠ ÙƒØ§ÙŠÙ†Ø¯Ø§Ù‡Ù† Ø®Ø· Ø¬Ø§ÙˆÙŠ Ù…ÙˆØ¯Ù‡", sp: "7.5.1 Ù…Ú Ù†Ù„ Ú¤Ø³ØªÙŠ Ù‚Ø§Ø¹ÙŠØ¯Ù‡ Ø®Ø· Ù†Ø³Ø® Ø¯Ø§Ù† Ø±Ù‚Ø¹Ù‡ Ø³Ø±ØªØ§ Ù…Ù†ÙˆÙ„ÙŠØ³Ú½ Ø¯Ú Ù† Ú†Ù†ØªÙŠÙ‚ Ø¯Ø§Ù† ÙƒÙ…ÙÙŠØª" },
-
+      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "القرءان (تلاوة دان كفهمن)", tajuk: "سورة القدر دان سورة العصر سرتا حكوم مد", sk: "1.5 ممباچ، مڠحفظ دان مڠعملكن سورة القدر دان العصر سرتا تجويد مد عارض", sp: "1.5.1 مڠحفظ دان منجلسكن ارتي ايات سورة القدر سرتا كأوتاماءن مالم ليلة القدر" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "عقيدة (برايمان كڤد هاري اخرة)", tajuk: "كونسيڤ هاري قيامة، تيمبڠن عمل دان شرݢا نراك", sk: "2.5 ميقيني كجادين هاري قيامة دان برعمل اونتوق كهيدوڤن اخرة", sp: "2.5.1 مڽاتاكن تندا٢ قيامة دان ممبوقتيكن كأيمانن ملالوءي عملن صالح" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "عبادة (صلوة جمعة دان جنازة)", tajuk: "تونتوتن صلوة جمعة دان فقه صلوة جنازة", sk: "3.5 مڠحياتي كأوتاماءن صلوة جمعة سرتا شرط صح دان خطبة", sp: "3.5.1 منجلسكن كواجيفن صلوة جمعة دان ادب٢ كتيك مندڠر خطبة دان تاتاچارا صلوة" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "سيرة (هجرة رسول الله)", tajuk: "ڤريستيوا هجرة نبي ك يثرب دان ڤمبنتوقن مدنية", sk: "5.5 مڠحياتي اعتباره درڤد ڤريستيوا هجرة دان صيفت ڤرڤادوان", sp: "5.5.1 منجلسكن فكتور هجرة دان ڤرسوداراءن انتارا قوم مهاجرين دان انصار" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "ادب (ادب د مسجيد)", tajuk: "ادب مماسوقي دان مممعموركن مسجيد دان سوراو", sk: "6.5 مڠعملكن ادب مماسوقي، برادا دان كلوار درڤد مسجيد", sp: "6.5.1 مڽاتاكن دعاء، لاكوكن صلوة تحية المسجد دان منجاݢ كتنترمن د دالم مسجيد" },
+      { subjek: "PENDIDIKAN ISLAM", tahun: "5", tema: "جاوي (خط جاوي نسخ & رقعه)", tajuk: "منوليس خط رقعه دان خط نسخ موده", sk: "7.5 منوليس دان مڠحياتي كاينداهن خط جاوي موده", sp: "7.5.1 مڠنل ڤستي قاعيده خط نسخ دان رقعه سرتا منوليسڽ دڠن چنتيق دان كمفيت" },
+      
       // --- PENDIDIKAN MORAL ---
       { subjek: "PENDIDIKAN MORAL", tahun: "1", tema: "Saya dan Keluarga", tajuk: "Unit 1: Menghormati Anggota Keluarga", sk: "1.1 Menunjukkan sikap hormat kepada ibu bapa dan keluarga", sp: "1.1.1 Menyatakan cara menghormati anggota keluarga dalam kehidupan seharian" },
       { subjek: "PENDIDIKAN MORAL", tahun: "3", tema: "Nilai Kepercayaan kepada Tuhan", tajuk: "Unit 1: Hormat Menghormati Amalan Ibadah", sk: "1.1 Menghormati kepelbagaian amalan agama warga sekolah dan masyarakat", sp: "1.1.1 Menyatakan amalan agama pelbagai kaum dan menunjukkan sikap toleransi" },
@@ -1510,6 +1567,23 @@ var SUBJEK_PERDANA = [
     function selaraskanSlotDenganDskp(slot) {
       if (!slot) return slot;
 
+      // Penyelarasan Aliran Guru Semasa: Halang kebocoran kelas antara aliran
+      var aliranSemasa = (guruPilihanSemasa && guruPilihanSemasa.aliran) ? guruPilihanSemasa.aliran : "PERDANA";
+      var infoK = kesanKategoriDanTahap(slot.kelas);
+      if (aliranSemasa === "PRASEKOLAH" && infoK.kategori !== "Pra") {
+        slot.kelas = "Pra Bestari";
+        slot.tahun = "Pra";
+        slot.subjek = SUBJEK_PRA[0];
+      } else if (aliranSemasa === "PPKI" && infoK.kategori !== "PPKI") {
+        slot.kelas = "PPKI 1 Bestari";
+        slot.tahun = "1";
+        slot.subjek = SUBJEK_PPKI[0];
+      } else if (aliranSemasa === "PERDANA" && infoK.kategori !== "Perdana") {
+        slot.kelas = "1 Amanah";
+        slot.tahun = "1";
+        slot.subjek = SUBJEK_PERDANA[0];
+      }
+
       if (slot.isPemulihan) {
         var subClean = String(slot.subjek || "").trim().toUpperCase();
         var isMt = subClean.includes("MATEMATIK") || subClean.includes("NUMERASI") || subClean.includes("MATH");
@@ -1600,7 +1674,7 @@ var SUBJEK_PERDANA = [
 
     // =========================================================================
     // =========================================================================
-    // MODUL KAWALAN AKSES WHITELIST & PENGESAHAN PROFIL GURU (LANGKAH 1)
+    // MODUL KAWALAN AKSES PENDIDIK BERDAFTAR & PENGESAHAN PROFIL GURU (LANGKAH 1)
     // =========================================================================
     function tunjukAlertProfil(mesej, jenis) {
       var box = document.getElementById('alertBoxProfil');
@@ -1633,7 +1707,7 @@ var SUBJEK_PERDANA = [
         btn.classList.add('opacity-75', 'cursor-wait');
         if (spin) spin.classList.remove('hidden');
         if (arr) arr.classList.add('hidden');
-        if (txt) txt.textContent = "Mengesahkan Whitelist...";
+        if (txt) txt.textContent = "Mengesahkan Rekod Pendidik...";
       } else {
         btn.classList.remove('opacity-75', 'cursor-wait');
         if (spin) spin.classList.add('hidden');
@@ -1711,11 +1785,43 @@ var SUBJEK_PERDANA = [
       }
     }
 
+    function kemaskiniPilihanAliranUi() {
+      var radAliran = document.querySelector('input[name="radAliranProfil"]:checked');
+      var val = radAliran ? radAliran.value : "PERDANA";
+      var cPerdana = document.getElementById('cardAliran_PERDANA');
+      var cPra = document.getElementById('cardAliran_PRASEKOLAH');
+      var cPpki = document.getElementById('cardAliran_PPKI');
+
+      if (cPerdana) {
+        if (val === 'PERDANA') {
+          cPerdana.className = "flex items-center gap-2.5 p-2.5 bg-indigo-50/80 border-2 border-indigo-600 rounded-xl cursor-pointer transition shadow-xs";
+        } else {
+          cPerdana.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-indigo-50/40 transition";
+        }
+      }
+      if (cPra) {
+        if (val === 'PRASEKOLAH') {
+          cPra.className = "flex items-center gap-2.5 p-2.5 bg-amber-50/80 border-2 border-amber-500 rounded-xl cursor-pointer transition shadow-xs";
+        } else {
+          cPra.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-amber-50/40 transition";
+        }
+      }
+      if (cPpki) {
+        if (val === 'PPKI') {
+          cPpki.className = "flex items-center gap-2.5 p-2.5 bg-purple-50/80 border-2 border-purple-500 rounded-xl cursor-pointer transition shadow-xs";
+        } else {
+          cPpki.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-purple-50/40 transition";
+        }
+      }
+    }
+
     function prosesSahkanDanSimpanProfil() {
       var inNama = document.getElementById('txtNamaProfil');
       var inEmel = document.getElementById('txtEmelProfil');
       var inSek = document.getElementById('txtSekolahProfil');
       var selSesi = document.getElementById('selSesiProfil');
+      var radAliran = document.querySelector('input[name="radAliranProfil"]:checked');
+      var aliran = radAliran ? radAliran.value : "PERDANA";
 
       var nama = inNama ? inNama.value.trim() : "";
       var emel = inEmel ? inEmel.value.trim().toLowerCase() : "";
@@ -1754,7 +1860,8 @@ var SUBJEK_PERDANA = [
         nama: nama,
         emel: emel,
         sekolah: sekolah,
-        sesi: sesi
+        sesi: sesi,
+        aliran: aliran
       };
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -1762,12 +1869,12 @@ var SUBJEK_PERDANA = [
           .withSuccessHandler(function(res) {
             setLoadingSahkan(false);
             if (!res || res.status !== 'SUCCESS') {
-              var msg = (res && res.message) ? res.message : "Akses ditolak: Emel DELIMa anda belum didaftarkan dalam senarai langganan/kebenaran.";
+              var msg = (res && res.message) ? res.message : "Pengesahan tidak berjaya: Emel DELIMa anda belum didaftarkan dalam rekod guru berdaftar sekolah.";
               tunjukAlertProfil(msg, "error");
               if (typeof Swal !== 'undefined') {
                 Swal.fire({
                   icon: 'error',
-                  title: 'Akses Ditolak',
+                  title: 'Pengesahan Pendidik',
                   text: msg,
                   confirmButtonColor: '#e11d48'
                 });
@@ -1796,23 +1903,24 @@ var SUBJEK_PERDANA = [
         // Luar talian / demo testing
         setTimeout(function() {
           setLoadingSahkan(false);
-          var demoWhitelist = ["guru@moe-dl.edu.my", "cikgu@moe-dl.edu.my", "pendidik@moe-dl.edu.my"];
-          if (demoWhitelist.indexOf(emel) !== -1 || emel.indexOf('@') !== -1) {
+          var demoSenaraiPendidik = ["guru@moe-dl.edu.my", "cikgu@moe-dl.edu.my", "pendidik@moe-dl.edu.my"];
+          if (demoSenaraiPendidik.indexOf(emel) !== -1 || emel.indexOf('@') !== -1) {
             tunjukAlertProfil("Profil berjaya disahkan. Akses modul e-RPH telah dibuka.", "success");
             aktifkanAksesDanBukaLangkah2({
               nama: nama,
               emel: emel,
               sekolah: sekolah,
               sesi: sesi,
+              aliran: aliran,
               peranan: "GURU"
             });
           } else {
-            var msgTolak = "Akses ditolak: Emel DELIMa anda (" + emel + ") belum didaftarkan dalam senarai langganan/kebenaran.";
+            var msgTolak = "Pengesahan tidak berjaya: Emel DELIMa anda (" + emel + ") belum didaftarkan dalam rekod guru berdaftar sekolah.";
             tunjukAlertProfil(msgTolak, "error");
             if (typeof Swal !== 'undefined') {
               Swal.fire({
                 icon: 'error',
-                title: 'Akses Ditolak',
+                title: 'Pengesahan Pendidik',
                 text: msgTolak,
                 confirmButtonColor: '#e11d48'
               });
@@ -1824,12 +1932,14 @@ var SUBJEK_PERDANA = [
 
     function aktifkanAksesDanBukaLangkah2(profil, isSilent) {
       if (!profil || !profil.emel) return;
+      var aliranDipilih = String(profil.aliran || "PERDANA").toUpperCase();
       guruPilihanSemasa = {
         nama: profil.nama,
         emel: profil.emel,
         sekolah: profil.sekolah || "",
         sesi: profil.sesi || "2026",
-        peranan: "GURU"
+        aliran: aliranDipilih,
+        peranan: profil.peranan || "GURU"
       };
 
       try {
@@ -1842,6 +1952,7 @@ var SUBJEK_PERDANA = [
       var lblNama = document.getElementById('lblNamaDisahkan');
       var lblEmelSek = document.getElementById('lblEmelDanSekolahDisahkan');
       var avDisahkan = document.getElementById('avatarDisahkan');
+      var badgeAliran = document.getElementById('badgeAliranDisahkan');
 
       if (lblNama) lblNama.textContent = profil.nama || "Pendidik KPM";
       if (lblEmelSek) {
@@ -1850,6 +1961,19 @@ var SUBJEK_PERDANA = [
       if (avDisahkan) {
         var inits = (profil.nama || "CK").split(" ").map(function(n){ return n[0]; }).filter(Boolean).slice(0, 2).join("").toUpperCase();
         avDisahkan.textContent = inits || "CK";
+      }
+
+      if (badgeAliran) {
+        if (aliranDipilih === 'PRASEKOLAH') {
+          badgeAliran.textContent = "🧸 Prasekolah (KSPK)";
+          badgeAliran.className = "text-[9px] bg-amber-600 text-white px-2 py-0.5 rounded-full font-extrabold";
+        } else if (aliranDipilih === 'PPKI') {
+          badgeAliran.textContent = "🌟 Pendidikan Khas (PPKI)";
+          badgeAliran.className = "text-[9px] bg-purple-600 text-white px-2 py-0.5 rounded-full font-extrabold";
+        } else {
+          badgeAliran.textContent = "🏫 Aliran Perdana (KSSR)";
+          badgeAliran.className = "text-[9px] bg-indigo-700 text-white px-2 py-0.5 rounded-full font-extrabold";
+        }
       }
 
       if (ringkasan) ringkasan.classList.remove('hidden');
@@ -1871,7 +1995,8 @@ var SUBJEK_PERDANA = [
 
       var txtJawatan = document.getElementById('txtJawatanSpan');
       if (txtJawatan) {
-        var jawatan = (profil.sekolah ? (profil.sekolah + " | ") : "") + "Sesi " + (profil.sesi || "2026");
+        var labelAliran = (aliranDipilih === 'PRASEKOLAH') ? "Prasekolah" : ((aliranDipilih === 'PPKI') ? "PPKI" : "Aliran Perdana");
+        var jawatan = "Pendidik (" + labelAliran + ")" + (profil.sekolah ? (" | " + profil.sekolah) : "") + " | Sesi " + (profil.sesi || "2026");
         txtJawatan.textContent = jawatan;
       }
 
@@ -1884,6 +2009,17 @@ var SUBJEK_PERDANA = [
       var badgeP = document.getElementById('badgePeranan');
       if (badgeP) {
         badgeP.classList.add('hidden');
+      }
+
+      // Kawalan keterlihatan butang & notis templat KSPK (Hanya untuk Prasekolah)
+      var btnKspk = document.getElementById('btnTemplatKspk');
+      var notisKspk = document.getElementById('notisPanduanKspk');
+      if (aliranDipilih === 'PRASEKOLAH') {
+        if (btnKspk) btnKspk.classList.remove('hidden');
+        if (notisKspk) notisKspk.classList.remove('hidden');
+      } else {
+        if (btnKspk) btnKspk.classList.add('hidden');
+        if (notisKspk) notisKspk.classList.add('hidden');
       }
 
       // 4. Kemas kini Indikator Stepper
@@ -1926,6 +2062,12 @@ var SUBJEK_PERDANA = [
 
       var lockBanner = document.getElementById('lockBannerStep2');
       if (lockBanner) lockBanner.classList.remove('hidden');
+
+      // Sembunyikan butang KSPK
+      var btnKspk = document.getElementById('btnTemplatKspk');
+      var notisKspk = document.getElementById('notisPanduanKspk');
+      if (btnKspk) btnKspk.classList.add('hidden');
+      if (notisKspk) notisKspk.classList.add('hidden');
 
       // Pulihkan Borang Langkah 1
       var ringkasan = document.getElementById('ringkasanProfilDisahkan');
@@ -2068,6 +2210,32 @@ var SUBJEK_PERDANA = [
       container.innerHTML = '';
       var senarai = JADUAL_AKTIF[namaHari] || [];
 
+      if (senarai.length === 0) {
+        var labelHari = (namaHari.indexOf('.') !== -1) ? namaHari.split('.')[1].trim() : namaHari;
+        if (guruPilihanSemasa && guruPilihanSemasa.aliran === 'PRASEKOLAH') {
+          container.innerHTML = `
+            <div class="bg-amber-50/80 border-2 border-dashed border-amber-300 rounded-2xl p-6 text-center space-y-2.5 my-1">
+              <div class="text-3xl">&#129528;</div>
+              <div class="font-black text-xs text-amber-900">Jadual Prasekolah Belum Ditetapkan (${escapeHtmlAttr(labelHari)})</div>
+              <p class="text-[11px] text-amber-700 max-w-sm mx-auto leading-relaxed">Hari ini belum mempunyai slot jadual. Anda boleh memuatkan struktur 7 slot rutin KSPK secara automatik dengan satu klik di bawah.</p>
+              <button type="button" onclick="muatTemplatJadualKspk()" class="inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-md shadow-amber-200 transition cursor-pointer">
+                <span>&#129528;</span> <span>Muat 7 Slot KSPK Hari Ini</span>
+              </button>
+            </div>
+          `;
+          return;
+        } else {
+          container.innerHTML = `
+            <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center space-y-1 my-1">
+              <div class="text-2xl">&#128203;</div>
+              <div class="font-bold text-xs text-slate-700">Tiada kelas dijadualkan pada hari ${escapeHtmlAttr(labelHari)}</div>
+              <p class="text-[10px] text-slate-400">Tekan butang "Tambah Kelas Pada Hari Ini" di bawah untuk mula menyusun jadual anda.</p>
+            </div>
+          `;
+          return;
+        }
+      }
+
       senarai.forEach(function(slot, idx) {
         selaraskanSlotDenganDskp(slot);
 
@@ -2079,32 +2247,46 @@ var SUBJEK_PERDANA = [
         var kodKatSemasa = infoKat.kodKat;
         var cadanganKelasList = dapatkanCadanganKelasBagiKat(kodKatSemasa);
 
-        // 1. Dropdown Kategori & Tahap (Prasekolah, Tahun 1-6 Perdana, PPKI 1-6)
-        var selectKatHtml = `
-          <select onchange="tukarKategoriTahapSlot('${namaHari}', ${idx}, this.value)" 
-                  class="w-full bg-white border border-slate-300 rounded-lg p-1.5 font-bold text-slate-800 text-[11px] focus:ring-1 focus:ring-indigo-500" 
-                  title="Pilih Kategori &amp; Tahap (Pra / Perdana / PPKI)">
-            <optgroup label="Prasekolah">
-              <option value="Pra" ${kodKatSemasa === 'Pra' ? 'selected' : ''}>Pra</option>
-            </optgroup>
-            <optgroup label="Aliran Perdana">
-              <option value="1" ${kodKatSemasa === '1' ? 'selected' : ''}>Tahun 1</option>
-              <option value="2" ${kodKatSemasa === '2' ? 'selected' : ''}>Tahun 2</option>
-              <option value="3" ${kodKatSemasa === '3' ? 'selected' : ''}>Tahun 3</option>
-              <option value="4" ${kodKatSemasa === '4' ? 'selected' : ''}>Tahun 4</option>
-              <option value="5" ${kodKatSemasa === '5' ? 'selected' : ''}>Tahun 5</option>
-              <option value="6" ${kodKatSemasa === '6' ? 'selected' : ''}>Tahun 6</option>
-            </optgroup>
-            <optgroup label="Pendidikan Khas (PPKI)">
+        // 1. Dropdown Kategori & Tahap Dinamik Mengikut Aliran Guru (Strict Filtering)
+        var aliranGuru = (guruPilihanSemasa && guruPilihanSemasa.aliran) ? guruPilihanSemasa.aliran : "PERDANA";
+        var selectKatHtml = "";
+
+        if (aliranGuru === "PRASEKOLAH") {
+          selectKatHtml = `
+            <select onchange="tukarKategoriTahapSlot('${namaHari}', ${idx}, this.value)" 
+                    class="w-full bg-white border border-amber-300 rounded-lg p-1.5 font-bold text-amber-900 text-[11px] focus:ring-1 focus:ring-amber-500" 
+                    title="Kategori Prasekolah">
+              <option value="Pra" selected>Prasekolah</option>
+            </select>
+          `;
+        } else if (aliranGuru === "PPKI") {
+          selectKatHtml = `
+            <select onchange="tukarKategoriTahapSlot('${namaHari}', ${idx}, this.value)" 
+                    class="w-full bg-white border border-purple-300 rounded-lg p-1.5 font-bold text-purple-900 text-[11px] focus:ring-1 focus:ring-purple-500" 
+                    title="Pilih Tahap PPKI (PPKI 1 - 6)">
               <option value="PPKI 1" ${kodKatSemasa === 'PPKI 1' ? 'selected' : ''}>PPKI 1</option>
               <option value="PPKI 2" ${kodKatSemasa === 'PPKI 2' ? 'selected' : ''}>PPKI 2</option>
               <option value="PPKI 3" ${kodKatSemasa === 'PPKI 3' ? 'selected' : ''}>PPKI 3</option>
               <option value="PPKI 4" ${kodKatSemasa === 'PPKI 4' ? 'selected' : ''}>PPKI 4</option>
               <option value="PPKI 5" ${kodKatSemasa === 'PPKI 5' ? 'selected' : ''}>PPKI 5</option>
               <option value="PPKI 6" ${kodKatSemasa === 'PPKI 6' ? 'selected' : ''}>PPKI 6</option>
-            </optgroup>
-          </select>
-        `;
+            </select>
+          `;
+        } else {
+          // Default: Aliran Perdana (Tahun 1 - 6 sahaja, tiada Pra & tiada PPKI)
+          selectKatHtml = `
+            <select onchange="tukarKategoriTahapSlot('${namaHari}', ${idx}, this.value)" 
+                    class="w-full bg-white border border-slate-300 rounded-lg p-1.5 font-bold text-slate-800 text-[11px] focus:ring-1 focus:ring-indigo-500" 
+                    title="Pilih Tahap (Tahun 1 - 6)">
+              <option value="1" ${kodKatSemasa === '1' ? 'selected' : ''}>Tahun 1</option>
+              <option value="2" ${kodKatSemasa === '2' ? 'selected' : ''}>Tahun 2</option>
+              <option value="3" ${kodKatSemasa === '3' ? 'selected' : ''}>Tahun 3</option>
+              <option value="4" ${kodKatSemasa === '4' ? 'selected' : ''}>Tahun 4</option>
+              <option value="5" ${kodKatSemasa === '5' ? 'selected' : ''}>Tahun 5</option>
+              <option value="6" ${kodKatSemasa === '6' ? 'selected' : ''}>Tahun 6</option>
+            </select>
+          `;
+        }
 
         // 2. Input Nama Kelas Pintar (Autocomplete Datalist + Boleh Taip Nama Sendiri)
         var datalistId = "dlKelas_" + namaHari.replace(/[^a-zA-Z0-9]/g, '') + "_" + idx;
@@ -2489,7 +2671,24 @@ var SUBJEK_PERDANA = [
       if (!JADUAL_AKTIF[hariSemasaDipilih]) JADUAL_AKTIF[hariSemasaDipilih] = [];
       var slots = JADUAL_AKTIF[hariSemasaDipilih];
       var last = slots.length > 0 ? slots[slots.length - 1] : null;
-      var kAsal = (last && last.kelas) ? last.kelas : (SENARAI_KELAS_CUSTOM[0] || "1 Amanah");
+
+      var aliranSemasa = (guruPilihanSemasa && guruPilihanSemasa.aliran) || "PERDANA";
+      var kDefault = "1 Amanah";
+      if (aliranSemasa === "PRASEKOLAH") {
+        kDefault = "Pra Bestari";
+      } else if (aliranSemasa === "PPKI") {
+        kDefault = "PPKI 1 Bestari";
+      }
+
+      var kelasTersuaiPadan = (SENARAI_KELAS_CUSTOM || []).filter(function(k) {
+        var inf = kesanKategoriDanTahap(k);
+        if (aliranSemasa === "PRASEKOLAH") return inf.kategori === "Pra";
+        if (aliranSemasa === "PPKI") return inf.kategori === "PPKI";
+        return inf.kategori === "Perdana";
+      });
+      var kAsal = (last && last.kelas && kesanKategoriDanTahap(last.kelas).kategori === (aliranSemasa === "PRASEKOLAH" ? "Pra" : (aliranSemasa === "PPKI" ? "PPKI" : "Perdana")))
+        ? last.kelas
+        : (kelasTersuaiPadan[0] || kDefault);
       var info = kesanKategoriDanTahap(kAsal);
       var subList = dapatkanKumpulanSubjek(kAsal);
       var subAsal = (last && last.subjek) ? last.subjek : subList[0];
@@ -2497,6 +2696,11 @@ var SUBJEK_PERDANA = [
 
       var mulaAsal = "07:10";
       var tamatAsal = "07:40";
+      if (aliranSemasa === "PRASEKOLAH" && !last) {
+        mulaAsal = "08:00";
+        tamatAsal = "08:30";
+      }
+
       if (last && last.tamat) {
         mulaAsal = last.tamat;
         var m = mulaAsal.match(/^(\d{1,2}):(\d{2})$/);
@@ -3484,6 +3688,14 @@ var SUBJEK_PERDANA = [
             if (inEmel) inEmel.value = profilObj.emel || "";
             if (inSek) inSek.value = profilObj.sekolah || "";
             if (selSesi) selSesi.value = profilObj.sesi || "2026";
+
+            if (profilObj.aliran) {
+              var rad = document.querySelector('input[name="radAliranProfil"][value="' + profilObj.aliran + '"]');
+              if (rad) {
+                rad.checked = true;
+                kemaskiniPilihanAliranUi();
+              }
+            }
 
             aktifkanAksesDanBukaLangkah2(profilObj, true);
             profilDisahkan = true;

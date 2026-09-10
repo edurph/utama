@@ -173,6 +173,7 @@ function sahkanDanSimpanProfil(maklumatGuru) {
     var emel = String(maklumatGuru.emel || "").trim().toLowerCase();
     var sekolah = String(maklumatGuru.sekolah || "").trim();
     var sesi = String(maklumatGuru.sesi || "2026 / 2027").trim();
+    var aliran = String(maklumatGuru.aliran || "PERDANA").trim().toUpperCase();
 
     // 1. Validasi Input Mandatori
     if (!nama) {
@@ -218,7 +219,7 @@ function sahkanDanSimpanProfil(maklumatGuru) {
         if (rowStatus === "SEKAT" || rowStatus === "BLOCKED" || rowStatus === "INACTIVE" || rowStatus === "DIGANTUNG") {
           return {
             status: 'DENIED',
-            message: 'Akses disekat: Kebenaran langganan bagi akaun (' + emel + ') ini telah ditamatkan atau digantung.'
+            message: 'Akses tidak aktif: Rekod akaun pendidik (' + emel + ') ini telah dinyahaktifkan atau ditamatkan. Sila rujuk pihak pentadbir sekolah.'
           };
         }
         isWhitelisted = true;
@@ -246,17 +247,17 @@ function sahkanDanSimpanProfil(maklumatGuru) {
       }
     }
 
-    // Jika emel tiada dalam senarai whitelist
+    // Jika emel tiada dalam rekod pendidik berdaftar
     if (!isWhitelisted) {
       return {
         status: 'DENIED',
-        message: 'Akses ditolak: Emel DELIMa anda (' + emel + ') belum didaftarkan dalam senarai langganan/kebenaran.'
+        message: 'Pengesahan tidak berjaya: Emel DELIMa anda (' + emel + ') belum didaftarkan dalam rekod pendidik berdaftar sekolah. Sila hubungi pentadbir sekolah.'
       };
     }
 
     // 3. Akses / Cipta Tab 2: 'Rekod_Profil'
     var sheetProfil = dapatkanAtauCiptaSheet(ss, "Rekod_Profil",
-      ["Tarikh_Masa", "Nama_Penuh", "Emel", "Kod_Nama_Sekolah", "Sesi_Tahun", "Kemaskini_Terakhir"]
+      ["Tarikh_Masa", "Nama_Penuh", "Emel", "Kod_Nama_Sekolah", "Sesi_Tahun", "Kemaskini_Terakhir", "Aliran"]
     );
 
     var dataProfil = sheetProfil.getDataRange().getValues();
@@ -277,8 +278,9 @@ function sahkanDanSimpanProfil(maklumatGuru) {
       sheetProfil.getRange(rowIndexProfil, 4).setValue(sekolah);
       sheetProfil.getRange(rowIndexProfil, 5).setValue(sesi);
       sheetProfil.getRange(rowIndexProfil, 6).setValue(nowStr);
+      sheetProfil.getRange(rowIndexProfil, 7).setValue(aliran);
     } else {
-      sheetProfil.appendRow([nowStr, nama, emel, sekolah, sesi, nowStr]);
+      sheetProfil.appendRow([nowStr, nama, emel, sekolah, sesi, nowStr, aliran]);
     }
 
     return {
@@ -289,7 +291,8 @@ function sahkanDanSimpanProfil(maklumatGuru) {
         emel: emel,
         sekolah: sekolah,
         sesi: sesi,
-        peranan: whitelistedRole
+        peranan: whitelistedRole,
+        aliran: aliran
       }
     };
   } catch (err) {
@@ -314,7 +317,8 @@ function ambilProfilGuru(emel) {
           nama: String(data[i][1] || "").trim(),
           emel: eClean,
           sekolah: String(data[i][3] || "").trim(),
-          sesi: String(data[i][4] || "2026 / 2027").trim()
+          sesi: String(data[i][4] || "2026 / 2027").trim(),
+          aliran: String(data[i][6] || "PERDANA").trim().toUpperCase()
         };
       }
     }
@@ -642,7 +646,15 @@ function binaKandunganRphSpesifikTeras(subjek, tahun, kelas, slotCustom) {
     };
   }
 
-  // 3. Mod Bahasa Melayu & Subjek Perdana
+  // 3. Mod Prasekolah KSPK (Kurikulum Standard Prasekolah Kebangsaan)
+  var isPra = (slotCustom && slotCustom.isPra) || kUpper.includes("PRA") || String(tahun || "").toUpperCase().includes("PRA") ||
+              subUpper.includes("PERBUALAN") || subUpper.includes("AKTIVITI FIZIKAL") || subUpper.includes("AKTIVITI PEMBELAJARAN") ||
+              subUpper.includes("REHAT") || subUpper.includes("PENUTUP");
+  if (isPra) {
+    return binaKandunganKspkPrasekolah(subUpper, sTema, sTajuk, sSk, sSp, slotCustom);
+  }
+
+  // 4. Mod Bahasa Melayu & Subjek Perdana
   return {
     temaTajuk: (sTema && sTajuk) ? (sTema + " | " + sTajuk) : ("Pendidikan Holistik | Penguasaan Kemahiran " + subUpper),
     sk: sSk || "1.1 Standard Kandungan mengikut Sukatan DSKP KPM",
@@ -651,6 +663,138 @@ function binaKandunganRphSpesifikTeras(subjek, tahun, kelas, slotCustom) {
     kriteriaKejayaan: "Murid dapat:\n1. Menyatakan dan menerangkan sekurang-kurangnya 3 isi pelajaran utama dengan tepat.\n2. Menyiapkan latihan bertulis/amali dalam lembaran kerja secara kemas.",
     aktiviti: "Set Induksi : Tayangan gambar rangsangan & soal jawab ringkas\nAktiviti Utama : Penerangan guru, aktiviti perbincangan kumpulan PAK21 & latihan bertulis terbeza\nPenutup : Rumusan keseluruhan pengajaran & maklum balas guru",
     bbmNilaiKbat: "BBM: Buku Teks, Lembaran Kerja | Nilai: Kerjasama, Berdisiplin | KBAT: Mengaplikasi | PBD: Lisan & Latihan Bertulis"
+  };
+}
+
+function binaKandunganKspkPrasekolah(subUpper, sTema, sTajuk, sSk, sSp, slotCustom) {
+  var temaPenuh = sTema || "Malaysia & Negeri Saya";
+
+  // 1. PERBUALAN AWAL
+  if (subUpper.includes("PERBUALAN")) {
+    return {
+      temaTajuk: (sTajuk || "Rutin Pagi & Perbualan Bertema") + " | " + temaPenuh,
+      sk: sSk || "KD 2.3 Membina keyakinan untuk berkomunikasi",
+      sp: sSp || "KD 2.3.3 Berinteraksi dengan yakin dan berhemah",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Mengamalkan rutin pagi (ucap salam, doa & lagu rasmi).\n2. Bertutur dan menyatakan sekurang-kurangnya 1 idea berkaitan tema dengan sopan.",
+      kriteriaKejayaan: "Aras Rendah: Menyebut nama negeri tempat tinggal dengan bantuan guru.\nAras Sederhana: Menyatakan 1 idea berkaitan tema secara berdikari.\nAras Tinggi: Berkongsi cerita berkaitan tema dan memimpin bacaan doa/nyanyian.",
+      aktiviti: "1. Rutin Pagi: Ucap salam kepada guru, bacaan doa belajar, nyanyian lagu Negaraku & lagu negeri, catatan kehadiran.\n2. Rangsangan Tema: Guru menayangkan peta/gambar berkaitan " + temaPenuh + " dan bersoal jawab santai.\n3. Perbualan & Adab: Murid bertutur mengikut giliran dan mempraktikkan ucapan sopan serta berdiri tegak.",
+      bbmNilaiKbat: "BBM: Kad Gambar, Carta Doa, Bendera | Nilai: Hormat, Patriotisme | TP1: Bimbingan | TP2: Yakin | TP3: Sopan & Aktif"
+    };
+  }
+
+  // 2. AKTIVITI FIZIKAL
+  if (subUpper.includes("FIZIKAL")) {
+    return {
+      temaTajuk: (sTajuk || "Pergerakan Lokomotor & Kesedaran Ruang") + " | " + temaPenuh,
+      sk: (sSk || "FK 2.1 Meneroka pelbagai pergerakan lokomotor") + " | Kesepaduan: KM 1.4.1",
+      sp: sSp || "FK 2.1.2 Melakukan pergerakan lokomotor dan bukan lokomotor",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Melakukan pergerakan lokomotor dan bukan lokomotor mengikut arahan dengan selamat.\n2. Mengawal pergerakan, jarak dan kesedaran ruang dalam zon aktiviti.\n3. Bergerak ke stesen sasaran dengan tertib dan menunggu giliran.",
+      kriteriaKejayaan: "Aras Rendah: Mengikuti 1-2 jenis pergerakan dengan bimbingan rapi guru.\nAras Sederhana: Mengikuti 3-4 arahan pergerakan dan bergerak ke zon betul.\nAras Tinggi: Bergerak tangkas, mengawal ruang dan membantu rakan fahami arah.",
+      aktiviti: "1. Pemanasan Badan: Jalan setempat, putar bahu, regangan tangan dan kaki (kiraan 8).\n2. Permainan Stesen/Kompas: Murid bergerak mengikut kad arah (jalan/lari kecil/langkah besar) dalam zon aktiviti.\n3. Pusingan Fokus: Murid berhenti di stesen masing-masing dan mengekalkan postur imbangan 3 saat.\n4. Penyejukan Badan: Tarik nafas 4 kali dan relaksasi otot.",
+      bbmNilaiKbat: "BBM: Kon Penanda, Wisel, Kad Arah | Nilai: Ketangkasan, Disiplin | TP1: Ikut arahan bimbingan | TP2: Kawal ruang | TP3: Cekap & tertib"
+    };
+  }
+
+  // 3. BAHASA MELAYU
+  if (subUpper.includes("MELAYU")) {
+    return {
+      temaTajuk: (sTajuk || "Baca-Cantum-Salin Suku Kata") + " | " + temaPenuh,
+      sk: (sSk || "BM 2.2 Mengenal huruf dan membaca perkataan") + " | Kesepaduan: KM 1.4.1",
+      sp: sSp || "BM 2.2.3 Mengenal dan membaca perkataan suku kata terbuka dan tertutup",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Membaca perkataan sasaran bertema dengan sebutan yang betul.\n2. Mencantum suku kata untuk membentuk perkataan mudah.\n3. Menyalin perkataan dan frasa mudah dengan kemas dan tepat.",
+      kriteriaKejayaan: "Aras Rendah: Membaca dan menyalin 2 perkataan dengan bimbingan guru.\nAras Sederhana: Membaca 4 perkataan, cantum dan salin 1 ayat mudah.\nAras Tinggi: Membaca 5-6 perkataan, cantum dan salin 2 ayat dengan kemas.",
+      aktiviti: "1. Bacaan Bimbingan: Guru membimbing sebutan kad perkataan bertema suku kata terbuka/tertutup.\n2. Aktiviti Cantum Cepat: Murid mencantum kad suku kata menjadi perkataan dan membaca dengan kuat.\n3. Latihan Bertulis: Murid menyalin perkataan dan ayat mudah pada lembaran garis panduan bergaris.",
+      bbmNilaiKbat: "BBM: Kad Suku Kata, Lembaran Bank Kata | Nilai: Kerajinan | TP1: Bimbingan | TP2: Kebanyakan betul | TP3: Lancar & kemas"
+    };
+  }
+
+  // 4. BAHASA INGGERIS
+  if (subUpper.includes("INGGERIS") || subUpper.includes("ENGLISH")) {
+    return {
+      temaTajuk: (sTajuk || "Early Phonics & Word Matching") + " | " + temaPenuh,
+      sk: (sSk || "BI 2.2 Apply sounds of letters to recognise words") + " | Integration: KM 1.4.1",
+      sp: sSp || "BI 2.2.5 Recognise and sound out letters of the alphabet",
+      objektif: "By the end of the lesson, pupils will be able to:\n1. Identify and pronounce target phonetic sounds correctly.\n2. Blend initial sounds to recognise simple themed vocabulary.\n3. Copy simple words neatly in printable worksheets.",
+      kriteriaKejayaan: "Low Level: Recognise 2 letters/sounds with teacher guidance.\nMid Level: Blend and read 3-4 simple sight words independently.\nHigh Level: Read phrases and write words neatly with correct spacing.",
+      aktiviti: "1. Phonics Warm-up: Action song & singing phonics sounds together.\n2. Word Match Game: Pupils match picture cards with target English words.\n3. Guided Writing: Pupils trace and copy simple phrases neatly in workbooks.",
+      bbmNilaiKbat: "BBM: Flashcards, Letter Blocks | Moral Value: Diligence | TP1: With guidance | TP2: Recognise words | TP3: Fluent & neat"
+    };
+  }
+
+  // 5. MATEMATIK AWAL
+  if (subUpper.includes("MATEMATIK") || subUpper.includes("MATH")) {
+    return {
+      temaTajuk: (sTajuk || "Penerokaan Nombor & Membilang Objek") + " | " + temaPenuh,
+      sk: (sSk || "MA 2.1 Memahami nombor 1 hingga 10") + " | Kesepaduan: FK 2.1.4",
+      sp: sSp || "MA 2.1.4 Membilang objek dan memadankan dengan nombor yang betul",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Membilang objek maujud 1 hingga 10 dengan turutan yang betul.\n2. Memadankan kuantiti objek dengan angka nombor yang sepadan.\n3. Menulis angka nombor secara kemas mengikut arah yang betul.",
+      kriteriaKejayaan: "Aras Rendah: Membilang objek 1-5 dengan bimbingan guru.\nAras Sederhana: Membilang dan memadankan nombor 1-10 secara berdikari.\nAras Tinggi: Membilang objek lebih 10 dan menyelesaikan operasi tambah mudah.",
+      aktiviti: "1. Nyanyian Nombor: Lagu membilang beraksi dan mengira jari/benda maujud.\n2. Aktiviti 'Berapa Bilangannya?': Murid mengira manik/bongkah dan meletakkan kad angka yang betul.\n3. Lembaran Pengukuhan: Murid memadankan garisan objek dengan nombor dan menyalin angka.",
+      bbmNilaiKbat: "BBM: Bongkah Angka, Manik Maujud | Nilai: Ketelitian | TP1: Bilang bimbingan | TP2: Padan betul | TP3: Menguasai nombor"
+    };
+  }
+
+  // 6. AKTIVITI PEMBELAJARAN (AP)
+  if (subUpper.includes("PEMBELAJARAN") || subUpper.includes("AP")) {
+    return {
+      temaTajuk: (sTajuk || "Projek Seni Kreatif & Penerokaan") + " | " + temaPenuh,
+      sk: (sSk || "KM 1.4 Mengetahui tentang negara Malaysia") + " | Kesepaduan: KE 3.3.1",
+      sp: sSp || "KM 1.4.1 Mengenali identiti dan lambang negara",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Mengenal konsep bertema melalui peta/projek kreatif mudah.\n2. Melipat, menggunting selamat dan menampal bahan hasil kerja dengan kemas.\n3. Berkongsi hasil dapatan dengan rakan secara sopan dan yakin.",
+      kriteriaKejayaan: "Aras Rendah: Menampal bahan siap potong dengan bimbingan guru.\nAras Sederhana: Menampal, melabel dan menceritakan hasil kerja ringkas dengan betul.\nAras Tinggi: Menghasilkan projek kreatif lengkap serta membantu rakan sekumpulan.",
+      aktiviti: "1. Demonstrasi Projek: Guru menunjukkan contoh projek lipatan/tampalan bertema.\n2. Pembinaan Projek: Murid melipat kertas, menampal bentuk dan melabelkan bahagian hasil kerja.\n3. Sesi Kongsi 10 Saat: Murid mempamerkan hasil projek dan berkongsi cerita secara bergilir.",
+      bbmNilaiKbat: "BBM: Kertas A4, Bentuk Siap Potong, Gam, Krayon | Nilai: Kreativiti, Kerjasama | TP1: Bimbingan | TP2: Cukup syarat | TP3: Kreatif & kemas"
+    };
+  }
+
+  // 7. REHAT & PENGURUSAN DIRI
+  if (subUpper.includes("REHAT")) {
+    return {
+      temaTajuk: "Rehat & Pengurusan Diri | Amalan Kebersihan & Adab",
+      sk: "FK 5.1 Mengamalkan kebersihan diri dan persekitaran",
+      sp: "FK 5.1.7 Mempraktikkan cara mencuci tangan dan adab makan yang betul",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Mencuci tangan menggunakan sabun mengikut langkah yang betul sebelum dan selepas makan.\n2. Membaca doa makan serta mengamalkan adab makan yang tertib.\n3. Mengemas bekas makanan dan membersihkan sisa meja makan sendiri.",
+      kriteriaKejayaan: "Murid berdikari mengurus amalan kebersihan, adab makan dan membersihkan meja tanpa peringatan berulang.",
+      aktiviti: "1. Cuci Tangan Tertib: Berbaris ke sinki dan mencuci tangan menggunakan sabun (7 langkah).\n2. Adab Makan: Duduk sopan, membaca doa makan beramai-ramai dan makan tanpa bercakap kasar.\n3. Kebersihan Kendiri: Membuang sampah ke tong sampah, mengelap meja dan mencuci tangan semula.",
+      bbmNilaiKbat: "BBM: Sabun, Tuala Tangan, Bekas Makanan | Nilai: Berdikari, Kebersihan | TP1: Bimbingan rapi | TP2: Sederhana mandiri | TP3: Berdikari cemerlang"
+    };
+  }
+
+  // 8. PENDIDIKAN ISLAM / MORAL
+  if (subUpper.includes("ISLAM") || subUpper.includes("MORAL")) {
+    return {
+      temaTajuk: (sTajuk || "Amalan Hormat & Bertutur Sopan") + " | " + temaPenuh,
+      sk: (sSk || "PM 1.3 Menyedari amalan nilai murni dalam kehidupan") + " | Kesepaduan: KM 1.4.2",
+      sp: sSp || "PM 2.2.3 Menunjukkan pertuturan dan perlakuan yang sopan terhadap orang lain",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Memberi 2 contoh perlakuan hormat dan tutur sopan dalam kelas.\n2. Menggunakan ayat sopan ('Terima kasih', 'Maafkan saya') dalam situasi harian.\n3. Mendengar giliran rakan dan memberi respon yang baik.",
+      kriteriaKejayaan: "Aras Rendah: Mengucap 1 ayat sopan dengan bimbingan guru.\nAras Sederhana: Mengucap ayat sopan dan mengamalkannya dalam 2 situasi berbeza.\nAras Tinggi: Mengucap 3-4 ayat sopan, menjadi teladan suara sopan dan membantu rakan.",
+      aktiviti: "1. Kad Situasi: Guru mempamerkan situasi meminjam barang, menunggu giliran dan menyapa rakan.\n2. Aktiviti Main Peranan: Murid berlatih dialog sopan berpasangan ('Boleh saya pinjam...?', 'Terima kasih').\n3. Permainan Lampu Hijau Lampu Merah Sopan: Latihan mengawal intonasi suara dan mendengar giliran.\n4. Rumusan Nilai: Murid memilih satu amalan murni untuk diamalkan sepanjang hari.",
+      bbmNilaiKbat: "BBM: Kad Situasi, Lencana 'Penjaga Sopan' | Nilai: Hormat-Menghormati, Kasih Sayang | TP1: Bimbingan | TP2: Situasi mudah | TP3: Konsisten & teladan"
+    };
+  }
+
+  // 9. PENUTUP
+  if (subUpper.includes("PENUTUP")) {
+    return {
+      temaTajuk: "Penutup | Refleksi Pembelajaran & Rumusan Harian",
+      sk: "KD 2.3 Membina keyakinan untuk berkomunikasi",
+      sp: "KD 2.3.5 Menunjukkan kebolehan sendiri melalui pelbagai kaedah",
+      objektif: "Pada akhir aktiviti, murid dapat:\n1. Menceritakan semula pengalaman dan aktiviti pembelajaran hari ini.\n2. Mengemas peralatan pembelajaran dan menyusun ruang meja secara berdikari.\n3. Mengamalkan adab bersalaman dan bersurai dengan tertib.",
+      kriteriaKejayaan: "Murid dapat merumuskan sekurang-kurangnya 1 perkara yang dipelajari dan mengemas meja dengan bersih.",
+      aktiviti: "1. Refleksi Kendiri: Murid mempamerkan hasil kerja dan menyebut perkara gembira yang dipelajari hari ini.\n2. Bersoal Jawab Santai: Guru menguji kefahaman konsep dan memberi peneguhan positif.\n3. Mengemas Meja: Murid menyusun alatan, mengutip sampah di sekeliling meja dan bersedia pulang.\n4. Ucapan Selamat: Berbaris tertib, bersalaman dengan guru dan mengucapkan selamat tinggal.",
+      bbmNilaiKbat: "BBM: Hasil Kerja Murid, Bintang Ganjaran | Nilai: Menghargai Masa, Kebersihan | TP1: Bimbingan soalan | TP2: Cerita ringkas | TP3: Refleksi yakin & sopan"
+    };
+  }
+
+  // Fallback KSPK Umum
+  return {
+    temaTajuk: (sTajuk || "Penerokaan Konsep & Kemahiran Prasekolah") + " | " + temaPenuh,
+    sk: sSk || "KD 2.3 Standard Kandungan KSPK Prasekolah",
+    sp: sSp || "KD 2.3.3 Menguasai kemahiran pembelajaran berasaskan perkembangan murid",
+    objektif: "Pada akhir aktiviti, murid berupaya meneroka aktiviti pembelajaran mengikut potensi murid.",
+    kriteriaKejayaan: "Aras Rendah: Menyertai aktiviti dengan bimbingan.\nAras Sederhana: Menyelesaikan aktiviti secara berdikari.\nAras Tinggi: Membimbing rakan dan menunjukkan kreativiti.",
+    aktiviti: "Set Induksi: Soal jawab tema dan rangsangan visual.\nAktiviti Utama: Penerokaan berpandu dan lembaran kerja terbeza.\nPenutup: Rumusan pembelajaran dan peneguhan positif.",
+    bbmNilaiKbat: "BBM: Bahan Maujud, Lembaran Kerja | Nilai: Kerjasama | TP1: Bimbingan | TP2: Menguasai | TP3: Cemerlang"
   };
 }
 
@@ -1005,41 +1149,55 @@ function janaPdfMingguanBackend(minggu, emel) {
     var safeNama = String(namaGuru).replace(/[/\\?%*:|"<>]/g, '').trim().replace(/\s+/g, '_');
     var namaFail = "eRPH_" + kodMinggu + "_" + safeNama + ".pdf";
 
-    var slotHtml = "";
-    rekod.forEach(function(s, idx) {
-      slotHtml += `
-        <div style="border: 1px solid #334155; border-radius: 4px; margin-bottom: 12px; page-break-inside: avoid;">
-          <div style="background-color: #f1f5f9; border-bottom: 1px solid #334155; padding: 4px 8px; font-size: 9.5px; font-weight: bold; color: #0f172a;">
-            ${idx + 1}. ${s.hari} (${s.tarikh || '-'}) | MASA: ${s.mula} - ${s.tamat} | KELAS: ${s.kelas}
-          </div>
-          <table style="width: 100%; border-collapse: collapse; font-size: 8.5px;">
-            <tr><td style="width:25%; padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">SUBJEK</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;"><b>${s.subjek}</b></td></tr>
-            <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">TEMA / TAJUK</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${s.temaTajuk || '-'}</td></tr>
-            <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">SK &amp; SP</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;"><b>SK:</b> ${s.sk}<br><b>SP:</b> ${s.sp}</td></tr>
-            <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">OBJEKTIF</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${s.objektif || '-'}</td></tr>
-            <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">AKTIVITI PdP</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${formatAktivitiHtmlGas(s.aktiviti)}</td></tr>
-            <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">BBM &amp; KBAT</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${s.bbmNilaiKbat || '-'}</td></tr>
-            <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa;">REFLEKSI GURU</td><td style="padding:4px 6px;">${s.refleksi || 'Murid menguasai kemahiran pembelajaran yang ditetapkan.'}</td></tr>
-          </table>
-        </div>
-      `;
+    var isPraRekod = rekod.some(function(s) {
+      var k = String(s.kelas || "").toUpperCase();
+      var sub = String(s.subjek || "").toUpperCase();
+      return k.includes("PRA") || sub.includes("PERBUALAN") || sub.includes("AKTIVITI FIZIKAL") || sub.includes("REHAT") || sub.includes("PENUTUP");
     });
+
+    var slotHtml = "";
+    if (isPraRekod) {
+      slotHtml = binaJadualKspk3LajurHtml(rekod, namaGuru, kodMinggu);
+    } else {
+      rekod.forEach(function(s, idx) {
+        slotHtml += `
+          <div style="border: 1px solid #334155; border-radius: 4px; margin-bottom: 12px; page-break-inside: avoid;">
+            <div style="background-color: #f1f5f9; border-bottom: 1px solid #334155; padding: 4px 8px; font-size: 9.5px; font-weight: bold; color: #0f172a;">
+              ${idx + 1}. ${s.hari} (${s.tarikh || '-'}) | MASA: ${s.mula} - ${s.tamat} | KELAS: ${s.kelas}
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 8.5px;">
+              <tr><td style="width:25%; padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">SUBJEK</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;"><b>${s.subjek}</b></td></tr>
+              <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">TEMA / TAJUK</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${s.temaTajuk || '-'}</td></tr>
+              <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">SK &amp; SP</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;"><b>SK:</b> ${s.sk}<br><b>SP:</b> ${s.sp}</td></tr>
+              <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">OBJEKTIF</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${s.objektif || '-'}</td></tr>
+              <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">AKTIVITI PdP</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${formatAktivitiHtmlGas(s.aktiviti)}</td></tr>
+              <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa; border-bottom:1px solid #e2e8f0;">BBM &amp; KBAT</td><td style="padding:4px 6px; border-bottom:1px solid #e2e8f0;">${s.bbmNilaiKbat || '-'}</td></tr>
+              <tr><td style="padding:4px 6px; font-weight:bold; background:#fafafa;">REFLEKSI GURU</td><td style="padding:4px 6px;">${s.refleksi || 'Murid menguasai kemahiran pembelajaran yang ditetapkan.'}</td></tr>
+            </table>
+          </div>
+        `;
+      });
+    }
+
+    var tajukUtamaDoc = isPraRekod ? 'REKOD PENGAJARAN DAN PEMBELAJARAN HARIAN PRASEKOLAH (KSPK)' : 'REKOD PENGAJARAN DAN PEMBELAJARAN HARIAN';
 
     var html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <style>
-    @page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
-    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 9px; color: #111827; margin: 0; line-height: 1.3; }
-    .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 10px; }
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
+    @page { size: A4 portrait; margin: 10mm 8mm 10mm 8mm; }
+    body { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.4; }
+    .font-jawi { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', serif; direction: rtl; text-align: right; line-height: 2.0; font-size: 10px; }
+    .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 5px; margin-bottom: 8px; }
     .header h2 { font-size: 11px; margin: 0 0 2px 0; text-transform: uppercase; color: #0f172a; font-weight: 800; }
-    .header p { font-size: 9px; margin: 0; font-weight: bold; color: #334155; text-transform: uppercase; }
+    .header p { font-size: 8.5px; margin: 0; font-weight: bold; color: #334155; text-transform: uppercase; }
   </style>
 </head>
 <body>
   <div class="header">
-    <h2>REKOD PENGAJARAN DAN PEMBELAJARAN HARIAN</h2>
+    <h2>${tajukUtamaDoc}</h2>
     <p>GURU: ${namaGuru.toUpperCase()} | SESI: 2026 | MINGGU: ${kodMinggu}</p>
   </div>
   ${slotHtml || '<p style="text-align:center;">Tiada rekod e-RPH.</p>'}
@@ -1066,6 +1224,160 @@ function janaPdfMingguanBackend(minggu, emel) {
   }
 }
 
+function binaJadualKspk3LajurHtml(rekod, namaGuru, kodMinggu) {
+  var hariOrder = ["ISNIN", "SELASA", "RABU", "KHAMIS", "JUMAAT"];
+  var mapHari = {};
+  hariOrder.forEach(function(h) { mapHari[h] = []; });
+
+  rekod.forEach(function(s) {
+    var h = formatNamaHari(s.hari);
+    if (!mapHari[h]) mapHari[h] = [];
+    mapHari[h].push(s);
+  });
+
+  var htmlHari = "";
+
+  hariOrder.forEach(function(h) {
+    var slots = mapHari[h];
+    if (!slots || slots.length === 0) return;
+
+    // Susun mengikut masa mula
+    slots.sort(function(a, b) {
+      return String(a.mula || "").localeCompare(String(b.mula || ""));
+    });
+
+    var tarikhHari = slots[0].tarikh || "-";
+    var temaHari = "";
+    slots.forEach(function(sl) {
+      if (sl.temaTajuk && sl.temaTajuk.includes("|")) {
+        var bahagian = sl.temaTajuk.split("|");
+        if (bahagian.length > 1 && !temaHari) {
+          temaHari = bahagian[bahagian.length - 1].trim();
+        }
+      }
+    });
+    if (!temaHari) temaHari = "MALAYSIA & NEGERI SAYA";
+
+    var barisTable = "";
+    slots.forEach(function(s) {
+      var mula = s.mula || "08:00";
+      var tamat = s.tamat || "08:30";
+      var durasi = kiraDurasiMinit(mula, tamat);
+
+      var perkaraHtml = `
+        <div style="margin-bottom: 4px;"><b>Tajuk:</b> ${s.temaTajuk || s.subjek}</div>
+        ${s.sk ? `<div style="margin-bottom: 3px;"><b>Standard Pembelajaran (SP):</b><br>${s.sk}</div>` : ''}
+        ${s.sp ? `<div style="margin-bottom: 4px; color: #1e293b;">${s.sp}</div>` : ''}
+        ${s.objektif ? `<div style="margin-bottom: 4px;"><b>Objektif Pembelajaran:</b><br>${formatAktivitiHtmlGas(s.objektif)}</div>` : ''}
+        ${s.aktiviti ? `<div style="margin-bottom: 4px;"><b>Aktiviti:</b><br>${formatAktivitiHtmlGas(s.aktiviti)}</div>` : ''}
+        ${s.bbmNilaiKbat ? `<div style="margin-bottom: 4px;"><b>Bahan &amp; Catatan:</b> ${s.bbmNilaiKbat.split('|')[0].trim()}</div>` : ''}
+        ${s.kriteriaKejayaan ? `<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 4px; border-radius: 4px; margin-bottom: 4px;"><b>PEMBELAJARAN TERBEZA:</b><br>${formatAktivitiHtmlGas(s.kriteriaKejayaan)}</div>` : ''}
+        <div style="border: 1px dashed #94a3b8; padding: 4px; background: #fafafa; border-radius: 4px; margin-top: 4px;">
+          <b>Refleksi:</b> ${s.refleksi || 'Murid menunjukkan minat dan mencapai kemahiran yang ditetapkan.'}
+        </div>
+      `;
+
+      var catatanHtml = "";
+      if (String(s.subjek || "").toUpperCase().includes("PERBUALAN")) {
+        catatanHtml += `
+          <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 5px;">
+            <b>Kehadiran:</b><br>[ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] / 25
+          </div>
+        `;
+      }
+      
+      // Semak jika ada deskriptor TP dalam bbmNilaiKbat
+      if (s.bbmNilaiKbat && s.bbmNilaiKbat.includes("TP")) {
+        var bahagianTp = s.bbmNilaiKbat.split('|').filter(function(p){ return p.includes("TP"); });
+        if (bahagianTp.length > 0) {
+          catatanHtml += `<div style="font-size: 7.5px; line-height: 1.35;"><b>Pentaksiran:</b><br>${bahagianTp.map(function(t){ return t.trim(); }).join('<br>')}</div>`;
+        }
+      } else {
+        catatanHtml += `
+          <div style="font-size: 7.5px; line-height: 1.35;">
+            <b>Pentaksiran:</b><br>
+            TP1: Bimbingan rapi<br>
+            TP2: Memuaskan / Berdikari<br>
+            TP3: Cemerlang &amp; Contoh
+          </div>
+        `;
+      }
+
+      barisTable += `
+        <tr style="border-bottom: 1px solid #334155; page-break-inside: avoid;">
+          <td style="vertical-align: top; padding: 6px 5px; border-right: 1px solid #334155; background: #fbfbfe;">
+            <b style="font-size: 9px; color: #0f172a;">${s.subjek}</b><br>
+            <span style="color: #475569; font-weight: bold; font-size: 8px;">${mula} - ${tamat}</span><br>
+            <span style="color: #64748b; font-size: 7.5px;">(${durasi} min)</span>
+          </td>
+          <td style="vertical-align: top; padding: 6px 8px; border-right: 1px solid #334155;">
+            ${perkaraHtml}
+          </td>
+          <td style="vertical-align: top; padding: 6px 5px; background: #fdfdfd;">
+            ${catatanHtml}
+          </td>
+        </tr>
+      `;
+    });
+
+    htmlHari += `
+      <div style="border: 2px solid #0f172a; margin-bottom: 22px; page-break-inside: avoid;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 9px; background: #fff;">
+          <tr style="background: #f1f5f9; border-bottom: 1.5px solid #0f172a;">
+            <td colspan="3" style="text-align: center; padding: 5px; font-size: 11px; font-weight: 900; letter-spacing: 0.5px; color: #0f172a;">
+              RANCANGAN PENGAJARAN HARIAN PRASEKOLAH KSPK
+            </td>
+          </tr>
+          <tr style="border-bottom: 1px solid #334155; font-weight: bold;">
+            <td style="width: 33%; padding: 4px 8px; border-right: 1px solid #334155;">
+              Minggu: ${kodMinggu.replace(/[^0-9]/g, '') || kodMinggu}
+            </td>
+            <td style="width: 34%; padding: 4px 8px; border-right: 1px solid #334155;">
+              Hari: ${h}
+            </td>
+            <td style="width: 33%; padding: 4px 8px;">
+              Tarikh: ${tarikhHari}
+            </td>
+          </tr>
+          <tr style="background: #fafafa; border-bottom: 1.5px solid #0f172a;">
+            <td colspan="3" style="padding: 4px 8px; font-weight: 800; color: #0f172a;">
+              TEMA MINGGUAN: ${temaHari.toUpperCase()}
+            </td>
+          </tr>
+        </table>
+
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5px;">
+          <thead>
+            <tr style="background: #e2e8f0; border-bottom: 1.5px solid #0f172a; font-weight: 800; text-align: center;">
+              <th style="width: 18%; padding: 5px; border-right: 1px solid #334155;">Masa / Bidang</th>
+              <th style="width: 64%; padding: 5px; border-right: 1px solid #334155;">Perkara</th>
+              <th style="width: 18%; padding: 5px;">Catatan / Impak</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${barisTable}
+          </tbody>
+        </table>
+      </div>
+    `;
+  });
+
+  return htmlHari || '<p style="text-align:center;">Tiada rekod prasekolah.</p>';
+}
+
+function kiraDurasiMinit(mula, tamat) {
+  try {
+    var pMula = String(mula).split(':');
+    var pTamat = String(tamat).split(':');
+    var minMula = parseInt(pMula[0], 10) * 60 + parseInt(pMula[1], 10);
+    var minTamat = parseInt(pTamat[0], 10) * 60 + parseInt(pTamat[1], 10);
+    var beza = minTamat - minMula;
+    return beza > 0 ? beza : 30;
+  } catch (e) {
+    return 30;
+  }
+}
+
 function janaKompilasiBulananPdfBackend(payload) {
   try {
     var emel = payload.emel;
@@ -1085,21 +1397,32 @@ function janaKompilasiBulananPdfBackend(payload) {
             📌 BAHAGIAN: ${m.toUpperCase()}
           </div>
         `;
-        rekod.forEach(function(s, idx) {
-          allSlotsHtml += `
-            <div style="border: 1px solid #334155; border-radius: 4px; margin-bottom: 8px; page-break-inside: avoid;">
-              <div style="background-color: #f8fafc; border-bottom: 1px solid #cbd5e1; padding: 3px 6px; font-size: 9px; font-weight: bold;">
-                ${s.hari} (${s.tarikh || '-'}) | ${s.mula}-${s.tamat} | ${s.kelas} — ${s.subjek}
-              </div>
-              <div style="padding: 4px 6px; font-size: 8px;">
-                <div><b>Tema/Tajuk:</b> ${s.temaTajuk || '-'}</div>
-                <div><b>SK/SP:</b> ${s.sk} / ${s.sp}</div>
-                <div><b>Objektif:</b> ${s.objektif || '-'}</div>
-                <div><b>Refleksi:</b> ${s.refleksi || 'Murid menguasai kemahiran pembelajaran yang ditetapkan.'}</div>
-              </div>
-            </div>
-          `;
+
+        var isPraMinggu = rekod.some(function(s) {
+          var k = String(s.kelas || "").toUpperCase();
+          var sub = String(s.subjek || "").toUpperCase();
+          return k.includes("PRA") || sub.includes("PERBUALAN") || sub.includes("AKTIVITI FIZIKAL") || sub.includes("REHAT") || sub.includes("PENUTUP");
         });
+
+        if (isPraMinggu) {
+          allSlotsHtml += binaJadualKspk3LajurHtml(rekod, namaGuru, m);
+        } else {
+          rekod.forEach(function(s, idx) {
+            allSlotsHtml += `
+              <div style="border: 1px solid #334155; border-radius: 4px; margin-bottom: 8px; page-break-inside: avoid;">
+                <div style="background-color: #f8fafc; border-bottom: 1px solid #cbd5e1; padding: 3px 6px; font-size: 9px; font-weight: bold;">
+                  ${s.hari} (${s.tarikh || '-'}) | ${s.mula}-${s.tamat} | ${s.kelas} — ${s.subjek}
+                </div>
+                <div style="padding: 4px 6px; font-size: 8px;">
+                  <div><b>Tema/Tajuk:</b> ${s.temaTajuk || '-'}</div>
+                  <div><b>SK/SP:</b> ${s.sk} / ${s.sp}</div>
+                  <div><b>Objektif:</b> ${s.objektif || '-'}</div>
+                  <div><b>Refleksi:</b> ${s.refleksi || 'Murid menguasai kemahiran pembelajaran yang ditetapkan.'}</div>
+                </div>
+              </div>
+            `;
+          });
+        }
       }
     }
 
@@ -1108,8 +1431,10 @@ function janaKompilasiBulananPdfBackend(payload) {
 <head>
   <meta charset="utf-8">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
     @page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
-    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.3; }
+    body { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.4; }
+    .font-jawi { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', serif; direction: rtl; text-align: right; line-height: 2.0; font-size: 10px; }
     .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 10px; }
     .header h2 { font-size: 11px; margin: 0 0 2px 0; text-transform: uppercase; color: #0f172a; font-weight: 800; }
     .header p { font-size: 9px; margin: 0; font-weight: bold; color: #334155; text-transform: uppercase; }

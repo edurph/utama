@@ -173,6 +173,7 @@ function sahkanDanSimpanProfil(maklumatGuru) {
     var emel = String(maklumatGuru.emel || "").trim().toLowerCase();
     var sekolah = String(maklumatGuru.sekolah || "").trim();
     var sesi = String(maklumatGuru.sesi || "2026 / 2027").trim();
+    var aliran = String(maklumatGuru.aliran || "PERDANA").trim().toUpperCase();
 
     // 1. Validasi Input Mandatori
     if (!nama) {
@@ -218,7 +219,7 @@ function sahkanDanSimpanProfil(maklumatGuru) {
         if (rowStatus === "SEKAT" || rowStatus === "BLOCKED" || rowStatus === "INACTIVE" || rowStatus === "DIGANTUNG") {
           return {
             status: 'DENIED',
-            message: 'Akses disekat: Kebenaran langganan bagi akaun (' + emel + ') ini telah ditamatkan atau digantung.'
+            message: 'Akses tidak aktif: Rekod akaun pendidik (' + emel + ') ini telah dinyahaktifkan atau ditamatkan. Sila rujuk pihak pentadbir sekolah.'
           };
         }
         isWhitelisted = true;
@@ -246,17 +247,17 @@ function sahkanDanSimpanProfil(maklumatGuru) {
       }
     }
 
-    // Jika emel tiada dalam senarai whitelist
+    // Jika emel tiada dalam rekod pendidik berdaftar
     if (!isWhitelisted) {
       return {
         status: 'DENIED',
-        message: 'Akses ditolak: Emel DELIMa anda (' + emel + ') belum didaftarkan dalam senarai langganan/kebenaran.'
+        message: 'Pengesahan tidak berjaya: Emel DELIMa anda (' + emel + ') belum didaftarkan dalam rekod pendidik berdaftar sekolah. Sila hubungi pentadbir sekolah.'
       };
     }
 
     // 3. Akses / Cipta Tab 2: 'Rekod_Profil'
     var sheetProfil = dapatkanAtauCiptaSheet(ss, "Rekod_Profil",
-      ["Tarikh_Masa", "Nama_Penuh", "Emel", "Kod_Nama_Sekolah", "Sesi_Tahun", "Kemaskini_Terakhir"]
+      ["Tarikh_Masa", "Nama_Penuh", "Emel", "Kod_Nama_Sekolah", "Sesi_Tahun", "Kemaskini_Terakhir", "Aliran"]
     );
 
     var dataProfil = sheetProfil.getDataRange().getValues();
@@ -277,8 +278,9 @@ function sahkanDanSimpanProfil(maklumatGuru) {
       sheetProfil.getRange(rowIndexProfil, 4).setValue(sekolah);
       sheetProfil.getRange(rowIndexProfil, 5).setValue(sesi);
       sheetProfil.getRange(rowIndexProfil, 6).setValue(nowStr);
+      sheetProfil.getRange(rowIndexProfil, 7).setValue(aliran);
     } else {
-      sheetProfil.appendRow([nowStr, nama, emel, sekolah, sesi, nowStr]);
+      sheetProfil.appendRow([nowStr, nama, emel, sekolah, sesi, nowStr, aliran]);
     }
 
     return {
@@ -289,7 +291,8 @@ function sahkanDanSimpanProfil(maklumatGuru) {
         emel: emel,
         sekolah: sekolah,
         sesi: sesi,
-        peranan: whitelistedRole
+        peranan: whitelistedRole,
+        aliran: aliran
       }
     };
   } catch (err) {
@@ -314,7 +317,8 @@ function ambilProfilGuru(emel) {
           nama: String(data[i][1] || "").trim(),
           emel: eClean,
           sekolah: String(data[i][3] || "").trim(),
-          sesi: String(data[i][4] || "2026 / 2027").trim()
+          sesi: String(data[i][4] || "2026 / 2027").trim(),
+          aliran: String(data[i][6] || "PERDANA").trim().toUpperCase()
         };
       }
     }
@@ -1182,8 +1186,10 @@ function janaPdfMingguanBackend(minggu, emel) {
 <head>
   <meta charset="utf-8">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
     @page { size: A4 portrait; margin: 10mm 8mm 10mm 8mm; }
-    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.35; }
+    body { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.4; }
+    .font-jawi { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', serif; direction: rtl; text-align: right; line-height: 2.0; font-size: 10px; }
     .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 5px; margin-bottom: 8px; }
     .header h2 { font-size: 11px; margin: 0 0 2px 0; text-transform: uppercase; color: #0f172a; font-weight: 800; }
     .header p { font-size: 8.5px; margin: 0; font-weight: bold; color: #334155; text-transform: uppercase; }
@@ -1425,8 +1431,10 @@ function janaKompilasiBulananPdfBackend(payload) {
 <head>
   <meta charset="utf-8">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
     @page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
-    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.3; }
+    body { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; color: #111827; margin: 0; line-height: 1.4; }
+    .font-jawi { font-family: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', serif; direction: rtl; text-align: right; line-height: 2.0; font-size: 10px; }
     .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 10px; }
     .header h2 { font-size: 11px; margin: 0 0 2px 0; text-transform: uppercase; color: #0f172a; font-weight: 800; }
     .header p { font-size: 9px; margin: 0; font-weight: bold; color: #334155; text-transform: uppercase; }
