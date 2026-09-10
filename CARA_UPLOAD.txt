@@ -1,0 +1,32 @@
+﻿================================================================================
+   CARA MUAT NAIK FAIL KE GITHUB (https://github.com/edurph/utama)
+================================================================================
+
+Langkah 1: Buka pelayar web dan layari repositori baharu anda:
+ðŸ‘‰ https://github.com/edurph/utama
+
+Langkah 2: Klik butang [Add file] di penjuru atas kanan senarai fail, 
+kemudian pilih [Upload files].
+
+Langkah 3: Buka folder ini di Desktop:
+FAIL_UPLOAD_GITHUB_RPH
+
+Pilih fail-fail berikut dan SERET (DRAG & DROP) ke dalam kotak GitHub:
+1. index.html            <-- (WAJIB: Membuka Web App secara skrin penuh & sembunyikan URL script)
+2. manifest.json         <-- (Untuk jadikan aplikasi telefon PWA)
+3. sw.js                 <-- (Service worker PWA)
+4. icon-192.png          <-- (Logo baharu saiz 192px)
+5. icon-512.png          <-- (Logo baharu saiz 512px)
+6. logo_erph_2026.jpg    <-- (Logo asal resolusi tinggi)
+7. Code.gs               <-- (Backend Google Apps Script terkini)
+8. Index_GAS.html        <-- (Frontend Google Apps Script terkini)
+9. README.md             <-- (Halaman penerangan GitHub)
+10. PANDUAN_SETUP_GOOGLE_SHEETS.md
+
+Langkah 4: Di bahagian bawah halaman GitHub, klik butang hijau [Commit changes].
+
+Langkah 5: Buka pautan laman web rasmi baharu anda di telefon atau komputer:
+ðŸ‘‰ https://edurph.github.io/utama/
+
+Aplikasi anda akan terus aktif dengan URL https://edurph.github.io/utama/ dan URL Google Apps Script tersembunyi sepenuhnya!
+================================================================================
