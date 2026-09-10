@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>e-RPH Digital 2026</title>
+  
+  <!-- Tetapan PWA Standalone (Sorok Bar Browser di Telefon) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#312e81">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="e-RPH 2026">
+  <link rel="apple-touch-icon" href="icon-512.png">
+  <link rel="icon" type="image/png" href="icon-192.png">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #312e81;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    #pwaFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    #loadingScreen {
+      position: fixed;
+      inset: 0;
+      background: #312e81;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.4s ease;
+    }
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: #fbbf24;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Skrin Memuatkan (Splash Screen dengan Logo Baharu) -->
+  <div id="loadingScreen">
+    <img src="icon-192.png" style="width: 84px; height: 84px; object-fit: contain; margin-bottom: 16px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35)); border-radius: 20px;" alt="Logo e-RPH 2026">
+    <div class="spinner"></div>
+    <div style="font-weight: 800; font-size: 17px; letter-spacing: 0.5px;">e-RPH DIGITAL 2026</div>
+    <div style="font-size: 12px; opacity: 0.85; margin-top: 5px;">Menghubungkan sistem...</div>
+  </div>
+
+  <!-- 2. Iframe Web App dengan Sambungan Rasmi Google Apps Script (URL Tersembunyi) -->
+  <iframe id="pwaFrame"
+          src="https://script.google.com/macros/s/AKfycbzuYfWhSd4Qqv2p_iVQq97mLQq3N2aiijUWCi46tdFygCt7aOEM_ZkfeVV_SPPqpbw/exec"
+          allow="geolocation *; camera *; microphone *"
+          onload="hilangkanLoading()">
+  </iframe>
+
+  <script>
+    function hilangkanLoading() {
+      const loader = document.getElementById('loadingScreen');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.display = 'none'; }, 400);
+      }
+    }
+
+    // Daftarkan Service Worker untuk sokongan PWA Automatik
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('PWA Service Worker didaftarkan!', reg))
+          .catch(err => console.log('Ralat pendaftaran SW:', err));
+      });
+    }
+
+    // Had masa maksima keselamatan: Hilangkan loading screen selepas 4 saat jika talian perlahan
+    setTimeout(hilangkanLoading, 4000);
+  </script>
+</body>
+</html>
