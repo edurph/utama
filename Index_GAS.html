@@ -293,10 +293,15 @@
         <!-- Senarai Slot Hari Dipilih -->
         <div id="senaraiSlotHari" class="space-y-3 pt-1"></div>
 
-        <!-- Butang Tambah Slot -->
-        <button type="button" onclick="tambahSlotBaharu()" class="w-full py-2.5 border-2 border-dashed border-slate-300 hover:border-indigo-400 rounded-2xl text-[11px] font-bold text-slate-600 hover:text-indigo-600 transition flex items-center justify-center gap-1.5 bg-slate-50/50">
-          <span>&#10133;</span> <span>Tambah Kelas Pada Hari Ini</span>
-        </button>
+        <!-- Butang Tambah Slot & Butang Templat KSPK Prasekolah -->
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="tambahSlotBaharu()" class="flex-1 py-2.5 border-2 border-dashed border-slate-300 hover:border-indigo-400 rounded-2xl text-[11px] font-bold text-slate-600 hover:text-indigo-600 transition flex items-center justify-center gap-1.5 bg-slate-50/50">
+            <span>&#10133;</span> <span>Tambah Kelas Pada Hari Ini</span>
+          </button>
+          <button type="button" onclick="muatTemplatJadualKspk()" id="btnTemplatKspk" title="Muat 7 slot jadual harian prasekolah automatik (08:00 - 11:30)" class="py-2.5 px-3 border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-2xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <span>🧸</span> <span>Templat KSPK (7 Slot)</span>
+          </button>
+        </div>
       </div>
 
       <!-- Tindakan Jana & Cetakan Mingguan -->
@@ -1283,7 +1288,12 @@ var SUBJEK_PERDANA = [
 
       if (padanPiawai.length > 0) return padanPiawai;
 
-      // 3. Fallback jika subjek tiada dalam senarai khusus
+      // 3. Pilihan Piawai KSPK Prasekolah
+      if (isPra) {
+        return dapatkanDskpKhususPrasekolah(subjek);
+      }
+
+      // 4. Fallback jika subjek tiada dalam senarai khusus
       var fbTema = (isDlp && (isMath || isScience)) ? "Holistic Education" : "Pendidikan Holistik";
       var fbTajuk = (isDlp && (isMath || isScience)) ? ("Mastery of Concepts & Skills in " + subjek) : ("Penguasaan Konsep & Kemahiran " + subjek);
       var fbSk = (isDlp && (isMath || isScience)) ? "1.1 Content Standard according to MOE DSKP" : "1.1 Standard Kandungan mengikut DSKP Kementerian Pendidikan Malaysia";
@@ -1298,6 +1308,65 @@ var SUBJEK_PERDANA = [
           sk: fbSk,
           sp: fbSp
         }
+      ];
+    }
+
+    function dapatkanDskpKhususPrasekolah(subjek) {
+      var subClean = String(subjek || "").trim().toUpperCase();
+      if (subClean.includes("PERBUALAN")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Rutin & Pengurusan Kelas", tajuk: "Rutin Pagi & Perbualan Bertema", sk: "KD 2.3 Membina keyakinan untuk berkomunikasi", sp: "KD 2.3.3 Berinteraksi dengan yakin dan berhemah" },
+          { subjek: subjek, tahun: "Pra", tema: "Sivik & Emosi", tajuk: "Perbualan Sivik & Luahan Perasaan", sk: "KD 1.1 Mengenali dan mengurus emosi sendiri", sp: "KD 1.1.5 Mengurus emosi dengan memilih tindakan yang sesuai" }
+        ];
+      }
+      if (subClean.includes("FIZIKAL")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Perkembangan Fizikal", tajuk: "Pergerakan Lokomotor & Kesedaran Ruang", sk: "FK 2.1 Meneroka pelbagai pergerakan lokomotor | Kesepaduan: KM 1.4.1", sp: "FK 2.1.2 Melakukan pergerakan lokomotor dan bukan lokomotor" },
+          { subjek: subjek, tahun: "Pra", tema: "Perkembangan Fizikal", tajuk: "Koordinasi & Ketangkasan Motor Kasar", sk: "FK 2.1 Meneroka pelbagai pergerakan | Kesepaduan: KD 2.3.3", sp: "FK 2.1.4 Melakukan pelbagai aktiviti melibatkan koordinasi dan kawalan badan" }
+        ];
+      }
+      if (subClean.includes("MELAYU")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Literasi Awal", tajuk: "Baca-Cantum-Salin Suku Kata Terbuka & Tertutup", sk: "BM 2.2 Mengenal huruf dan membaca perkataan | Kesepaduan: KM 1.4.1", sp: "BM 2.2.3 Mengenal dan membaca perkataan suku kata terbuka dan tertutup" },
+          { subjek: subjek, tahun: "Pra", tema: "Literasi Awal", tajuk: "Menyalin Perkataan & Ayat Mudah", sk: "BM 3.2 Menguasai kemahiran menulis | Kesepaduan: KD 2.3.3", sp: "BM 3.2.7 Menyalin perkataan, frasa dan ayat mudah dengan betul" }
+        ];
+      }
+      if (subClean.includes("INGGERIS") || subClean.includes("ENGLISH")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Early Literacy", tajuk: "Phonics & Sight Words Exploration", sk: "BI 2.2 Apply sounds of letters to recognise words | Integration: KM 1.4.1", sp: "BI 2.2.5 Recognise and sound out letters of the alphabet" },
+          { subjek: subjek, tahun: "Pra", tema: "Early Literacy", tajuk: "Writing Simple Phrases & Greeting Words", sk: "BI 3.2 Develop writing skills | Integration: KD 2.3.3", sp: "BI 3.2.4 Copy familiar words and phrases neatly in legible print" }
+        ];
+      }
+      if (subClean.includes("MATEMATIK") || subClean.includes("MATH")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Awal Matematik", tajuk: "Penerokaan Nombor & Membilang Objek 1-10", sk: "MA 2.1 Memahami nombor 1 hingga 10 | Kesepaduan: FK 2.1.4", sp: "MA 2.1.4 Membilang objek dan memadankan dengan nombor yang betul" },
+          { subjek: subjek, tahun: "Pra", tema: "Awal Matematik", tajuk: "Bentuk & Ruang di Persekitaran Kita", sk: "MA 6.2 Mengetahui bentuk geometri | Kesepaduan: KE 3.3.1", sp: "MA 6.2.2 Mengecam dan menamakan bentuk bulat, segitiga dan segiempat" }
+        ];
+      }
+      if (subClean.includes("PEMBELAJARAN") || subClean.includes("AP")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Kemanusiaan & Seni Kreatif", tajuk: "Peta Lipat Malaysia & Negeri Saya", sk: "KM 1.4 Mengetahui tentang negara Malaysia | Kesepaduan: KE 3.3.1", sp: "KM 1.4.1 Mengenali identiti dan lambang negara" },
+          { subjek: subjek, tahun: "Pra", tema: "Sains Awal", tajuk: "Penerokaan Deria & Sifat Bahan", sk: "SA 2.1 Membuat pemerhatian menggunakan deria | Kesepaduan: KD 2.3.3", sp: "SA 2.1.1 Memerhati persekitaran menggunakan gabungan deria" }
+        ];
+      }
+      if (subClean.includes("REHAT")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Kesihatan & Kebersihan", tajuk: "Amalan Mencuci Tangan & Adab Makan Tertib", sk: "FK 5.1 Mengamalkan kebersihan diri dan persekitaran", sp: "FK 5.1.7 Mempraktikkan cara mencuci tangan dan adab makan yang betul" }
+        ];
+      }
+      if (subClean.includes("ISLAM") || subClean.includes("MORAL")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Kerohanian & Nilai Murni", tajuk: "Hormat Rakyat Malaysia & Bertutur Sopan", sk: "PM 1.3 Menyedari amalan nilai murni | Kesepaduan: KM 1.4.2", sp: "PM 2.2.3 Menunjukkan pertuturan dan perlakuan yang sopan terhadap orang lain" },
+          { subjek: subjek, tahun: "Pra", tema: "Kerohanian & Nilai Murni", tajuk: "Amalan Bertolak Ansur & Kerjasama Kumpulan", sk: "PM 14.1 Mengamalkan sikap bertoleransi dalam pergaulan", sp: "PM 14.1.2 Menunjukkan kesabaran mengikuti giliran dan berkongsi alatan" }
+        ];
+      }
+      if (subClean.includes("PENUTUP")) {
+        return [
+          { subjek: subjek, tahun: "Pra", tema: "Refleksi Harian", tajuk: "Refleksi Pembelajaran & Pesanan Sebelum Pulang", sk: "KD 2.3 Membina keyakinan untuk berkomunikasi", sp: "KD 2.3.5 Menunjukkan kebolehan sendiri melalui pelbagai kaedah" }
+        ];
+      }
+      return [
+        { subjek: subjek, tahun: "Pra", tema: "Pendidikan Prasekolah KSPK", tajuk: "Penerokaan Konsep & Kemahiran Awal", sk: "KD 2.3 Standard Pembelajaran KSPK", sp: "KD 2.3.3 Menguasai kemahiran pembelajaran berasaskan potensi murid" }
       ];
     }
 
@@ -1324,6 +1393,54 @@ var SUBJEK_PERDANA = [
       "Oktober": ["Minggu 37", "Minggu 38", "Minggu 39", "Minggu 40"],
       "November": ["Minggu 41", "Minggu 42", "Minggu 43"],
       "Disember": ["Minggu 44", "Minggu 45"]
+    };
+
+    var SENARAI_TEMA_KSPK_MINGGUAN = {
+      "Minggu 1": "Orientasi / Perihal Diri Saya",
+      "Minggu 2": "Anggota Badan Saya",
+      "Minggu 3": "Kebersihan & Kesihatan Diri",
+      "Minggu 4": "Keluarga Saya",
+      "Minggu 5": "Rumah Saya",
+      "Minggu 6": "Sekolah Saya",
+      "Minggu 7": "Rakan Sebaya & Komuniti Sekolah",
+      "Minggu 8": "Emosi & Kasih Sayang",
+      "Minggu 9": "Keselamatan Diri & Persekitaran",
+      "Minggu 10": "Makanan & Minuman Berkhasiat",
+      "Minggu 11": "Pakaian & Aksesori Tradisional",
+      "Minggu 12": "Kebersihan Persekitaran & Bumi Hijau",
+      "Minggu 13": "Haiwan Jinak & Peliharaan",
+      "Minggu 14": "Haiwan Liar & Safari",
+      "Minggu 15": "Haiwan di Air",
+      "Minggu 16": "Serangga & Hidupan Kecil",
+      "Minggu 17": "Tumbuh-tumbuhan & Pokok Bunga",
+      "Minggu 18": "Buah-buahan Tempatan",
+      "Minggu 19": "Sayur-sayuran Segar",
+      "Minggu 20": "Malaysia & Negeri Saya (Bulan Kebangsaan)",
+      "Minggu 21": "Kemerdekaan & Lambang Negara",
+      "Minggu 22": "Kenderaan Darat",
+      "Minggu 23": "Kenderaan Udara & Air",
+      "Minggu 24": "Kemudahan Awam",
+      "Minggu 25": "Pekerjaan Beruniform / Ibu Bapa",
+      "Minggu 26": "Lagu & Muzik Tradisional Malaysia",
+      "Minggu 27": "Seni Kraf & Permainan Tradisional",
+      "Minggu 28": "Bentuk & Ruang di Sekeliling Kita",
+      "Minggu 29": "Warna & Corak Kreatif",
+      "Minggu 30": "Cuaca & Fenomena Alam",
+      "Minggu 31": "Air & Pasir (Eksplorasi Deria)",
+      "Minggu 32": "Cahaya & Bayang-bayang",
+      "Minggu 33": "Dunia Teknologi & Komunikasi Awal",
+      "Minggu 34": "Angkasa Lepas & Sistem Suria",
+      "Minggu 35": "Perayaan di Malaysia",
+      "Minggu 36": "Sopan Santun & Budi Bahasa Budaya Kita",
+      "Minggu 37": "Persediaan ke Tahun 1 (Transisi)",
+      "Minggu 38": "Bakat Saya & Apresiasi Seni",
+      "Minggu 39": "Sukaneka & Kecergasan Fizikal",
+      "Minggu 40": "Graduasi & Hari Terbuka Prasekolah",
+      "Minggu 41": "Aktiviti Pengukuhan & Didik Hibur",
+      "Minggu 42": "Pemulihan & Pengayaan Awal",
+      "Minggu 43": "Kem Bestari Solat / Penghayatan Nilai",
+      "Minggu 44": "Projek Inovasi Cilik",
+      "Minggu 45": "Rumusan & Kenangan Manis Prasekolah"
     };
 
     var JADUAL_DEFAULT = {
@@ -2397,6 +2514,98 @@ var SUBJEK_PERDANA = [
       renderSlotHari(hariSemasaDipilih);
     }
 
+    function muatTemplatJadualKspk() {
+      var hari = hariSemasaDipilih || "1. Isnin";
+      var namaKelasPra = (SENARAI_KELAS_CUSTOM || []).find(function(k){ return String(k).toUpperCase().includes("PRA"); }) || "Pra Bestari";
+      
+      var temaPilihan = "Malaysia & Negeri Saya";
+      var selM = document.getElementById('selMinggu');
+      if (selM && selM.value && typeof SENARAI_TEMA_KSPK_MINGGUAN !== "undefined" && SENARAI_TEMA_KSPK_MINGGUAN[selM.value]) {
+        temaPilihan = SENARAI_TEMA_KSPK_MINGGUAN[selM.value];
+      }
+
+      var promptHtml = `
+        <div class="text-left text-xs space-y-3">
+          <p class="text-slate-600">Pilih skop muat templat jadual harian 7 slot KSPK (08:00 - 11:30):</p>
+          <div class="space-y-1">
+            <label class="font-bold text-slate-700">Nama Kelas Prasekolah:</label>
+            <input type="text" id="swalInpKelasPra" value="${escapeHtmlAttr(namaKelasPra)}" class="w-full border border-slate-300 rounded-lg p-2 font-bold text-xs outline-none focus:border-indigo-500" />
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-slate-700">Tema Mingguan Prasekolah:</label>
+            <input type="text" id="swalInpTemaPra" value="${escapeHtmlAttr(temaPilihan)}" class="w-full border border-slate-300 rounded-lg p-2 font-bold text-xs outline-none focus:border-indigo-500" />
+          </div>
+        </div>
+      `;
+
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          title: '🧸 Muat Templat KSPK Prasekolah',
+          html: promptHtml,
+          showCancelButton: true,
+          showDenyButton: true,
+          confirmButtonColor: '#4f46e5',
+          denyButtonColor: '#059669',
+          cancelButtonColor: '#64748b',
+          confirmButtonText: 'Muat Hari Ini Sahaja (' + hari.split('.')[1].trim() + ')',
+          denyButtonText: 'Muat Sepenuh Minggu (Isnin - Jumaat)',
+          cancelButtonText: 'Batal',
+          preConfirm: function() {
+            var k = document.getElementById('swalInpKelasPra').value.trim() || "Pra Bestari";
+            var t = document.getElementById('swalInpTemaPra').value.trim() || "Malaysia & Negeri Saya";
+            return { kelas: k, tema: t };
+          }
+        }).then(function(result) {
+          if (result.isConfirmed || result.isDenied) {
+            var val = result.value || { kelas: namaKelasPra, tema: temaPilihan };
+            var k = val.kelas;
+            var t = val.tema;
+            simpanKelasKeStorage(k);
+
+            var buatSlotKspk = function() {
+              return [
+                { mula: "08:00", tamat: "08:20", kelas: k, tahun: "Pra", subjek: "Perbualan Awal", tema: t, tajuk: "Rutin Pagi & Perbualan Bertema", sk: "KD 2.3 Membina keyakinan untuk berkomunikasi", sp: "KD 2.3.3 Berinteraksi dengan yakin dan berhemah" },
+                { mula: "08:20", tamat: "08:50", kelas: k, tahun: "Pra", subjek: "Aktiviti Fizikal", tema: t, tajuk: "Pergerakan Lokomotor & Kesedaran Ruang", sk: "FK 2.1 Meneroka pelbagai pergerakan lokomotor | Kesepaduan: KM 1.4.1", sp: "FK 2.1.2 Melakukan pergerakan lokomotor dan bukan lokomotor" },
+                { mula: "08:50", tamat: "09:30", kelas: k, tahun: "Pra", subjek: "Bahasa Melayu", tema: t, tajuk: "Baca-Cantum-Salin Suku Kata", sk: "BM 2.2 Mengenal huruf dan membaca perkataan | Kesepaduan: KM 1.4.1", sp: "BM 2.2.3 Mengenal dan membaca perkataan suku kata terbuka dan tertutup" },
+                { mula: "09:30", tamat: "10:10", kelas: k, tahun: "Pra", subjek: "Aktiviti Pembelajaran", tema: t, tajuk: "Peta Lipat Malaysia & Negeri Saya", sk: "KM 1.4 Mengetahui tentang negara Malaysia | Kesepaduan: KE 3.3.1", sp: "KM 1.4.1 Mengenali identiti dan lambang negara" },
+                { mula: "10:10", tamat: "10:40", kelas: k, tahun: "Pra", subjek: "Rehat", tema: t, tajuk: "Amalan Kebersihan & Adab Makan Tertib", sk: "FK 5.1 Mengamalkan kebersihan diri dan persekitaran", sp: "FK 5.1.7 Mempraktikkan cara mencuci tangan dan adab makan yang betul" },
+                { mula: "10:40", tamat: "11:20", kelas: k, tahun: "Pra", subjek: "Pendidikan Islam / Pendidikan Moral", tema: t, tajuk: "Hormat Rakyat Malaysia & Bertutur Sopan", sk: "PM 1.3 Menyedari amalan nilai murni dalam kehidupan | Kesepaduan: KM 1.4.2", sp: "PM 2.2.3 Menunjukkan pertuturan dan perlakuan yang sopan terhadap orang lain" },
+                { mula: "11:20", tamat: "11:30", kelas: k, tahun: "Pra", subjek: "Penutup", tema: t, tajuk: "Refleksi Pembelajaran & Rumusan Harian", sk: "KD 2.3 Membina keyakinan untuk berkomunikasi", sp: "KD 2.3.5 Menunjukkan kebolehan sendiri melalui pelbagai kaedah" }
+              ];
+            };
+
+            if (result.isConfirmed) {
+              JADUAL_AKTIF[hari] = buatSlotKspk();
+            } else if (result.isDenied) {
+              var semuaHari = ["1. Isnin", "2. Selasa", "3. Rabu", "4. Khamis", "5. Jumaat"];
+              semuaHari.forEach(function(h) {
+                JADUAL_AKTIF[h] = buatSlotKspk();
+              });
+            }
+
+            inisialisasiSemuaSlotJadual(JADUAL_AKTIF);
+            renderSlotHari(hari);
+            simpanJadualKeLocalStorage();
+
+            paparMesej("Berjaya", "7 Slot Piawai KSPK Prasekolah telah dimuatkan dengan Tema: " + t, "success");
+          }
+        });
+      } else {
+        JADUAL_AKTIF[hari] = [
+          { mula: "08:00", tamat: "08:20", kelas: namaKelasPra, tahun: "Pra", subjek: "Perbualan Awal", tema: temaPilihan, tajuk: "Rutin Pagi & Perbualan Bertema", sk: "KD 2.3 Membina keyakinan", sp: "KD 2.3.3 Berinteraksi berhemah" },
+          { mula: "08:20", tamat: "08:50", kelas: namaKelasPra, tahun: "Pra", subjek: "Aktiviti Fizikal", tema: temaPilihan, tajuk: "Pergerakan Lokomotor", sk: "FK 2.1 | Kesepaduan: KM 1.4.1", sp: "FK 2.1.2 Lokomotor" },
+          { mula: "08:50", tamat: "09:30", kelas: namaKelasPra, tahun: "Pra", subjek: "Bahasa Melayu", tema: temaPilihan, tajuk: "Baca-Cantum-Salin", sk: "BM 2.2 | Kesepaduan: KM 1.4.1", sp: "BM 2.2.3 Suku kata" },
+          { mula: "09:30", tamat: "10:10", kelas: namaKelasPra, tahun: "Pra", subjek: "Aktiviti Pembelajaran", tema: temaPilihan, tajuk: "Penerokaan Seni & Tema", sk: "KM 1.4 | Kesepaduan: KE 3.3.1", sp: "KM 1.4.1 Identiti negara" },
+          { mula: "10:10", tamat: "10:40", kelas: namaKelasPra, tahun: "Pra", subjek: "Rehat", tema: temaPilihan, tajuk: "Adab Makan & Kebersihan", sk: "FK 5.1", sp: "FK 5.1.7 Adab makan" },
+          { mula: "10:40", tamat: "11:20", kelas: namaKelasPra, tahun: "Pra", subjek: "Pendidikan Islam / Pendidikan Moral", tema: temaPilihan, tajuk: "Amalan Hormat & Sopan", sk: "PM 1.3 | Kesepaduan: KM 1.4.2", sp: "PM 2.2.3 Tutur sopan" },
+          { mula: "11:20", tamat: "11:30", kelas: namaKelasPra, tahun: "Pra", subjek: "Penutup", tema: temaPilihan, tajuk: "Refleksi & Bersurai", sk: "KD 2.3", sp: "KD 2.3.5 Refleksi kendiri" }
+        ];
+        inisialisasiSemuaSlotJadual(JADUAL_AKTIF);
+        renderSlotHari(hari);
+        simpanJadualKeLocalStorage();
+      }
+    }
+
     function buangSlot(hari, idx) {
       JADUAL_AKTIF[hari].splice(idx, 1);
       renderSlotHari(hari);
@@ -2978,6 +3187,7 @@ var SUBJEK_PERDANA = [
                   <tr class="border-b border-slate-200"><td class="py-2 px-3 font-bold text-slate-700 bg-slate-50 text-[11px]">OBJEKTIF</td><td class="py-2 px-3 text-slate-800">${i.objektif || '-'}</td></tr>
                   <tr class="border-b border-slate-200"><td class="py-2 px-3 font-bold text-slate-700 bg-slate-50 text-[11px]">AKTIVITI PdP</td><td class="py-2 px-3 text-slate-800 leading-relaxed">${formatAktivitiHtml(i.aktiviti)}</td></tr>
                   <tr class="border-b border-slate-200"><td class="py-2 px-3 font-bold text-slate-700 bg-slate-50 text-[11px]">BBM &amp; KBAT</td><td class="py-2 px-3 text-slate-800">${i.bbmNilaiKbat || '-'}</td></tr>
+                  ${i.kriteriaKejayaan ? `<tr class="border-b border-slate-200 bg-amber-50/40"><td class="py-2 px-3 font-bold text-amber-900 bg-amber-50/60 text-[11px]">PEMBELAJARAN TERBEZA</td><td class="py-2 px-3 text-slate-800 font-medium leading-relaxed">${formatAktivitiHtml(i.kriteriaKejayaan)}</td></tr>` : ''}
                   <tr>
                     <td class="py-2.5 px-3 font-bold text-slate-700 bg-slate-50 text-[11px] align-top">REFLEKSI GURU</td>
                     <td class="py-2.5 px-3 text-slate-800 space-y-2">
