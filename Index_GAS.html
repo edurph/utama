@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
@@ -152,7 +152,7 @@
           <div class="space-y-1 text-left">
             <label class="text-[11px] font-bold text-slate-700 block">&#128231; Emel Rasmi / DELIMa <span class="text-rose-500">*</span></label>
             <input type="email" id="txtEmelProfil" placeholder="Cth: pendidik@moe-dl.edu.my" class="w-full bg-slate-50 border-2 border-slate-200 focus:border-indigo-600 focus:bg-white rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 outline-none transition" />
-            <p class="text-[10px] text-slate-400">Gunakan emel rasmi DELIMa yang telah didaftarkan dalam sistem e-RPH sekolah.</p>
+            <p class="text-[10px] text-slate-400">Gunakan emel rasmi DELIMa untuk perkongsian fail di Google Drive.</p>
           </div>
         </div>
 
@@ -202,33 +202,87 @@
           </div>
         </div>
 
+        <!-- Tetapan Kurikulum & Maklumat Kelas (Subjek, Tahun/Darjah, Nama Kelas) -->
+        <div class="pt-2 border-t border-slate-100 space-y-3">
+          <div class="text-xs font-black text-indigo-900 flex items-center gap-1.5">
+            <span>ðŸ“š</span> <span>Maklumat Kurikulum &amp; Bilik Darjah:</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Mata Pelajaran (Subjek) -->
+            <div class="space-y-1 text-left">
+              <label class="text-[11px] font-bold text-slate-700 block">&#128218; Mata Pelajaran (Subjek) <span class="text-rose-500">*</span></label>
+              <select id="selSubjekProfil" class="w-full bg-slate-50 border-2 border-slate-200 focus:border-indigo-600 focus:bg-white rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 outline-none transition">
+                <option value="Bahasa Melayu" selected>Bahasa Melayu</option>
+                <option value="Bahasa Inggeris">Bahasa Inggeris</option>
+                <option value="Matematik">Matematik</option>
+                <option value="Sains">Sains</option>
+                <option value="Pendidikan Islam">Pendidikan Islam</option>
+                <option value="Pendidikan Jasmani dan Pendidikan Kesihatan (PJPK)">Pendidikan Jasmani &amp; Kesihatan (PJPK)</option>
+                <option value="Pendidikan Seni Visual (PSV)">Pendidikan Seni Visual (PSV)</option>
+                <option value="Pendidikan Muzik">Pendidikan Muzik</option>
+                <option value="Sejarah">Sejarah</option>
+                <option value="Reka Bentuk dan Teknologi (RBT)">Reka Bentuk &amp; Teknologi (RBT)</option>
+                <option value="Pendidikan Moral">Pendidikan Moral</option>
+                <option value="Bahasa Arab">Bahasa Arab</option>
+                <option value="Prasekolah (KSPK Rutin & Pembelajaran)">Prasekolah (KSPK Rutin &amp; Pembelajaran)</option>
+                <option value="Pendidikan Khas (PPKI)">Pendidikan Khas (PPKI)</option>
+              </select>
+            </div>
+
+            <!-- Tahun / Darjah (DSKP) -->
+            <div class="space-y-1 text-left">
+              <label class="text-[11px] font-bold text-slate-700 block">&#127979; Tahun / Darjah (DSKP) <span class="text-rose-500">*</span></label>
+              <select id="selTahunProfil" onchange="kemaskiniTahunProfilUi()" class="w-full bg-slate-50 border-2 border-slate-200 focus:border-indigo-600 focus:bg-white rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 outline-none transition">
+                <option value="Tahun 1">Tahun 1</option>
+                <option value="Tahun 2">Tahun 2</option>
+                <option value="Tahun 3">Tahun 3</option>
+                <option value="Tahun 4" selected>Tahun 4</option>
+                <option value="Tahun 5">Tahun 5</option>
+                <option value="Tahun 6">Tahun 6</option>
+                <option value="Prasekolah">Prasekolah</option>
+                <option value="Pendidikan Khas">Pendidikan Khas (PPKI)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Nama Penuh Kelas (Boleh Taip) -->
+          <div class="space-y-1 text-left">
+            <label class="text-[11px] font-bold text-slate-700 block">&#127979; Nama Penuh Kelas (Boleh Taip) <span class="text-rose-500">*</span></label>
+            <input type="text" id="txtKelasProfil" value="4 USM" placeholder="Cth: 4 USM, 2 Arif, 1 Melur" oninput="this.value = this.value.toUpperCase();" style="text-transform: uppercase;" class="w-full bg-slate-50 border-2 border-indigo-400 focus:border-indigo-600 focus:bg-white rounded-xl px-3.5 py-2.5 text-xs font-black text-slate-800 outline-none transition shadow-2xs" />
+            <p class="text-[10px] text-slate-400">Awalan angka kelas akan diselaraskan mengikut Tahun yang dipilih secara automatik.</p>
+          </div>
+        </div>
+
         <!-- Butang Tindakan Sahkan Profil -->
-        <button type="button" onclick="prosesSahkanDanSimpanProfil()" id="btnSahkanProfil" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-black py-3.5 px-4 rounded-2xl text-xs shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 cursor-pointer">
-          <span id="txtBtnSahkan">Sahkan Profil &amp; Teruskan</span>
+        <button type="button" onclick="prosesSahkanDanSimpanProfil()" id="btnSahkanProfil" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-black py-3.5 px-4 rounded-2xl text-xs sm:text-sm shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 cursor-pointer">
+          <span id="txtBtnSahkan">Sahkan Maklumat &amp; Buka Jadual &gt;&gt;</span>
           <span id="spinnerSahkan" class="hidden text-sm animate-spin">&#9696;</span>
           <span id="ikonArrowSahkan">&#10148;</span>
         </button>
       </div>
 
       <!-- Ringkasan Profil Guru Setelah Disahkan -->
-      <div id="ringkasanProfilDisahkan" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between gap-3">
+      <div id="ringkasanProfilDisahkan" class="hidden bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center shadow-sm shrink-0" id="avatarDisahkan">CK</div>
-          <div class="space-y-0.5 text-left">
+          <div class="space-y-1 text-left">
             <div class="flex items-center gap-2 flex-wrap">
               <span class="text-xs font-black text-emerald-950" id="lblNamaDisahkan">-</span>
-              <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-extrabold uppercase">&#10004; Pendidik Berdaftar Sah</span>
+              <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-extrabold uppercase">&#10004; Maklumat Disahkan</span>
               <span class="text-[9px] bg-indigo-700 text-white px-2 py-0.5 rounded-full font-extrabold" id="badgeAliranDisahkan">&#127979; Aliran Perdana</span>
             </div>
-            <div class="text-[11px] text-emerald-800" id="lblEmelDanSekolahDisahkan">-</div>
+            <div class="text-[11px] font-bold text-emerald-900" id="lblSubjekTahunKelasDisahkan">
+              &#10003; Maklumat Disahkan: <span id="txtRingkasanSubjekKelas" class="font-extrabold text-indigo-950">-</span>
+            </div>
+            <div class="text-[10px] text-slate-500" id="lblEmelDanSekolahDisahkan">-</div>
           </div>
         </div>
-        <button type="button" onclick="tukarAtauResetProfil()" class="text-[11px] font-bold text-emerald-900 hover:text-rose-600 bg-white hover:bg-rose-50 border border-emerald-300 hover:border-rose-300 px-3 py-1.5 rounded-xl transition shrink-0 shadow-xs cursor-pointer">&#9998; Tukar Profil</button>
+        <button type="button" onclick="tukarAtauResetProfil()" class="text-[11px] font-bold text-emerald-900 hover:text-rose-600 bg-white hover:bg-rose-50 border border-emerald-300 hover:border-rose-300 px-3 py-1.5 rounded-xl transition shrink-0 shadow-xs cursor-pointer">&#9998; Ubah Maklumat</button>
       </div>
     </div>
   </div>
-
-  <!-- ==================== BANNER KUNCI (APABILA STEP 2 & 3 BELUM DISAHKAN) ==================== -->
+<!-- ==================== BANNER KUNCI (APABILA STEP 2 & 3 BELUM DISAHKAN) ==================== -->
   <div id="lockBannerStep2" class="max-w-2xl mx-auto px-3.5 sm:px-4 pt-3">
     <div class="bg-white rounded-3xl p-8 border-2 border-dashed border-slate-300 text-center space-y-3 shadow-xs">
       <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center text-2xl mx-auto shadow-xs">&#128274;</div>
@@ -246,8 +300,8 @@
   <!-- ==================== KONTAINER UTAMA e-RPH (LANGKAH 2: JADUAL aSc & JANA 40 MINGGU) ==================== -->
   <div id="kontainerUtamaErph" class="hidden max-w-6xl mx-auto px-3 sm:px-4 pt-3 space-y-4">
     
-    <!-- 1. KAD PROFIL GURU AKTIF & BUTANG LOG KELUAR -->
-    <div class="bg-white rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200 flex items-center justify-between gap-3">
+    <!-- 1. KAD PROFIL GURU & LOCKED CONTEXT BADGE (SUBJEK | TAHUN | KELAS) -->
+    <div class="bg-white rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center font-black text-indigo-700 text-sm shadow-inner shrink-0">
           <span id="avatarGuruInisial">CK</span>
@@ -266,12 +320,22 @@
         </div>
       </div>
 
-      <button type="button" onclick="logKeluarGuru()" title="Log Keluar / Tukar Profil Guru" class="text-[11px] font-bold text-slate-600 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 px-3 py-2 rounded-xl transition flex items-center gap-1 shrink-0 active:scale-95">
-        <span>🔓</span> <span class="hidden sm:inline">Tukar Profil</span>
-      </button>
+      <!-- LOCKED CONTEXT BADGE MENEPATI ARAHAN TUGAS -->
+      <div class="flex items-center gap-2 bg-gradient-to-r from-indigo-50 via-emerald-50 to-indigo-50 border-2 border-indigo-200 rounded-2xl px-3.5 py-2 shadow-2xs">
+        <div class="text-left space-y-0.5">
+          <div class="text-[9px] font-black uppercase tracking-wider text-indigo-800">ðŸ“Œ Konteks Kurikulum Aktif:</div>
+          <div id="lockedContextBadge" class="text-xs sm:text-sm font-black text-indigo-950 flex items-center gap-1.5 flex-wrap">
+            <span class="bg-indigo-600 text-white px-2 py-0.5 rounded-md text-[10px]" id="badgeHeaderSubjek">SUBJEK: -</span>
+            <span class="bg-emerald-600 text-white px-2 py-0.5 rounded-md text-[10px]" id="badgeHeaderTahun">TAHUN: -</span>
+            <span class="bg-slate-900 text-white px-2 py-0.5 rounded-md text-[10px]" id="badgeHeaderKelas">KELAS: -</span>
+          </div>
+        </div>
+        <button type="button" onclick="tukarAtauResetProfil()" class="ml-2 text-[10px] font-bold text-indigo-700 hover:text-indigo-900 underline bg-white border border-indigo-200 px-2.5 py-1 rounded-lg transition shadow-2xs cursor-pointer" title="Ubah Maklumat di Langkah 1">
+          Ubah
+        </button>
+      </div>
     </div>
-
-    <!-- 2. TAJUK SISTEM aSc POPUP TILES -->
+<!-- 2. TAJUK SISTEM aSc POPUP TILES -->
     <div class="text-center py-1">
       <h2 class="text-base sm:text-xl font-black text-slate-900 tracking-tight">
         SISTEM PENJANAAN RPH AUTO (POPUP TILES INTERAKTIF)
@@ -327,112 +391,107 @@
       </div>
     </div>
 
-    <!-- 6. BOTTOM ACTION BAR (KOTAK HIJAU RINGKASAN & BUTANG CTA JANA 40 MINGGU) -->
-    <div class="rounded-3xl border-2 border-emerald-500 bg-white p-4 sm:p-5 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="space-y-1.5 text-center md:text-left flex-1">
-        <div class="text-xs sm:text-sm font-black text-emerald-900 leading-snug">
-          Ringkasan RPH: Sistem akan menjana RPH 40 Minggu lengkap dengan Strategi i-THINK &amp; Pemulihan terpilih.
+    <!-- 6. BOTTOM ACTION BAR: GENERATE AND DOWNLOAD BUTTON -->
+    <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center text-xl shrink-0 shadow-2xs">
+          ðŸ“Š
         </div>
-        <p class="text-[11px] text-slate-500 leading-snug">
-          Format standard KPM / PPD | Sedia untuk dijana terus ke Google Sheets peribadi anda (Sequential DSKP Progression).
-        </p>
-        <div class="pt-1 flex items-center justify-center md:justify-start gap-2 flex-wrap">
-          <span class="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full text-xs font-black text-emerald-800 shadow-2xs">
-            <span>📊</span>
-            <span id="lblStatJadualSeminggu">0 Slot PdP Dipilih • 0 Minit (0.0 Jam) Seminggu</span>
-          </span>
+        <div class="text-left space-y-0.5">
+          <div class="text-xs sm:text-sm font-black text-slate-900" id="lblStatJadualSeminggu">
+            0 Slot PdP Dipilih &bull; 0 Minit (0.0 Jam) Seminggu
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium">
+            Dokumen Word (.docx) lengkap 40 minggu berserta Muka Depan &amp; DSKP KPM.
+          </p>
         </div>
       </div>
 
-      <div class="w-full md:w-auto shrink-0">
-        <button type="button" onclick="laksanaJanaRph40Minggu()" id="btnJana40Minggu" class="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black text-sm sm:text-base py-4 px-8 rounded-2xl shadow-xl shadow-emerald-600/25 transition flex items-center justify-center gap-2 cursor-pointer">
-          <span id="btnText40Minggu">JANA RPH 40 MINGGU &gt;&gt;</span>
+      <div class="w-full sm:w-auto shrink-0">
+        <button type="button" onclick="laksanaJanaRph40Minggu()" id="btnJana40Minggu" class="w-full sm:w-auto bg-gradient-to-r from-emerald-600 via-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-95 text-white font-black text-sm sm:text-base py-3.5 px-8 rounded-2xl shadow-lg shadow-emerald-600/25 transition flex items-center justify-center gap-2.5 cursor-pointer">
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          <span id="btnText40Minggu">Generate and download</span>
         </button>
       </div>
     </div>
 
   </div>
 
-  <!-- ==================== MODAL POPUP TETAPAN SLOT aSc (POPUP TILES) ==================== -->
+  <!-- ==================== MODAL POPUP TETAPAN SLOT aSc (MINIMALIST SCHEDULING) ==================== -->
   <div id="modalSlotAsc" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs z-50 hidden flex items-center justify-center p-3 sm:p-4">
-    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-150">
+    <div class="bg-white w-full max-w-lg max-h-[90vh] flex flex-col rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-150">
       
       <!-- Header Modal (Biru Gelap / Dark Navy Menepati Mockup) -->
-      <div class="px-5 py-4 bg-indigo-950 text-white flex items-center justify-between">
+      <div class="px-5 py-4 bg-indigo-950 text-white flex items-center justify-between shrink-0">
         <h3 id="modalSlotTajuk" class="text-xs sm:text-sm font-black tracking-wide truncate pr-2">
-          TETAPAN SLOT: ISNIN (10:10 - 11:10) [60 MINIT]
+          TETAPAN SLOT: ISNIN (07:40 - 08:40) [60 MINIT]
         </h3>
-        <button type="button" onclick="tutupModalSlot()" class="text-white/80 hover:text-white text-base font-black px-2 py-1 rounded-lg hover:bg-white/10 transition leading-none shrink-0 cursor-pointer">
-          [X]
+        <button type="button" onclick="tutupModalSlot()" class="text-white/80 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition leading-none shrink-0 cursor-pointer" title="Tutup">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
         </button>
       </div>
 
-      <!-- Body Borang Tetapan Slot -->
-      <div class="p-5 space-y-4 text-xs max-h-[76vh] overflow-y-auto">
+      <!-- Body Borang Tetapan Slot Murni -->
+      <div class="p-5 space-y-4 text-xs overflow-y-auto flex-1 pr-3">
         
-        <!-- 1. Subjek -->
-        <div>
-          <label class="block font-extrabold text-slate-800 mb-1.5">1. Subjek:</label>
-          <select id="modalSelSubjek" onchange="kemaskiniSubjekModal(this.value)" class="w-full bg-white border border-slate-300 rounded-xl p-2.5 font-bold text-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none text-xs sm:text-sm">
-            <!-- Diisi secara dinamik -->
-          </select>
+        <!-- Info Konteks Kurikulum Warisan Langkah 1 -->
+        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-2 text-[11px]">
+          <span class="font-bold text-slate-700">ðŸ“Œ Subjek &amp; Kelas:</span>
+          <span class="font-black text-indigo-900 text-xs" id="modalLblContextSubjekKelas">-</span>
         </div>
 
-        <!-- 2. Kelas (Boleh Taip) -->
+        <!-- 1. Panjang Waktu (Gabung Petak) -->
         <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <label class="font-extrabold text-slate-800">2. Kelas (Boleh Taip):</label>
-            <span class="text-[10px] font-black text-indigo-600 tracking-wider">SEDANG DIPILIH...</span>
+          <label class="block font-extrabold text-slate-800 mb-1.5">1. Panjang Waktu (Gabung Petak):</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" onclick="setModalPanjangWaktu(1)" id="btnWaktuOption1" class="p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer shadow-2xs">
+              <span id="iconWaktu1" class="w-4 h-4 rounded-full border-2 border-slate-400 flex items-center justify-center"></span>
+              <span>1 Waktu (30 Minit)</span>
+            </button>
+            <button type="button" onclick="setModalPanjangWaktu(2)" id="btnWaktuOption2" class="p-3 rounded-2xl border-2 border-amber-500 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer">
+              <span id="iconWaktu2" class="w-4 h-4 rounded-full border-2 border-amber-600 bg-amber-600 flex items-center justify-center text-white text-[9px]">&#10003;</span>
+              <span>2 Waktu Kembar (60 Minit)</span>
+            </button>
           </div>
-          <input type="text" id="modalTxtKelas" value="4 USM" placeholder="cth: 4 USM, 2 UMS" oninput="this.value = this.value.toUpperCase();" style="text-transform: uppercase;" class="w-full bg-white border-2 border-blue-500 rounded-xl p-2.5 font-extrabold text-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none text-xs sm:text-sm">
         </div>
 
-        <!-- 3. Fokus Peta Pemikiran (i-THINK) -->
+        <!-- 2. Fokus Peta Pemikiran (i-THINK) -->
         <div>
-          <label class="block font-extrabold text-slate-800 mb-2">3. Fokus Peta Pemikiran (i-THINK):</label>
-          <div id="kontenaCipIThink" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <label class="block font-extrabold text-slate-800 mb-1.5">2. Fokus Peta Pemikiran (i-THINK):</label>
+          <div id="kontenaCipIThink" class="flex flex-wrap gap-2 text-xs">
             <!-- Chips i-THINK dijana secara dinamik -->
           </div>
         </div>
 
-        <!-- 4. Modul Pemulihan & Pengayaan Terbina -->
+        <!-- 3. Modul Pemulihan & Pengayaan Terbina -->
         <div>
-          <label class="block font-extrabold text-slate-800 mb-2">4. Modul Pemulihan &amp; Pengayaan Terbina:</label>
-          <div id="kontenaCipPemulihan" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <label class="block font-extrabold text-slate-800 mb-1.5">3. Modul Pemulihan &amp; Pengayaan Terbina:</label>
+          <div id="kontenaCipPemulihan" class="flex flex-wrap gap-2 text-xs">
             <!-- Chips Pemulihan dijana secara dinamik -->
-          </div>
-        </div>
-
-        <!-- 5. Panjang Waktu (Gabung Petak) -->
-        <div>
-          <label class="block font-extrabold text-slate-800 mb-2">5. Panjang Waktu (Gabung Petak):</label>
-          <div class="grid grid-cols-2 gap-3">
-            <button type="button" onclick="setModalPanjangWaktu(1)" id="btnWaktuOption1" class="p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer">
-              <span id="iconWaktu1" class="font-mono text-sm">( )</span>
-              <span>1 Waktu (30 Minit)</span>
-            </button>
-            <button type="button" onclick="setModalPanjangWaktu(2)" id="btnWaktuOption2" class="p-3 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer">
-              <span id="iconWaktu2" class="font-mono text-sm">(-)</span>
-              <span>2 Waktu Kembar (60 Minit)</span>
-            </button>
           </div>
         </div>
 
       </div>
 
       <!-- Footer Modal -->
-      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="padamSlotDariModal()" id="btnModalPadam" class="hidden px-4 py-2.5 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 font-bold transition text-xs cursor-pointer">
-            Padam Slot
-          </button>
-          <button type="button" onclick="tutupModalSlot()" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold transition text-xs cursor-pointer">
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3 shrink-0">
+        <button type="button" onclick="padamSlotDariModal()" id="btnModalPadam" class="hidden px-3.5 py-2.5 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 font-bold transition text-xs flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          <span>Padam Slot</span>
+        </button>
+        <div class="flex items-center gap-2 ml-auto">
+          <button type="button" onclick="tutupModalSlot()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold transition text-xs cursor-pointer">
             Batal
           </button>
+          <button type="button" onclick="simpanSlotDariModal()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black shadow-md transition flex items-center gap-1.5 active:scale-95 text-xs sm:text-sm cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+            <span>SIMPAN KE JADUAL &#10003;</span>
+          </button>
         </div>
-        <button type="button" onclick="simpanSlotDariModal()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black shadow-md transition flex items-center gap-1.5 active:scale-95 text-xs sm:text-sm cursor-pointer">
-          <span>SIMPAN KE JADUAL</span> <span>✓</span>
-        </button>
       </div>
 
     </div>
@@ -1785,31 +1844,65 @@ var SUBJEK_PERDANA = [
     }
 
     function kemaskiniPilihanAliranUi() {
-      var radAliran = document.querySelector('input[name="radAliranProfil"]:checked');
-      var val = radAliran ? radAliran.value : "PERDANA";
-      var cPerdana = document.getElementById('cardAliran_PERDANA');
-      var cPra = document.getElementById('cardAliran_PRASEKOLAH');
-      var cPpki = document.getElementById('cardAliran_PPKI');
+      var rads = document.getElementsByName('radAliranProfil');
+      var val = "PERDANA";
+      for (var i = 0; i < rads.length; i++) {
+        if (rads[i].checked) { val = rads[i].value; break; }
+      }
 
-      if (cPerdana) {
-        if (val === 'PERDANA') {
-          cPerdana.className = "flex items-center gap-2.5 p-2.5 bg-indigo-50/80 border-2 border-indigo-600 rounded-xl cursor-pointer transition shadow-xs";
-        } else {
-          cPerdana.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-indigo-50/40 transition";
+      ['PERDANA', 'PRASEKOLAH', 'PPKI'].forEach(function(al) {
+        var card = document.getElementById('cardAliran_' + al);
+        if (card) {
+          if (al === val) {
+            card.className = "flex items-center gap-2.5 p-2.5 bg-indigo-50/80 border-2 border-indigo-600 rounded-xl cursor-pointer transition shadow-xs";
+          } else {
+            card.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100/60 transition";
+          }
+        }
+      });
+
+      // Kemas kini pilihan Tahun & Subjek mengikut Aliran
+      var selTahun = document.getElementById('selTahunProfil');
+      var selSubjek = document.getElementById('selSubjekProfil');
+      if (val === 'PRASEKOLAH') {
+        if (selTahun) selTahun.value = "Prasekolah";
+        if (selSubjek) selSubjek.value = "Prasekolah (KSPK Rutin & Pembelajaran)";
+      } else if (val === 'PPKI') {
+        if (selTahun) selTahun.value = "Pendidikan Khas";
+        if (selSubjek) selSubjek.value = "Pendidikan Khas (PPKI)";
+      } else {
+        if (selTahun && (selTahun.value === "Prasekolah" || selTahun.value === "Pendidikan Khas")) {
+          selTahun.value = "Tahun 4";
         }
       }
-      if (cPra) {
-        if (val === 'PRASEKOLAH') {
-          cPra.className = "flex items-center gap-2.5 p-2.5 bg-amber-50/80 border-2 border-amber-500 rounded-xl cursor-pointer transition shadow-xs";
+      kemaskiniTahunProfilUi();
+    }
+
+    function kemaskiniTahunProfilUi() {
+      var selTahun = document.getElementById('selTahunProfil');
+      var txtKelas = document.getElementById('txtKelasProfil');
+      if (!selTahun || !txtKelas) return;
+
+      var val = selTahun.value;
+      var numMatch = val.match(/\d+/);
+      var currentClass = txtKelas.value.trim();
+
+      if (numMatch) {
+        var digit = numMatch[0];
+        if (/^\d+\s*/.test(currentClass)) {
+          txtKelas.value = currentClass.replace(/^\d+\s*/, digit + " ");
+        } else if (currentClass) {
+          txtKelas.value = digit + " " + currentClass;
         } else {
-          cPra.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-amber-50/40 transition";
+          txtKelas.value = digit + " USM";
         }
-      }
-      if (cPpki) {
-        if (val === 'PPKI') {
-          cPpki.className = "flex items-center gap-2.5 p-2.5 bg-purple-50/80 border-2 border-purple-500 rounded-xl cursor-pointer transition shadow-xs";
-        } else {
-          cPpki.className = "flex items-center gap-2.5 p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-purple-50/40 transition";
+      } else if (val.includes("Prasekolah")) {
+        if (!currentClass.includes("Pra")) {
+          txtKelas.value = "Prasekolah Mawar";
+        }
+      } else if (val.includes("Khas")) {
+        if (!currentClass.includes("PPKI") && !currentClass.includes("Khas")) {
+          txtKelas.value = "PPKI Arif";
         }
       }
     }
@@ -1817,50 +1910,54 @@ var SUBJEK_PERDANA = [
     function prosesSahkanDanSimpanProfil() {
       var inNama = document.getElementById('txtNamaProfil');
       var inEmel = document.getElementById('txtEmelProfil');
-      var inSek = document.getElementById('txtSekolahProfil');
-      var selSesi = document.getElementById('selSesiProfil');
-      var radAliran = document.querySelector('input[name="radAliranProfil"]:checked');
-      var aliran = radAliran ? radAliran.value : "PERDANA";
+      var inSekolah = document.getElementById('txtSekolahProfil');
+      var inSesi = document.getElementById('selSesiProfil');
+      var inSubjek = document.getElementById('selSubjekProfil');
+      var inTahun = document.getElementById('selTahunProfil');
+      var inKelas = document.getElementById('txtKelasProfil');
 
       var nama = inNama ? inNama.value.trim().toUpperCase() : "";
       var emel = inEmel ? inEmel.value.trim().toLowerCase() : "";
-      var sekolah = inSek ? inSek.value.trim().toUpperCase() : "";
-      var sesi = selSesi ? selSesi.value.trim() : "2026";
+      var sekolah = inSekolah ? inSekolah.value.trim().toUpperCase() : "";
+      var sesi = inSesi ? inSesi.value : "2026";
+      var subjek = inSubjek ? inSubjek.value : "Bahasa Melayu";
+      var tahun = inTahun ? inTahun.value : "Tahun 4";
+      var kelas = inKelas ? inKelas.value.trim().toUpperCase() : "4 USM";
+
+      var rads = document.getElementsByName('radAliranProfil');
+      var aliran = "PERDANA";
+      for (var i = 0; i < rads.length; i++) {
+        if (rads[i].checked) { aliran = rads[i].value; break; }
+      }
 
       if (!nama) {
         tunjukAlertProfil("Sila masukkan Nama Penuh Guru.", "error");
         if (inNama) inNama.focus();
         return;
       }
-
-      if (!emel) {
-        tunjukAlertProfil("Sila masukkan Emel Rasmi / DELIMa.", "error");
-        if (inEmel) inEmel.focus();
-        return;
-      }
-
-      var emelRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emelRegex.test(emel)) {
-        tunjukAlertProfil("Format emel tidak sah. Sila gunakan format emel rasmi seperti contoh@moe-dl.edu.my.", "error");
-        if (inEmel) { inEmel.focus(); inEmel.select(); }
-        return;
-      }
-
       if (!sekolah) {
         tunjukAlertProfil("Sila masukkan Kod & Nama Sekolah.", "error");
-        if (inSek) inSek.focus();
+        if (inSekolah) inSekolah.focus();
+        return;
+      }
+      if (!kelas) {
+        tunjukAlertProfil("Sila masukkan Nama Penuh Kelas (cth: 4 USM).", "error");
+        if (inKelas) inKelas.focus();
         return;
       }
 
-      tunjukAlertProfil("", "");
       setLoadingSahkan(true);
 
       var payload = {
         nama: nama,
-        emel: emel,
+        emel: emel || (nama.toLowerCase().replace(/\s+/g, '.') + "@moe-dl.edu.my"),
         sekolah: sekolah,
         sesi: sesi,
-        aliran: aliran
+        aliran: aliran,
+        subjek: subjek,
+        tahun: tahun,
+        kelas: kelas,
+        peranan: "GURU"
       };
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -1881,49 +1978,37 @@ var SUBJEK_PERDANA = [
               return;
             }
 
-            tunjukAlertProfil("Profil berjaya disahkan! Akses penjanaan e-RPH telah dibuka.", "success");
+            tunjukAlertProfil("Maklumat berjaya disahkan! Jadual aSc dibuka.", "success");
             aktifkanAksesDanBukaLangkah2(res.profil || payload);
           })
           .withFailureHandler(function(err) {
             setLoadingSahkan(false);
             console.warn("Ralat sambungan pelayan, membuka akses:", err);
-            tunjukAlertProfil("Profil berjaya disahkan! Akses penjanaan e-RPH telah dibuka.", "success");
-            aktifkanAksesDanBukaLangkah2({
-              nama: nama,
-              emel: emel,
-              sekolah: sekolah,
-              sesi: sesi,
-              aliran: aliran,
-              peranan: "GURU"
-            });
+            tunjukAlertProfil("Maklumat berjaya disahkan! Jadual aSc dibuka.", "success");
+            aktifkanAksesDanBukaLangkah2(payload);
           })
           .sahkanDanSimpanProfil(payload);
       } else {
-        // Mod terus / pratonton tempatan
         setTimeout(function() {
           setLoadingSahkan(false);
-          tunjukAlertProfil("Profil berjaya disahkan! Akses penjanaan e-RPH telah dibuka.", "success");
-          aktifkanAksesDanBukaLangkah2({
-            nama: nama,
-            emel: emel,
-            sekolah: sekolah,
-            sesi: sesi,
-            aliran: aliran,
-            peranan: "GURU"
-          });
-        }, 200);
+          tunjukAlertProfil("Maklumat berjaya disahkan! Jadual aSc dibuka.", "success");
+          aktifkanAksesDanBukaLangkah2(payload);
+        }, 150);
       }
     }
 
     function aktifkanAksesDanBukaLangkah2(profil, isSilent) {
-      if (!profil || !profil.emel) return;
+      if (!profil) return;
       var aliranDipilih = String(profil.aliran || "PERDANA").toUpperCase();
       guruPilihanSemasa = {
-        nama: profil.nama,
-        emel: profil.emel,
+        nama: profil.nama || "Pendidik KPM",
+        emel: profil.emel || "",
         sekolah: profil.sekolah || "",
         sesi: profil.sesi || "2026",
         aliran: aliranDipilih,
+        subjek: profil.subjek || "Bahasa Melayu",
+        tahun: profil.tahun || "Tahun 4",
+        kelas: profil.kelas || "4 USM",
         peranan: profil.peranan || "GURU"
       };
 
@@ -1935,28 +2020,32 @@ var SUBJEK_PERDANA = [
       var ringkasan = document.getElementById('ringkasanProfilDisahkan');
       var formProfil = document.getElementById('formProfilGuru');
       var lblNama = document.getElementById('lblNamaDisahkan');
+      var txtRingkasanSub = document.getElementById('txtRingkasanSubjekKelas');
       var lblEmelSek = document.getElementById('lblEmelDanSekolahDisahkan');
       var avDisahkan = document.getElementById('avatarDisahkan');
       var badgeAliran = document.getElementById('badgeAliranDisahkan');
 
-      if (lblNama) lblNama.textContent = profil.nama || "Pendidik KPM";
+      if (lblNama) lblNama.textContent = guruPilihanSemasa.nama;
+      if (txtRingkasanSub) {
+        txtRingkasanSub.textContent = guruPilihanSemasa.subjek + " | " + guruPilihanSemasa.tahun + " - " + guruPilihanSemasa.kelas;
+      }
       if (lblEmelSek) {
-        lblEmelSek.textContent = profil.emel + (profil.sekolah ? (" | " + profil.sekolah) : "") + " (" + (profil.sesi || "2026") + ")";
+        lblEmelSek.textContent = (guruPilihanSemasa.emel ? (guruPilihanSemasa.emel + " | ") : "") + guruPilihanSemasa.sekolah + " (Sesi " + guruPilihanSemasa.sesi + ")";
       }
       if (avDisahkan) {
-        var inits = (profil.nama || "CK").split(" ").map(function(n){ return n[0]; }).filter(Boolean).slice(0, 2).join("").toUpperCase();
+        var inits = (guruPilihanSemasa.nama || "CK").split(" ").map(function(n){ return n[0]; }).filter(Boolean).slice(0, 2).join("").toUpperCase();
         avDisahkan.textContent = inits || "CK";
       }
 
       if (badgeAliran) {
         if (aliranDipilih === 'PRASEKOLAH') {
-          badgeAliran.textContent = "🧸 Prasekolah (KSPK)";
+          badgeAliran.textContent = "ðŸ§¸ Prasekolah (KSPK)";
           badgeAliran.className = "text-[9px] bg-amber-600 text-white px-2 py-0.5 rounded-full font-extrabold";
         } else if (aliranDipilih === 'PPKI') {
-          badgeAliran.textContent = "🌟 Pendidikan Khas (PPKI)";
+          badgeAliran.textContent = "ðŸŒŸ Pendidikan Khas (PPKI)";
           badgeAliran.className = "text-[9px] bg-purple-600 text-white px-2 py-0.5 rounded-full font-extrabold";
         } else {
-          badgeAliran.textContent = "🏫 Aliran Perdana (KSSR)";
+          badgeAliran.textContent = "ðŸ« Aliran Perdana (KSSR)";
           badgeAliran.className = "text-[9px] bg-indigo-700 text-white px-2 py-0.5 rounded-full font-extrabold";
         }
       }
@@ -1964,55 +2053,45 @@ var SUBJEK_PERDANA = [
       if (ringkasan) ringkasan.classList.remove('hidden');
       if (formProfil) formProfil.classList.add('hidden');
 
-      // 2. Buka Kunci Langkah 2 & 3
+      // 2. Buka Kunci Langkah 2
       var lockBanner = document.getElementById('lockBannerStep2');
       if (lockBanner) lockBanner.classList.add('hidden');
 
       var kontainer = document.getElementById('kontainerUtamaErph');
       if (kontainer) kontainer.classList.remove('hidden');
 
-      // 3. Kemas kini nilai medan emel tersembunyi & header
-      var txtEm = document.getElementById('txtEmail');
-      if (txtEm) txtEm.value = profil.emel;
-
+      // 3. Kemas kini Header & Locked Context Badge di Step 2
       var lblHeader = document.getElementById('lblNamaGuruHeader');
-      if (lblHeader) lblHeader.textContent = profil.nama || "Pendidik KPM";
+      if (lblHeader) lblHeader.textContent = guruPilihanSemasa.nama;
 
       var txtJawatan = document.getElementById('txtJawatanSpan');
       if (txtJawatan) {
         var labelAliran = (aliranDipilih === 'PRASEKOLAH') ? "Prasekolah" : ((aliranDipilih === 'PPKI') ? "PPKI" : "Aliran Perdana");
-        var jawatan = "Pendidik (" + labelAliran + ")" + (profil.sekolah ? (" | " + profil.sekolah) : "") + " | Sesi " + (profil.sesi || "2026");
-        txtJawatan.textContent = jawatan;
+        txtJawatan.textContent = "Pendidik (" + labelAliran + ")" + (guruPilihanSemasa.sekolah ? (" | " + guruPilihanSemasa.sekolah) : "") + " | Sesi " + guruPilihanSemasa.sesi;
       }
 
       var avHeader = document.getElementById('avatarGuruInisial');
       if (avHeader) {
-        var inits2 = (profil.nama || "PD").split(" ").map(function(n){ return n[0]; }).filter(Boolean).slice(0, 2).join("").toUpperCase();
+        var inits2 = (guruPilihanSemasa.nama || "PD").split(" ").map(function(n){ return n[0]; }).filter(Boolean).slice(0, 2).join("").toUpperCase();
         avHeader.textContent = inits2 || "PD";
       }
 
-      var badgeP = document.getElementById('badgePeranan');
-      if (badgeP) {
-        badgeP.classList.add('hidden');
-      }
+      // Locked Context Badge Values
+      var bSub = document.getElementById('badgeHeaderSubjek');
+      var bTah = document.getElementById('badgeHeaderTahun');
+      var bKel = document.getElementById('badgeHeaderKelas');
+      if (bSub) bSub.textContent = "SUBJEK: " + guruPilihanSemasa.subjek;
+      if (bTah) bTah.textContent = "TAHUN: " + guruPilihanSemasa.tahun;
+      if (bKel) bKel.textContent = "KELAS: " + guruPilihanSemasa.kelas;
 
-      // Kawalan keterlihatan butang & notis templat KSPK (Hanya untuk Prasekolah)
-      var btnKspk = document.getElementById('btnTemplatKspk');
-      var notisKspk = document.getElementById('notisPanduanKspk');
-      if (aliranDipilih === 'PRASEKOLAH') {
-        if (btnKspk) btnKspk.classList.remove('hidden');
-        if (notisKspk) notisKspk.classList.remove('hidden');
-      } else {
-        if (btnKspk) btnKspk.classList.add('hidden');
-        if (notisKspk) notisKspk.classList.add('hidden');
-      }
-
-      // 4. Kemas kini Indikator Stepper
+      // 4. Kemas kini Stepper
       updateStepper(2);
 
       // 5. Muat Jadual & Render aSc Grid
       renderAscGrid();
-      muatContohJadualGuru();
+      if (!JADUAL_ASC_SLOTS || JADUAL_ASC_SLOTS.length === 0) {
+        muatContohJadualGuru();
+      }
 
       // 6. Transisi Lancar ke Langkah 2
       if (!isSilent) {
@@ -2020,21 +2099,20 @@ var SUBJEK_PERDANA = [
           if (kontainer) {
             kontainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
-        }, 250);
+        }, 200);
 
         if (typeof Swal !== 'undefined') {
           Swal.fire({
             icon: 'success',
-            title: 'Akses Disahkan!',
-            text: 'Selamat bertugas, Cikgu ' + profil.nama + '! Akses modul e-RPH telah dibuka sepenuhnya.',
-            timer: 2300,
+            title: 'Maklumat Disahkan!',
+            text: 'Jadual waktu dibuka untuk ' + guruPilihanSemasa.subjek + ' ' + guruPilihanSemasa.tahun + ' (' + guruPilihanSemasa.kelas + ').',
+            timer: 2000,
             showConfirmButton: false
           });
         }
       }
     }
-
-    function tukarAtauResetProfil() {
+function tukarAtauResetProfil() {
       try {
         localStorage.removeItem('profil_guru_tersah');
       } catch (e) {}
@@ -3659,66 +3737,122 @@ var SUBJEK_PERDANA = [
     // =========================================================================
     // ENJIN JADUAL WAKTU aSc INTERAKTIF 13-WAKTU (POPUP TILES)
     // =========================================================================
+    // =========================================================================
+    // ENJIN JADUAL WAKTU aSc INTERAKTIF 13-WAKTU (POPUP TILES & EDITABLE HEADERS)
+    // =========================================================================
     var HARI_ASC = [
-      { kod: "Mo", nama: "Isnin" },
-      { kod: "Tu", nama: "Selasa" },
-      { kod: "We", nama: "Rabu" },
-      { kod: "Th", nama: "Khamis" },
-      { kod: "Fr", nama: "Jumaat" }
+      { kod: "ISNIN", nama: "Isnin" },
+      { kod: "SELASA", nama: "Selasa" },
+      { kod: "RABU", nama: "Rabu" },
+      { kod: "KHAMIS", nama: "Khamis" },
+      { kod: "JUMAAT", nama: "Jumaat" }
     ];
 
     var SENARAI_ITHINK = [
       "Peta Buih (Bubble)",
+      "Peta Buih Berganda",
       "Peta Titi",
       "Peta Alir",
       "Peta Pokok",
       "Peta Bulatan",
       "Peta Pelbagai Alir",
-      "Peta Dakap",
-      "Peta Buih Berganda"
+      "Peta Dakap"
     ];
 
     var SENARAI_PEMULIHAN = [
       "Bimbingan Guru (Scaffolding)",
       "Lembaran Kerja Pemulihan",
-      "Aktiviti Pengayaan Cerdas"
+      "Aktiviti Pengayaan Cerdas",
+      "Bimbingan Rakan Sebaya"
     ];
 
-    var WAKTU_PRESET_MULA = "07:10";
-    var JADUAL_ASC_SLOTS = []; // Menyimpan semua slot PdP aktif dalam grid aSc
-    var SLOT_MODAL_SEMASA = null; // { hari, periodMula, panjangWaktu, subjek, kelas, iThink, pemulihan, isEdit }
+    var JADUAL_ASC_SLOTS = [];
 
-    function binaSenarai13Waktu(waktuMulaStr) {
-      var parts = waktuMulaStr.split(":");
-      var jam = parseInt(parts[0], 10);
-      var minit = parseInt(parts[1], 10);
-      var senarai = [];
+    // State Modal Semasa
+    var modalSlotIdSemasa = null;
+    var modalHariSemasa = "ISNIN";
+    var modalPeriodSemasa = 1;
+    var modalPanjangWaktuSemasa = 2; // Lalai: 2 waktu (60 minit)
+    var modalIthinkTerpilih = ["Peta Buih (Bubble)"];
+    var modalPemulihanTerpilih = ["Bimbingan Guru (Scaffolding)"];
 
-      for (var i = 1; i <= 13; i++) {
-        var startTotal = jam * 60 + minit + ((i - 1) * 30);
-        var endTotal = startTotal + 30;
+    function normalisasiHariKod(h) {
+      if (!h) return "ISNIN";
+      var str = String(h).toUpperCase().trim();
+      if (str.includes("ISNIN") || str === "MO") return "ISNIN";
+      if (str.includes("SELASA") || str === "TU") return "SELASA";
+      if (str.includes("RABU") || str === "WE") return "RABU";
+      if (str.includes("KHAMIS") || str === "TH") return "KHAMIS";
+      if (str.includes("JUMAAT") || str === "FR") return "JUMAAT";
+      return str;
+    }
 
-        function formatMasa(totalM) {
-          var h = Math.floor(totalM / 60) % 24;
-          var m = totalM % 60;
-          var hh = (h < 10 ? "0" : "") + h;
-          var mm = (m < 10 ? "0" : "") + m;
-          return hh + ":" + mm;
-        }
-
-        senarai.push({
-          period: i,
-          label: "W" + i,
-          mula: formatMasa(startTotal),
-          tamat: formatMasa(endTotal)
-        });
+    function dapatkanSenarai13Waktu() {
+      var disimpan = localStorage.getItem('senarai_13_waktu_asc');
+      if (disimpan) {
+        try {
+          var arr = JSON.parse(disimpan);
+          if (Array.isArray(arr) && arr.length === 13) return arr;
+        } catch (e) {}
       }
-      return senarai;
+
+      return [
+        { period: 1, label: "Waktu 1", mula: "07:10", tamat: "07:40" },
+        { period: 2, label: "Waktu 2", mula: "07:40", tamat: "08:10" },
+        { period: 3, label: "Waktu 3", mula: "08:10", tamat: "08:40" },
+        { period: 4, label: "Waktu 4", mula: "08:40", tamat: "09:10" },
+        { period: 5, label: "Waktu 5", mula: "09:10", tamat: "09:40" },
+        { period: 6, label: "Waktu 6", mula: "09:40", tamat: "10:10" },
+        { period: 7, label: "Waktu 7", mula: "10:10", tamat: "10:40" },
+        { period: 8, label: "Waktu 8", mula: "10:40", tamat: "11:10" },
+        { period: 9, label: "Waktu 9", mula: "11:10", tamat: "11:40" },
+        { period: 10, label: "Waktu 10", mula: "11:40", tamat: "12:10" },
+        { period: 11, label: "Waktu 11", mula: "12:10", tamat: "12:40" },
+        { period: 12, label: "Waktu 12", mula: "12:40", tamat: "01:10" },
+        { period: 13, label: "Waktu 13", mula: "01:10", tamat: "01:40" }
+      ];
+    }
+
+    function simpanSenarai13Waktu(senarai) {
+      try {
+        localStorage.setItem('senarai_13_waktu_asc', JSON.stringify(senarai));
+      } catch (e) {}
+    }
+
+    function kemaskiniMasaPeriod(period, jenis, nilaiBaru) {
+      var senarai = dapatkanSenarai13Waktu();
+      var item = senarai.find(function(w) { return w.period === period; });
+      if (item) {
+        item[jenis] = nilaiBaru.trim();
+        simpanSenarai13Waktu(senarai);
+        renderAscGrid();
+      }
     }
 
     function tukarPresetWaktu() {
-      var sel = document.getElementById("selPresetWaktu");
-      if (sel) WAKTU_PRESET_MULA = sel.value;
+      var preset = document.getElementById("selPresetWaktu").value;
+      var senarai = dapatkanSenarai13Waktu();
+
+      var jamMula = 7, minMula = 10;
+      if (preset === "07:30") { jamMula = 7; minMula = 30; }
+      else if (preset === "13:00") { jamMula = 13; minMula = 0; }
+
+      var currentMinutes = jamMula * 60 + minMula;
+
+      senarai.forEach(function(w) {
+        var startH = Math.floor(currentMinutes / 60);
+        var startM = currentMinutes % 60;
+        var endMinutes = currentMinutes + 30;
+        var endH = Math.floor(endMinutes / 60);
+        var endM = endMinutes % 60;
+
+        w.mula = (startH < 10 ? "0" + startH : "" + startH) + ":" + (startM < 10 ? "0" + startM : "" + startM);
+        w.tamat = (endH < 10 ? "0" + endH : "" + endH) + ":" + (endM < 10 ? "0" + endM : "" + endM);
+
+        currentMinutes = endMinutes;
+      });
+
+      simpanSenarai13Waktu(senarai);
       renderAscGrid();
     }
 
@@ -3726,13 +3860,17 @@ var SUBJEK_PERDANA = [
       var theadRow = document.getElementById("rowHeaderAsc");
       if (!theadRow) return;
 
-      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
-      var html = '<th class="bg-slate-900 text-white font-black text-xs py-3 px-2 rounded-xl min-w-[75px] sticky left-0 z-20 shadow-xs">HARI</th>';
+      var waktuList = dapatkanSenarai13Waktu();
+      var html = '<th class="bg-slate-900 text-white font-black text-xs py-3 px-2 rounded-xl min-w-[85px] sticky left-0 z-20 shadow-xs">HARI</th>';
 
       waktuList.forEach(function(w) {
-        html += '<th class="bg-slate-100/90 border border-slate-200 rounded-xl p-1.5 min-w-[74px] text-center font-bold text-slate-800 shadow-2xs">' +
+        html += '<th class="bg-slate-100/95 border border-slate-200 rounded-xl p-1.5 min-w-[85px] text-center font-bold text-slate-800 shadow-2xs">' +
                   '<div class="text-xs font-black text-slate-900">' + w.label + '</div>' +
-                  '<div class="text-[10px] text-slate-500 font-semibold leading-tight">' + w.mula + '<br>' + w.tamat + '</div>' +
+                  '<div class="mt-1 flex flex-col items-center justify-center gap-0.5">' +
+                    '<input type="text" value="' + w.mula + '" onchange="kemaskiniMasaPeriod(' + w.period + ', \'mula\', this.value)" class="w-[62px] text-center bg-white border border-slate-300 rounded px-1 py-0.5 text-[10px] font-bold text-slate-700 hover:border-indigo-400 focus:border-indigo-600 outline-none transition shadow-2xs" title="Masa Mula W' + w.period + '" />' +
+                    '<span class="text-[9px] text-slate-400 font-bold leading-none">-</span>' +
+                    '<input type="text" value="' + w.tamat + '" onchange="kemaskiniMasaPeriod(' + w.period + ', \'tamat\', this.value)" class="w-[62px] text-center bg-white border border-slate-300 rounded px-1 py-0.5 text-[10px] font-bold text-slate-700 hover:border-indigo-400 focus:border-indigo-600 outline-none transition shadow-2xs" title="Masa Tamat W' + w.period + '" />' +
+                  '</div>' +
                 '</th>';
       });
 
@@ -3763,30 +3901,32 @@ var SUBJEK_PERDANA = [
       var tbody = document.getElementById("tbodyAscGrid");
       if (!tbody) return;
 
-      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
       var html = "";
 
       HARI_ASC.forEach(function(hariObj) {
         html += '<tr>';
-        // Label Hari (Sticky Left Column)
-        html += '<td class="bg-slate-900 text-white font-black text-sm py-4 px-2 rounded-xl sticky left-0 z-10 shadow-xs">' + hariObj.kod + '</td>';
+        // Label Hari Bahasa Melayu (Sticky Left Column)
+        html += '<td class="bg-slate-900 text-white font-black text-xs sm:text-sm py-4 px-2 rounded-xl sticky left-0 z-10 shadow-xs tracking-wider uppercase">' + hariObj.kod + '</td>';
 
         var p = 1;
         while (p <= 13) {
           var currentPeriod = p;
           var slot = JADUAL_ASC_SLOTS.find(function(s) {
-            return s.hari === hariObj.kod && s.periodMula === currentPeriod;
+            var sHari = normalisasiHariKod(s.hari || s.day);
+            var sMula = s.periodMula || s.periodStart;
+            return sHari === hariObj.kod && sMula === currentPeriod;
           });
 
           if (slot) {
-            var span = slot.panjangWaktu || 1;
-            var shortCode = getSubjekShortCode(slot.subjek);
-            var kelasText = slot.kelas || "4 USM";
+            var span = slot.panjangWaktu || (slot.duration ? slot.duration / 30 : 1);
+            var subjekNama = slot.subjek || slot.subject || (guruPilihanSemasa ? guruPilihanSemasa.subjek : "BM");
+            var shortCode = slot.subjectCode || getSubjekShortCode(subjekNama);
+            var kelasText = slot.kelas || slot.className || (guruPilihanSemasa ? guruPilihanSemasa.kelas : "4 USM");
 
             html += '<td colspan="' + span + '" onclick="bukaModalSlotEdit(\'' + slot.id + '\')" class="p-1 cursor-pointer">' +
-                      '<div class="h-[66px] w-full rounded-xl border-2 border-indigo-500 bg-indigo-50/95 hover:bg-indigo-100 p-1 flex flex-col items-center justify-between text-center transition shadow-2xs hover:scale-[1.01]">' +
-                        '<div class="text-xs font-black text-indigo-900 tracking-wide">' + shortCode + '</div>' +
-                        '<div class="text-[10px] text-indigo-400 font-bold leading-none">&#10010;</div>' +
+                      '<div class="h-[66px] w-full rounded-xl border-2 border-emerald-600 bg-emerald-50/95 hover:bg-emerald-100 p-1 flex flex-col items-center justify-between text-center transition shadow-2xs hover:scale-[1.01]">' +
+                        '<div class="text-xs font-black text-emerald-950 tracking-wide">' + shortCode + '</div>' +
+                        '<div class="text-[10px] text-emerald-600 font-bold leading-none">&#10010;</div>' +
                         '<div class="text-[11px] font-black text-slate-800 truncate max-w-[120px]">' + kelasText + '</div>' +
                       '</div>' +
                     '</td>';
@@ -3794,7 +3934,7 @@ var SUBJEK_PERDANA = [
           } else {
             // Petak kosong
             html += '<td onclick="bukaModalSlotTambah(\'' + hariObj.kod + '\', ' + p + ')" class="p-1 cursor-pointer">' +
-                      '<div class="h-[66px] w-full rounded-xl border border-dashed border-slate-300 hover:border-indigo-400 bg-white hover:bg-indigo-50/50 flex items-center justify-center text-slate-300 hover:text-indigo-600 transition shadow-2xs">' +
+                      '<div class="h-[66px] w-full rounded-xl border border-dashed border-slate-300 hover:border-emerald-500 bg-white hover:bg-emerald-50/50 flex items-center justify-center text-slate-300 hover:text-emerald-600 transition shadow-2xs">' +
                         '<span class="text-base font-bold">&#10010;</span>' +
                       '</div>' +
                     '</td>';
@@ -3806,190 +3946,149 @@ var SUBJEK_PERDANA = [
       });
 
       tbody.innerHTML = html;
-      kemaskiniRingkasanJadualAsc();
     }
 
     function renderAscGrid() {
       renderAscHeader();
       renderAscGridBody();
+      kemaskiniRingkasanJadualAsc();
     }
 
     function kemaskiniRingkasanJadualAsc() {
       var totalSlot = JADUAL_ASC_SLOTS.length;
       var totalMinit = 0;
       JADUAL_ASC_SLOTS.forEach(function(s) {
-        totalMinit += ((s.panjangWaktu || 1) * 30);
+        var min = s.minit || s.duration || ((s.panjangWaktu || 1) * 30);
+        totalMinit += min;
       });
-      var jam = (totalMinit / 60).toFixed(1);
 
       var lbl = document.getElementById("lblStatJadualSeminggu");
       if (lbl) {
-        lbl.textContent = totalSlot + " Slot PdP Dipilih • " + totalMinit + " Minit (" + jam + " Jam) Seminggu";
+        lbl.textContent = totalSlot + " Slot PdP Dipilih \u2022 " + totalMinit + " Minit (" + (totalMinit / 60).toFixed(1) + " Jam) Seminggu";
       }
-
-      // Simpan ke local cache
-      try {
-        if (guruPilihanSemasa && guruPilihanSemasa.emel) {
-          localStorage.setItem('jadual_asc_' + guruPilihanSemasa.emel, JSON.stringify(JADUAL_ASC_SLOTS));
-        }
-      } catch (e) {}
     }
 
-    // =========================================================================
-    // KAWALAN MODAL POPUP TETAPAN SLOT aSc
-    // =========================================================================
-    function populateModalSubjekDropdown(selectedVal) {
-      var sel = document.getElementById("modalSelSubjek");
-      if (!sel) return;
+    function setModalPanjangWaktu(waktu) {
+      modalPanjangWaktuSemasa = waktu;
+      var btn1 = document.getElementById("btnWaktuOption1");
+      var btn2 = document.getElementById("btnWaktuOption2");
+      var icon1 = document.getElementById("iconWaktu1");
+      var icon2 = document.getElementById("iconWaktu2");
 
-      var subjekList = [
-        "Bahasa Inggeris (BI)",
-        "Bahasa Melayu (BM)",
-        "Matematik (MT)",
-        "Sains (SN)",
-        "Pendidikan Islam (PI)",
-        "Bahasa Arab (BA)",
-        "Pendidikan Jasmani dan Pendidikan Kesihatan (PJPK)",
-        "Pendidikan Seni Visual (PSV)",
-        "Pendidikan Muzik (MZ)",
-        "Sejarah (SEJ)",
-        "Reka Bentuk dan Teknologi (RBT)",
-        "Pendidikan Moral (PM)",
-        "Prasekolah (KSPK)",
-        "Pendidikan Khas (PPKI)"
-      ];
+      if (waktu === 1) {
+        if (btn1) btn1.className = "p-3 rounded-2xl border-2 border-amber-500 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer";
+        if (btn2) btn2.className = "p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer shadow-2xs";
+        if (icon1) { icon1.className = "w-4 h-4 rounded-full border-2 border-amber-600 bg-amber-600 flex items-center justify-center text-white text-[9px]"; icon1.innerHTML = "&#10003;"; }
+        if (icon2) { icon2.className = "w-4 h-4 rounded-full border-2 border-slate-400 flex items-center justify-center"; icon2.innerHTML = ""; }
+      } else {
+        if (btn1) btn1.className = "p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer shadow-2xs";
+        if (btn2) btn2.className = "p-3 rounded-2xl border-2 border-amber-500 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer";
+        if (icon1) { icon1.className = "w-4 h-4 rounded-full border-2 border-slate-400 flex items-center justify-center"; icon1.innerHTML = ""; }
+        if (icon2) { icon2.className = "w-4 h-4 rounded-full border-2 border-amber-600 bg-amber-600 flex items-center justify-center text-white text-[9px]"; icon2.innerHTML = "&#10003;"; }
+      }
+
+      kemaskiniHeaderModalSlot();
+    }
+
+    function renderCipIThink() {
+      var container = document.getElementById("kontenaCipIThink");
+      if (!container) return;
 
       var html = "";
-      subjekList.forEach(function(sub) {
-        var isSel = (selectedVal && sub.toUpperCase().includes(selectedVal.toUpperCase())) ? "selected" : "";
-        html += '<option value="' + sub + '" ' + isSel + '>' + sub + '</option>';
+      SENARAI_ITHINK.forEach(function(item) {
+        var terpilih = modalIthinkTerpilih.includes(item);
+        if (terpilih) {
+          html += '<button type="button" onclick="toggleIThinkCip(\'' + item + '\')" class="ithink-chip px-3 py-1.5 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white font-black text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 whitespace-normal text-left cursor-pointer">' +
+                    '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' +
+                    '<span>' + item + '</span>' +
+                  '</button>';
+        } else {
+          html += '<button type="button" onclick="toggleIThinkCip(\'' + item + '\')" class="ithink-chip px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition active:scale-95 whitespace-normal text-left cursor-pointer">' +
+                    '<span>' + item + '</span>' +
+                  '</button>';
+        }
       });
-      sel.innerHTML = html;
+
+      container.innerHTML = html;
     }
 
-    function renderModalChips() {
-      // 1. i-THINK Chips
-      var kIThink = document.getElementById("kontenaCipIThink");
-      if (kIThink && SLOT_MODAL_SEMASA) {
-        var html = "";
-        SENARAI_ITHINK.forEach(function(it) {
-          var isChecked = (SLOT_MODAL_SEMASA.iThink || []).includes(it);
-          var activeClass = isChecked 
-            ? "border-blue-500 bg-blue-50 text-blue-800 font-extrabold shadow-2xs" 
-            : "border-slate-200 bg-white text-slate-600 font-semibold hover:border-slate-300";
-          var prefix = isChecked ? "[X]" : "[]";
-
-          html += '<button type="button" onclick="toggleChipIThink(\'' + it + '\')" class="p-2.5 rounded-xl border text-[11px] flex items-center justify-center gap-1.5 transition text-center cursor-pointer ' + activeClass + '">' +
-                    '<span>' + prefix + '</span> <span class="truncate">' + it + '</span>' +
-                  '</button>';
-        });
-        kIThink.innerHTML = html;
-      }
-
-      // 2. Pemulihan & Pengayaan Chips
-      var kPemulihan = document.getElementById("kontenaCipPemulihan");
-      if (kPemulihan && SLOT_MODAL_SEMASA) {
-        var html = "";
-        SENARAI_PEMULIHAN.forEach(function(pm) {
-          var isChecked = (SLOT_MODAL_SEMASA.pemulihan || []).includes(pm);
-          var activeClass = isChecked 
-            ? "border-emerald-500 bg-emerald-50 text-emerald-900 font-extrabold shadow-2xs" 
-            : "border-slate-200 bg-white text-slate-600 font-semibold hover:border-slate-300";
-          var prefix = isChecked ? "[X]" : "[]";
-
-          html += '<button type="button" onclick="toggleChipPemulihan(\'' + pm + '\')" class="p-2.5 rounded-xl border text-[11px] flex items-center justify-center gap-1.5 transition text-center cursor-pointer ' + activeClass + '">' +
-                    '<span>' + prefix + '</span> <span class="truncate">' + pm + '</span>' +
-                  '</button>';
-        });
-        kPemulihan.innerHTML = html;
-      }
-    }
-
-    function toggleChipIThink(name) {
-      if (!SLOT_MODAL_SEMASA) return;
-      if (!SLOT_MODAL_SEMASA.iThink) SLOT_MODAL_SEMASA.iThink = [];
-      var idx = SLOT_MODAL_SEMASA.iThink.indexOf(name);
+    function toggleIThinkCip(item) {
+      var idx = modalIthinkTerpilih.indexOf(item);
       if (idx > -1) {
-        SLOT_MODAL_SEMASA.iThink.splice(idx, 1);
+        modalIthinkTerpilih.splice(idx, 1);
       } else {
-        SLOT_MODAL_SEMASA.iThink.push(name);
+        modalIthinkTerpilih.push(item);
       }
-      renderModalChips();
+      renderCipIThink();
     }
 
-    function toggleChipPemulihan(name) {
-      if (!SLOT_MODAL_SEMASA) return;
-      if (!SLOT_MODAL_SEMASA.pemulihan) SLOT_MODAL_SEMASA.pemulihan = [];
-      var idx = SLOT_MODAL_SEMASA.pemulihan.indexOf(name);
+    function renderCipPemulihan() {
+      var container = document.getElementById("kontenaCipPemulihan");
+      if (!container) return;
+
+      var html = "";
+      SENARAI_PEMULIHAN.forEach(function(item) {
+        var terpilih = modalPemulihanTerpilih.includes(item);
+        if (terpilih) {
+          html += '<button type="button" onclick="togglePemulihanCip(\'' + item + '\')" class="pemulihan-chip px-3 py-1.5 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white font-black text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 whitespace-normal text-left cursor-pointer">' +
+                    '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' +
+                    '<span>' + item + '</span>' +
+                  '</button>';
+        } else {
+          html += '<button type="button" onclick="togglePemulihanCip(\'' + item + '\')" class="pemulihan-chip px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition active:scale-95 whitespace-normal text-left cursor-pointer">' +
+                    '<span>' + item + '</span>' +
+                  '</button>';
+        }
+      });
+
+      container.innerHTML = html;
+    }
+
+    function togglePemulihanCip(item) {
+      var idx = modalPemulihanTerpilih.indexOf(item);
       if (idx > -1) {
-        SLOT_MODAL_SEMASA.pemulihan.splice(idx, 1);
+        modalPemulihanTerpilih.splice(idx, 1);
       } else {
-        SLOT_MODAL_SEMASA.pemulihan.push(name);
+        modalPemulihanTerpilih.push(item);
       }
-      renderModalChips();
+      renderCipPemulihan();
     }
 
-    function setModalPanjangWaktu(waktuVal) {
-      if (!SLOT_MODAL_SEMASA) return;
-      SLOT_MODAL_SEMASA.panjangWaktu = waktuVal;
+    function kemaskiniHeaderModalSlot() {
+      var senaraiWaktu = dapatkanSenarai13Waktu();
+      var wStart = senaraiWaktu.find(function(w) { return w.period === modalPeriodSemasa; });
+      var wEnd = senaraiWaktu.find(function(w) { return w.period === (modalPeriodSemasa + modalPanjangWaktuSemasa - 1); });
 
-      var b1 = document.getElementById("btnWaktuOption1");
-      var b2 = document.getElementById("btnWaktuOption2");
-      var i1 = document.getElementById("iconWaktu1");
-      var i2 = document.getElementById("iconWaktu2");
-
-      if (waktuVal === 1) {
-        if (b1) b1.className = "p-3 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer";
-        if (b2) b2.className = "p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer";
-        if (i1) i1.textContent = "(*)";
-        if (i2) i2.textContent = "( )";
-      } else {
-        if (b1) b1.className = "p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer";
-        if (b2) b2.className = "p-3 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer";
-        if (i1) i1.textContent = "( )";
-        if (i2) i2.textContent = "(-)";
-      }
-
-      kemaskiniTajukModalSlot();
-    }
-
-    function kemaskiniTajukModalSlot() {
-      if (!SLOT_MODAL_SEMASA) return;
-      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
-      var startIdx = SLOT_MODAL_SEMASA.periodMula - 1;
-      var wStart = waktuList[startIdx] || { mula: "07:10" };
-      var endIdx = startIdx + (SLOT_MODAL_SEMASA.panjangWaktu || 1) - 1;
-      var wEnd = waktuList[endIdx] || waktuList[waktuList.length - 1];
-
-      var hariObj = HARI_ASC.find(function(h) { return h.kod === SLOT_MODAL_SEMASA.hari; }) || { nama: "Isnin" };
-      var minit = (SLOT_MODAL_SEMASA.panjangWaktu || 1) * 30;
+      var strMula = wStart ? wStart.mula : "07:10";
+      var strTamat = wEnd ? wEnd.tamat : (wStart ? wStart.tamat : "08:10");
+      var durasi = modalPanjangWaktuSemasa * 30;
 
       var tajukEl = document.getElementById("modalSlotTajuk");
       if (tajukEl) {
-        tajukEl.textContent = "TETAPAN SLOT: " + hariObj.nama.toUpperCase() + " (" + wStart.mula + " - " + wEnd.tamat + ") [" + minit + " MINIT]";
+        tajukEl.textContent = "TETAPAN SLOT: " + modalHariSemasa + " (" + strMula + " - " + strTamat + ") [" + durasi + " MINIT]";
       }
     }
 
-    function bukaModalSlotTambah(hariKod, periodNum) {
-      SLOT_MODAL_SEMASA = {
-        id: hariKod + "_" + periodNum + "_" + Date.now(),
-        hari: hariKod,
-        periodMula: periodNum,
-        panjangWaktu: 2, // Default 2 waktu kembar 60 min
-        subjek: "Bahasa Inggeris (BI)",
-        kelas: "4 USM",
-        iThink: ["Peta Buih (Bubble)"],
-        pemulihan: ["Bimbingan Guru (Scaffolding)", "Lembaran Kerja Pemulihan"],
-        isEdit: false
-      };
+    function bukaModalSlotTambah(hari, period) {
+      modalSlotIdSemasa = null;
+      modalHariSemasa = normalisasiHariKod(hari);
+      modalPeriodSemasa = period;
 
-      populateModalSubjekDropdown(SLOT_MODAL_SEMASA.subjek);
-      var inKelas = document.getElementById("modalTxtKelas");
-      if (inKelas) inKelas.value = SLOT_MODAL_SEMASA.kelas;
+      var maxSpan = 14 - period;
+      var defaultSpan = (maxSpan >= 2) ? 2 : 1;
+      modalPanjangWaktuSemasa = defaultSpan;
+      modalIthinkTerpilih = ["Peta Buih (Bubble)"];
+      modalPemulihanTerpilih = ["Bimbingan Guru (Scaffolding)"];
 
-      setModalPanjangWaktu(2);
-      renderModalChips();
-      kemaskiniTajukModalSlot();
+      // Papar info konteks
+      var lblSub = document.getElementById('modalLblContextSubjekKelas');
+      if (lblSub && guruPilihanSemasa) {
+        lblSub.textContent = guruPilihanSemasa.subjek + " (" + guruPilihanSemasa.tahun + ") - " + guruPilihanSemasa.kelas;
+      }
+
+      setModalPanjangWaktu(defaultSpan);
+      renderCipIThink();
+      renderCipPemulihan();
 
       var btnPadam = document.getElementById("btnModalPadam");
       if (btnPadam) btnPadam.classList.add("hidden");
@@ -4002,16 +4101,22 @@ var SUBJEK_PERDANA = [
       var slot = JADUAL_ASC_SLOTS.find(function(s) { return s.id === slotId; });
       if (!slot) return;
 
-      SLOT_MODAL_SEMASA = JSON.parse(JSON.stringify(slot));
-      SLOT_MODAL_SEMASA.isEdit = true;
+      modalSlotIdSemasa = slot.id;
+      modalHariSemasa = normalisasiHariKod(slot.hari || slot.day);
+      modalPeriodSemasa = slot.periodMula || slot.periodStart;
+      modalPanjangWaktuSemasa = slot.panjangWaktu || (slot.duration ? slot.duration / 30 : 2);
+      modalIthinkTerpilih = Array.isArray(slot.ithink || slot.iThink) ? (slot.ithink || slot.iThink).slice() : ["Peta Buih (Bubble)"];
+      modalPemulihanTerpilih = Array.isArray(slot.pemulihan) ? slot.pemulihan.slice() : ["Bimbingan Guru (Scaffolding)"];
 
-      populateModalSubjekDropdown(SLOT_MODAL_SEMASA.subjek);
-      var inKelas = document.getElementById("modalTxtKelas");
-      if (inKelas) inKelas.value = SLOT_MODAL_SEMASA.kelas || "4 USM";
+      // Papar info konteks
+      var lblSub = document.getElementById('modalLblContextSubjekKelas');
+      if (lblSub && guruPilihanSemasa) {
+        lblSub.textContent = guruPilihanSemasa.subjek + " (" + guruPilihanSemasa.tahun + ") - " + guruPilihanSemasa.kelas;
+      }
 
-      setModalPanjangWaktu(SLOT_MODAL_SEMASA.panjangWaktu || 1);
-      renderModalChips();
-      kemaskiniTajukModalSlot();
+      setModalPanjangWaktu(modalPanjangWaktuSemasa);
+      renderCipIThink();
+      renderCipPemulihan();
 
       var btnPadam = document.getElementById("btnModalPadam");
       if (btnPadam) btnPadam.classList.remove("hidden");
@@ -4023,79 +4128,232 @@ var SUBJEK_PERDANA = [
     function tutupModalSlot() {
       var modal = document.getElementById("modalSlotAsc");
       if (modal) modal.classList.add("hidden");
-      SLOT_MODAL_SEMASA = null;
     }
 
     function simpanSlotDariModal() {
-      if (!SLOT_MODAL_SEMASA) return;
+      if (!guruPilihanSemasa) {
+        alert("Sila sahkan profil & kurikulum di Langkah 1 terlebih dahulu.");
+        return;
+      }
 
-      var selSub = document.getElementById("modalSelSubjek");
-      var inKelas = document.getElementById("modalTxtKelas");
+      var subjek = guruPilihanSemasa.subjek || "Bahasa Melayu";
+      var tahun = guruPilihanSemasa.tahun || "Tahun 4";
+      var kelas = guruPilihanSemasa.kelas || "4 USM";
 
-      SLOT_MODAL_SEMASA.subjek = selSub ? selSub.value : "Bahasa Inggeris";
-      SLOT_MODAL_SEMASA.kelas = inKelas ? (inKelas.value.trim() || "4 USM") : "4 USM";
+      var pStart = modalPeriodSemasa;
+      var pSpan = modalPanjangWaktuSemasa;
+      var pEnd = pStart + pSpan - 1;
 
-      var startP = SLOT_MODAL_SEMASA.periodMula;
-      var endP = startP + (SLOT_MODAL_SEMASA.panjangWaktu || 1) - 1;
+      var senaraiWaktu = dapatkanSenarai13Waktu();
+      var wStart = senaraiWaktu.find(function(w) { return w.period === pStart; });
+      var wEnd = senaraiWaktu.find(function(w) { return w.period === pEnd; });
+      var strMula = wStart ? wStart.mula : "07:10";
+      var strTamat = wEnd ? wEnd.tamat : "08:10";
+      var durasi = pSpan * 30;
 
-      // Filter out overlapping slots on the same day
+      // Hapus slot bertindih
       JADUAL_ASC_SLOTS = JADUAL_ASC_SLOTS.filter(function(s) {
-        if (s.id === SLOT_MODAL_SEMASA.id) return false;
-        if (s.hari !== SLOT_MODAL_SEMASA.hari) return true;
-        var sStart = s.periodMula;
-        var sEnd = sStart + (s.panjangWaktu || 1) - 1;
-        var overlap = (startP <= sEnd && endP >= sStart);
-        return !overlap;
+        if (modalSlotIdSemasa && s.id === modalSlotIdSemasa) return false;
+        var sHari = normalisasiHariKod(s.hari || s.day);
+        if (sHari !== modalHariSemasa) return true;
+        var sMula = s.periodMula || s.periodStart;
+        var sSpan = s.panjangWaktu || (s.duration ? s.duration / 30 : 1);
+        var sEnd = sMula + sSpan - 1;
+        var bertindih = !(pEnd < sMula || pStart > sEnd);
+        return !bertindih;
       });
 
-      // Masukkan slot baharu
-      JADUAL_ASC_SLOTS.push({
-        id: SLOT_MODAL_SEMASA.id,
-        hari: SLOT_MODAL_SEMASA.hari,
-        periodMula: SLOT_MODAL_SEMASA.periodMula,
-        panjangWaktu: SLOT_MODAL_SEMASA.panjangWaktu,
-        subjek: SLOT_MODAL_SEMASA.subjek,
-        kelas: SLOT_MODAL_SEMASA.kelas,
-        iThink: SLOT_MODAL_SEMASA.iThink || [],
-        pemulihan: SLOT_MODAL_SEMASA.pemulihan || []
-      });
+      var slotObj = {
+        id: modalSlotIdSemasa || ('slot_' + Date.now() + '_' + Math.floor(Math.random() * 1000)),
+        hari: modalHariSemasa,
+        day: modalHariSemasa,
+        periodMula: pStart,
+        periodStart: pStart,
+        panjangWaktu: pSpan,
+        periodEnd: pEnd,
+        mula: strMula,
+        tamat: strTamat,
+        time: strMula + " - " + strTamat,
+        duration: durasi,
+        minit: durasi,
+        subjek: subjek,
+        subject: subjek,
+        subjectCode: getSubjekShortCode(subjek),
+        tahun: tahun,
+        year: tahun,
+        kelas: kelas,
+        className: kelas,
+        ithink: modalIthinkTerpilih.slice(),
+        iThink: modalIthinkTerpilih.slice(),
+        pemulihan: modalPemulihanTerpilih.slice()
+      };
+
+      JADUAL_ASC_SLOTS.push(slotObj);
+
+      try {
+        localStorage.setItem('jadual_asc_slots_v2', JSON.stringify(JADUAL_ASC_SLOTS));
+      } catch (e) {}
 
       tutupModalSlot();
-      renderAscGridBody();
+      renderAscGrid();
     }
 
     function padamSlotDariModal() {
-      if (!SLOT_MODAL_SEMASA) return;
-      JADUAL_ASC_SLOTS = JADUAL_ASC_SLOTS.filter(function(s) {
-        return s.id !== SLOT_MODAL_SEMASA.id;
-      });
-      tutupModalSlot();
-      renderAscGridBody();
-    }
+      if (!modalSlotIdSemasa) return;
+      JADUAL_ASC_SLOTS = JADUAL_ASC_SLOTS.filter(function(s) { return s.id !== modalSlotIdSemasa; });
+      try {
+        localStorage.setItem('jadual_asc_slots_v2', JSON.stringify(JADUAL_ASC_SLOTS));
+      } catch (e) {}
 
-    function kosongkanSemuaSlotJadual() {
-      if (confirm("Adakah anda pasti mahu mengosongkan semua slot dalam jadual?")) {
-        JADUAL_ASC_SLOTS = [];
-        renderAscGridBody();
-      }
+      tutupModalSlot();
+      renderAscGrid();
     }
 
     function muatContohJadualGuru() {
+      var subjek = guruPilihanSemasa ? guruPilihanSemasa.subjek : "Bahasa Melayu";
+      var tahun = guruPilihanSemasa ? guruPilihanSemasa.tahun : "Tahun 4";
+      var kelas = guruPilihanSemasa ? guruPilihanSemasa.kelas : "4 USM";
+
       JADUAL_ASC_SLOTS = [
-        { id: "Mo_2", hari: "Mo", periodMula: 2, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "4 USM", iThink: ["Peta Buih (Bubble)"], pemulihan: ["Bimbingan Guru (Scaffolding)", "Lembaran Kerja Pemulihan"] },
-        { id: "Mo_7", hari: "Mo", periodMula: 7, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "2 UMS", iThink: ["Peta Alir"], pemulihan: ["Bimbingan Guru (Scaffolding)"] },
-        { id: "Tu_3", hari: "Tu", periodMula: 3, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "4 USM", iThink: ["Peta Pokok"], pemulihan: ["Lembaran Kerja Pemulihan"] },
-        { id: "We_4", hari: "We", periodMula: 4, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "2 UMS", iThink: ["Peta Buih (Bubble)"], pemulihan: ["Aktiviti Pengayaan Cerdas"] },
-        { id: "Th_2", hari: "Th", periodMula: 2, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "4 USM", iThink: ["Peta Titi"], pemulihan: ["Bimbingan Guru (Scaffolding)"] },
-        { id: "Fr_3", hari: "Fr", periodMula: 3, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "2 UMS", iThink: ["Peta Bulatan"], pemulihan: ["Lembaran Kerja Pemulihan"] }
+        {
+          id: 'demo_1',
+          hari: 'ISNIN',
+          day: 'ISNIN',
+          periodMula: 2,
+          periodStart: 2,
+          panjangWaktu: 2,
+          periodEnd: 3,
+          mula: '07:40',
+          tamat: '08:40',
+          time: '07:40 - 08:40',
+          duration: 60,
+          minit: 60,
+          subjek: subjek,
+          subject: subjek,
+          subjectCode: getSubjekShortCode(subjek),
+          tahun: tahun,
+          year: tahun,
+          kelas: kelas,
+          className: kelas,
+          ithink: ['Peta Alir'],
+          iThink: ['Peta Alir'],
+          pemulihan: ['Bimbingan Guru (Scaffolding)']
+        },
+        {
+          id: 'demo_2',
+          hari: 'SELASA',
+          day: 'SELASA',
+          periodMula: 3,
+          periodStart: 3,
+          panjangWaktu: 2,
+          periodEnd: 4,
+          mula: '08:10',
+          tamat: '09:10',
+          time: '08:10 - 09:10',
+          duration: 60,
+          minit: 60,
+          subjek: subjek,
+          subject: subjek,
+          subjectCode: getSubjekShortCode(subjek),
+          tahun: tahun,
+          year: tahun,
+          kelas: kelas,
+          className: kelas,
+          ithink: ['Peta Pokok'],
+          iThink: ['Peta Pokok'],
+          pemulihan: ['Lembaran Kerja Pemulihan']
+        },
+        {
+          id: 'demo_3',
+          hari: 'RABU',
+          day: 'RABU',
+          periodMula: 4,
+          periodStart: 4,
+          panjangWaktu: 2,
+          periodEnd: 5,
+          mula: '08:40',
+          tamat: '09:40',
+          time: '08:40 - 09:40',
+          duration: 60,
+          minit: 60,
+          subjek: subjek,
+          subject: subjek,
+          subjectCode: getSubjekShortCode(subjek),
+          tahun: tahun,
+          year: tahun,
+          kelas: kelas,
+          className: kelas,
+          ithink: ['Peta Buih (Bubble)'],
+          iThink: ['Peta Buih (Bubble)'],
+          pemulihan: ['Aktiviti Pengayaan Cerdas']
+        },
+        {
+          id: 'demo_4',
+          hari: 'KHAMIS',
+          day: 'KHAMIS',
+          periodMula: 2,
+          periodStart: 2,
+          panjangWaktu: 2,
+          periodEnd: 3,
+          mula: '07:40',
+          tamat: '08:40',
+          time: '07:40 - 08:40',
+          duration: 60,
+          minit: 60,
+          subjek: subjek,
+          subject: subjek,
+          subjectCode: getSubjekShortCode(subjek),
+          tahun: tahun,
+          year: tahun,
+          kelas: kelas,
+          className: kelas,
+          ithink: ['Peta Titi'],
+          iThink: ['Peta Titi'],
+          pemulihan: ['Bimbingan Guru (Scaffolding)']
+        },
+        {
+          id: 'demo_5',
+          hari: 'JUMAAT',
+          day: 'JUMAAT',
+          periodMula: 3,
+          periodStart: 3,
+          panjangWaktu: 2,
+          periodEnd: 4,
+          mula: '08:10',
+          tamat: '09:10',
+          time: '08:10 - 09:10',
+          duration: 60,
+          minit: 60,
+          subjek: subjek,
+          subject: subjek,
+          subjectCode: getSubjekShortCode(subjek),
+          tahun: tahun,
+          year: tahun,
+          kelas: kelas,
+          className: kelas,
+          ithink: ['Peta Bulatan'],
+          iThink: ['Peta Bulatan'],
+          pemulihan: ['Lembaran Kerja Pemulihan']
+        }
       ];
-      renderAscGridBody();
+
+      try {
+        localStorage.setItem('jadual_asc_slots_v2', JSON.stringify(JADUAL_ASC_SLOTS));
+      } catch (e) {}
+
+      renderAscGrid();
     }
 
-    // =========================================================================
-    // TINDAKAN JANA RPH 40 MINGGU DARI aSc GRID (SEQUENTIAL DSKP PROGRESSION)
-    // =========================================================================
-    function laksanaJanaRph40Minggu() {
+    function kosongkanSemuaSlotJadual() {
+      if (confirm("Adakah anda pasti mahu mengosongkan semua slot pada jadual aSc?")) {
+        JADUAL_ASC_SLOTS = [];
+        try {
+          localStorage.removeItem('jadual_asc_slots_v2');
+        } catch (e) {}
+        renderAscGrid();
+      }
+    }
+function laksanaJanaRph40Minggu() {
       var isVerified = guruPilihanSemasa && guruPilihanSemasa.emel;
       if (!isVerified) {
         paparMesej("Akses Belum Sah", "Sila lengkapkan profil pendidik pada Langkah 1 terlebih dahulu.", "warning");
@@ -4116,28 +4374,40 @@ var SUBJEK_PERDANA = [
       if (barProses) barProses.style.width = "25%";
       if (lblStatus) lblStatus.textContent = "Menyediakan jadual mingguan aSc dan memetakan silibus DSKP...";
 
-      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
-
-      // Susun dan format jadual mingguan untuk dihantar ke backend
+            var waktuList = dapatkanSenarai13Waktu();
       var jadualMingguanFormatted = JADUAL_ASC_SLOTS.map(function(s) {
-        var hariObj = HARI_ASC.find(function(h) { return h.kod === s.hari; }) || { nama: "Isnin" };
-        var wStart = waktuList[s.periodMula - 1] || { mula: "07:10" };
-        var wEnd = waktuList[s.periodMula + (s.panjangWaktu || 1) - 2] || waktuList[s.periodMula - 1];
+        var sHari = normalisasiHariKod(s.hari || s.day);
+        var hariObj = HARI_ASC.find(function(h) { return h.kod === sHari; }) || { nama: "Isnin" };
+        var pStart = s.periodMula || s.periodStart || 1;
+        var span = s.panjangWaktu || (s.duration ? s.duration / 30 : 1);
+        var wStart = waktuList[pStart - 1] || { mula: s.mula || "07:10" };
+        var wEnd = waktuList[pStart + span - 2] || waktuList[pStart - 1] || { tamat: s.tamat || "07:40" };
 
         return {
-          hari: hariObj.nama.toUpperCase(),
+          day: hariObj.nama,
+          hari: sHari,
+          periodStart: pStart,
+          periodEnd: pStart + span - 1,
+          time: s.time || (wStart.mula + " - " + wEnd.tamat),
           mula: wStart.mula,
           tamat: wEnd.tamat,
-          minit: (s.panjangWaktu || 1) * 30,
-          subjek: s.subjek,
-          kelas: s.kelas,
-          tahun: ekstrakTahunDariKelas(s.kelas),
-          iThink: s.iThink || [],
+          minit: span * 30,
+          duration: span * 30,
+          panjangWaktu: span,
+          subjek: s.subjek || s.subject || "Bahasa Melayu",
+          subject: s.subject || s.subjek || "Bahasa Melayu",
+          subjectCode: s.subjectCode || getSubjekShortCode(s.subjek || s.subject),
+          tahun: s.tahun || s.year || ekstrakTahunDariKelas(s.kelas || s.className),
+          year: s.year || s.tahun || ekstrakTahunDariKelas(s.kelas || s.className),
+          kelas: s.kelas || s.className || "4 USM",
+          className: s.className || s.kelas || "4 USM",
+          iThink: s.iThink || s.ithink || [],
+          ithink: s.ithink || s.iThink || [],
           pemulihan: s.pemulihan || []
         };
       });
 
-            var slotPertama = JADUAL_ASC_SLOTS[0] || {};
+      var slotPertama = JADUAL_ASC_SLOTS[0] || {};
       var payload = {
         token: "DFY-WEB-" + Date.now().toString(36).toUpperCase(),
         emel: guruPilihanSemasa.emel,
@@ -4145,9 +4415,9 @@ var SUBJEK_PERDANA = [
         sekolah: guruPilihanSemasa.sekolah,
         sesi: guruPilihanSemasa.sesi || "2026",
         aliran: guruPilihanSemasa.aliran || "PERDANA",
-        subjek: slotPertama.subjek || "Bahasa Inggeris",
-        tahun: ekstrakTahunDariKelas(slotPertama.kelas) || "Tahun 4",
-        kelas: slotPertama.kelas || "4 USM",
+        subjek: slotPertama.subjek || slotPertama.subject || "Bahasa Melayu",
+        tahun: slotPertama.tahun || slotPertama.year || ekstrakTahunDariKelas(slotPertama.kelas || slotPertama.className) || "Tahun 4",
+        kelas: slotPertama.kelas || slotPertama.className || "4 USM",
         jadualMingguan: jadualMingguanFormatted
       };
 

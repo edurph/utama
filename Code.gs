@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ============================================================================
  * e-RPH PINTAR AI 2026 (CORE ENGINE & BULK MONTHLY GENERATOR)
  * SISTEM PENGURUSAN REKOD PENGAJARAN HARIAN, DSKP & PENJANAAN PUKAL SEBULAN
@@ -2227,25 +2227,306 @@ function janaDskpSilibusPenuh(subjek, tahun) {
  * ENDPOINT UTAMA: PENJANAAN RPH 40 MINGGU DARI WEB APP (TAB 2 aSc GRID)
  * ============================================================================
  */
+
+// ============================================================================
+
+// ============================================================================
+
+// ============================================================================
+// 8. ENJIN PENJANAAN DOKUMEN MICROSOFT WORD (.DOCX) 40 MINGGU TERBEZA (KSSR)
+// ============================================================================
+
+/**
+ * Menjana 1 Fail Microsoft Word (.docx) Lengkap 40 Minggu Mengikut Format RPH Terbeza KPM (Kump 1, 2, 3)
+ */
+function janaRph40MingguDocx(payload) {
+  try {
+    if (!payload || typeof payload !== 'object') {
+      return { success: false, message: "Ralat: Maklumat penjanaan tidak lengkap." };
+    }
+
+    var nama = String(payload.nama || "Pendidik KPM").trim();
+    var sekolah = String(payload.sekolah || "Sekolah Kebangsaan").trim();
+    var emel = String(payload.emel || "").trim().toLowerCase();
+    var sesi = String(payload.sesi || "2026").trim();
+    var aliran = String(payload.aliran || "PERDANA").trim().toUpperCase();
+    var subjek = String(payload.subjek || payload.subject || "Bahasa Melayu").trim();
+    var tahun = String(payload.tahun || payload.year || "Tahun 4").trim();
+    var kelas = String(payload.kelas || payload.className || "4 USM").trim();
+    var jadualMingguan = payload.jadualMingguan || [];
+
+    if (!jadualMingguan || jadualMingguan.length === 0) {
+      return { success: false, message: "Sila tandakan sekurang-kurangnya SATU (1) petak jadual waktu PdP." };
+    }
+
+    // 1. Dapatkan Silibus DSKP 40 Minggu
+    var dskpList = dapatkanDskpDariSheet(subjek, tahun);
+    if (!dskpList || dskpList.length === 0) {
+      dskpList = janaDskpSilibusPenuh(subjek, tahun);
+    }
+
+    var docId = null;
+    var downloadUrl = "";
+    var docViewUrl = "";
+
+    try {
+      var docName = "e-RPH 40 Minggu Terbeza - " + subjek + " " + tahun + " (" + kelas + ") - " + nama;
+      var doc = DocumentApp.create(docName);
+      var body = doc.getBody();
+
+      body.setMarginTop(28.35);
+      body.setMarginBottom(28.35);
+      body.setMarginLeft(28.35);
+      body.setMarginRight(28.35);
+
+      // ==========================================
+      // MUKA DEPAN (COVER PAGE MASTER)
+      // ==========================================
+      var pTop = body.appendParagraph("KEMENTERIAN PENDIDIKAN MALAYSIA");
+      pTop.setAlignment(DocumentApp.HorizontalAlignment.CENTER).setFontFamily("Arial").setFontSize(13).setBold(true).setSpacingBefore(30);
+
+      var pTitle = body.appendParagraph("REKOD PENGAJARAN & PEMBELAJARAN HARIAN TERBEZA (e-RPH)\nPENDEKATAN TERBEZA & PAK-21 | SESI " + sesi);
+      pTitle.setAlignment(DocumentApp.HorizontalAlignment.CENTER).setFontFamily("Arial").setFontSize(15).setBold(true).setFontColor("#1e1b4b").setSpacingBefore(15).setSpacingAfter(35);
+
+      var tableCover = body.appendTable([
+        ["NAMA GURU", nama],
+        ["KOD & NAMA SEKOLAH", sekolah],
+        ["EMEL RASMI / DELIMa", emel || "-"],
+        ["MATA PELAJARAN", subjek],
+        ["TAHUN / DARJAH (DSKP)", tahun],
+        ["NAMA KELAS", kelas],
+        ["ALIRAN PROGRAM", (aliran === "PRASEKOLAH" ? "Prasekolah (KSPK)" : (aliran === "PPKI" ? "Pendidikan Khas (PPKI)" : "Aliran Perdana (KSSR Terbeza)"))],
+        ["PENDEKATAN PEDAGOGI", "Pendekatan Terbeza (Kump 1: Pengayaan, Kump 2: Pengukuhan, Kump 3: Pemulihan)"],
+        ["JUMLAH MINGGU", "40 Minggu Persekolahan Lengkap"],
+        ["FORMAT DOKUMEN", "Microsoft Word (.docx) - Standard KPM"]
+      ]);
+
+      tableCover.setBorderWidth(1).setBorderColor("#cbd5e1");
+      for (var r = 0; r < tableCover.getNumRows(); r++) {
+        var rowC = tableCover.getRow(r);
+        var c0 = rowC.getCell(0);
+        c0.setWidth(170).setBackgroundColor("#f8fafc");
+        c0.getChild(0).asParagraph().setBold(true).setFontSize(10).setFontFamily("Arial");
+        var c1 = rowC.getCell(1);
+        c1.setWidth(330);
+        c1.getChild(0).asParagraph().setFontSize(10).setFontFamily("Arial");
+      }
+
+      body.appendParagraph("\n\n* Dokumen e-RPH Terbeza ini dijana secara automatik berasaskan DSKP KPM dan pemetaan pedagogi PAK-21.").setAlignment(DocumentApp.HorizontalAlignment.CENTER).setFontSize(9).setItalic(true).setFontColor("#64748b");
+      body.appendPageBreak();
+
+      // ==========================================
+      // JANA 40 MINGGU PENUH e-RPH TERBEZA
+      // ==========================================
+      var baseDate = new Date(2026, 0, 12);
+      var dskpIndex = 0;
+
+      for (var w = 1; w <= 40; w++) {
+        var kodMinggu = "MINGGU " + w;
+        var mondayTimestamp = baseDate.getTime() + ((w - 1) * 7 * 24 * 60 * 60 * 1000);
+
+        var pMinggu = body.appendParagraph(kodMinggu + " | SESI " + sesi);
+        pMinggu.setHeading(DocumentApp.ParagraphHeading.HEADING1).setFontFamily("Arial").setFontSize(13).setBold(true).setFontColor("#1e1b4b").setSpacingBefore(10).setSpacingAfter(8);
+
+        for (var sIdx = 0; sIdx < jadualMingguan.length; sIdx++) {
+          var slot = jadualMingguan[sIdx];
+          var dskp = dskpList[dskpIndex % dskpList.length];
+          dskpIndex++;
+
+          var offset = 0;
+          var hName = String(slot.day || slot.hari || "ISNIN").toUpperCase();
+          if (hName.includes("SELASA")) offset = 1;
+          else if (hName.includes("RABU")) offset = 2;
+          else if (hName.includes("KHAMIS")) offset = 3;
+          else if (hName.includes("JUMAAT")) offset = 4;
+
+          var slotDate = new Date(mondayTimestamp + (offset * 24 * 60 * 60 * 1000));
+          var dStr = (slotDate.getDate() < 10 ? '0' : '') + slotDate.getDate() + '/' + 
+                     ((slotDate.getMonth() + 1) < 10 ? '0' : '') + (slotDate.getMonth() + 1) + '/' + 
+                     slotDate.getFullYear();
+
+          var masaStr = (slot.time || (slot.mula + " - " + slot.tamat) || "07:40 - 08:40") + " (" + (slot.duration || slot.minit || 60) + " Minit)";
+          var ithinkStr = (slot.ithink || slot.iThink || []).join(", ") || "Peta Buih (Bubble)";
+          var pemulihanStr = (slot.pemulihan || []).join(", ") || "Bimbingan Guru (Scaffolding)";
+
+          var tableRph = body.appendTable();
+          tableRph.setBorderWidth(1).setBorderColor("#94a3b8");
+
+          // Header Bar
+          var rowH = tableRph.appendTableRow();
+          var cHdr = rowH.appendTableCell("RANCANGAN PENGAJARAN HARIAN TERBEZA\n" + (slot.subject || slot.subjek || subjek).toUpperCase() + " " + (slot.year || slot.tahun || tahun).toUpperCase());
+          cHdr.setBackgroundColor("#ede9fe");
+          cHdr.getChild(0).asParagraph().setBold(true).setFontSize(10).setFontFamily("Arial").setAlignment(DocumentApp.HorizontalAlignment.CENTER);
+
+          // Maklumat Asas
+          var rphInfoRows = [
+            ["MINGGU", "" + w, "MASA", masaStr],
+            ["HARI / TARIKH", hName + ", " + dStr, "KELAS", (slot.className || slot.kelas || kelas)],
+            ["TEMA", dskp.tema || "Keluarga & Masyarakat", "TAJUK", dskp.tajuk || "Penguasaan Konsep & Kemahiran"],
+            ["KEMAHIRAN", "Mendengar, Bertutur, Membaca & Menulis", "ASPIRASI MURID", "Etika & Kerohanian, Kemahiran Berfikir"],
+            ["STANDARD KANDUNGAN", dskp.sk || "1.1 Standard Kandungan KPM", "", ""],
+            ["STANDARD PEMBELAJARAN", dskp.sp || "1.1.1 Menguasai kemahiran pembelajaran berasaskan DSKP", "", ""],
+            ["KEMAHIRAN TMK", "1.11 Menghasilkan dan menyunting teks, imej dan audio digital", "", ""]
+          ];
+
+          rphInfoRows.forEach(function(item) {
+            var row = tableRph.appendTableRow();
+            if (item[2] !== "") {
+              var c1 = row.appendTableCell(item[0]); var c2 = row.appendTableCell(item[1]);
+              var c3 = row.appendTableCell(item[2]); var c4 = row.appendTableCell(item[3]);
+              c1.setWidth(110); c2.setWidth(140); c3.setWidth(110); c4.setWidth(140);
+              c1.setBackgroundColor("#f1f5f9"); c3.setBackgroundColor("#f1f5f9");
+              c1.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial");
+              c2.getChild(0).asParagraph().setFontSize(8.5).setFontFamily("Arial");
+              c3.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial");
+              c4.getChild(0).asParagraph().setFontSize(8.5).setFontFamily("Arial");
+            } else {
+              var cLabel = row.appendTableCell(item[0]);
+              var cVal = row.appendTableCell(item[1]);
+              cLabel.setWidth(110); cVal.setWidth(390);
+              cLabel.setBackgroundColor("#f8fafc");
+              cLabel.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial");
+              cVal.getChild(0).asParagraph().setFontSize(8.5).setFontFamily("Arial");
+            }
+          });
+
+          // Objektif Terbeza
+          var rowObj = tableRph.appendTableRow();
+          var cObjLbl = rowObj.appendTableCell("OBJEKTIF PEMBELAJARAN TERBEZA");
+          var cObjVal = rowObj.appendTableCell(
+            "Kump 1 (Pengayaan): Murid dapat menguasai, menganalisis dan melengkapkan 4 tugasan dengan tepat secara berdikari.\n" +
+            "Kump 2 (Pengukuhan): Murid dapat memahami dan menyelesaikan sekurang-kurangnya 3 daripada 4 tugasan dengan betul.\n" +
+            "Kump 3 (Pemulihan): Murid dapat menyalin dan menyusun sekurang-kurangnya 2 ayat/frasa mudah dengan bimbingan guru."
+          );
+          cObjLbl.setWidth(110); cObjVal.setWidth(390);
+          cObjLbl.setBackgroundColor("#f1f5f9");
+          cObjLbl.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial");
+          cObjVal.getChild(0).asParagraph().setFontSize(8.5).setFontFamily("Arial");
+
+          // Kriteria Kejayaan Terbeza
+          var rowKk = tableRph.appendTableRow();
+          var cKkLbl = rowKk.appendTableCell("KRITERIA KEJAYAAN TERBEZA");
+          var cKkVal = rowKk.appendTableCell(
+            "Kump 1: Berjaya melengkapkan 4 latihan aras tinggi dalam buku aktiviti serta membimbing rakan sebaya.\n" +
+            "Kump 2: Berjaya melengkapkan sekurang-kurangnya 3 latihan bertulis dengan bimbingan minimum.\n" +
+            "Kump 3: Berjaya menyalin dan menyebut sekurang-kurangnya 2 perkataan/ayat dengan bimbingan guru."
+          );
+          cKkLbl.setWidth(110); cKkVal.setWidth(390);
+          cKkLbl.setBackgroundColor("#f8fafc");
+          cKkLbl.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial");
+          cKkVal.getChild(0).asParagraph().setFontSize(8.5).setFontFamily("Arial");
+
+          // Set Induksi
+          var rowInd = tableRph.appendTableRow();
+          var cIndLbl = rowInd.appendTableCell("SET INDUKSI");
+          var cIndVal = rowInd.appendTableCell("1. Guru mengaitkan tajuk pembelajaran dengan pengalaman sedia ada murid.\n2. Guru dan murid bersoal jawab secara santai untuk mencungkil idea awal.\n3. Guru menerangkan objektif dan kriteria kejayaan PdP hari ini.");
+          cIndLbl.setWidth(110); cIndVal.setWidth(390);
+          cIndLbl.setBackgroundColor("#f1f5f9");
+          cIndLbl.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial");
+          cIndVal.getChild(0).asParagraph().setFontSize(8.5).setFontFamily("Arial");
+
+          // Aktiviti Terbeza 3 Kolum (Kumpulan 1, 2, 3)
+          var rowAktHdr = tableRph.appendTableRow();
+          var cAktHdr = rowAktHdr.appendTableCell("AKTIVITI PdP TERBEZA (PENDEKATAN BERBEZA MENGIKUT ARAS)");
+          cAktHdr.setBackgroundColor("#e0e7ff");
+          cAktHdr.getChild(0).asParagraph().setBold(true).setFontSize(8.5).setFontFamily("Arial").setAlignment(DocumentApp.HorizontalAlignment.CENTER);
+
+          var rowAktCols = tableRph.appendTableRow();
+          var cAkt1 = rowAktCols.appendTableCell("KUMPULAN 1 (PENGAYAAN)\n1. Membaca teks dan menganalisis maklumat secara berdikari.\n2. Melaksanakan teknik PAK-21 'Teach Me' / 'Write It Out'.\n3. Membina ayat gramatis dan mencabar minda (KBAT).\n4. Menjawab soalan pengayaan bertulis.");
+          var cAkt2 = rowAktCols.appendTableCell("KUMPULAN 2 (PENGUKUHAN)\n1. Membaca teks bersama guru dan rakan.\n2. Memahami kosa kata dan membina ayat mudah.\n3. Melengkapkan lembaran kerja pengukuhan.\n4. Bersoal jawab dengan guru untuk pengukuhan konsep.");
+          var cAkt3 = rowAktCols.appendTableCell("KUMPULAN 3 (PEMULIHAN)\n1. Mendengar bimbingan intensif guru (Scaffolding).\n2. Menyalin dan memadankan perkataan/gambar.\n3. Melakukan aktiviti latih tubi sebutan dan tulisan mekanis.\n4. Dibimbing oleh rakan sebaya (Buddy Support).");
+          cAkt1.setWidth(166); cAkt2.setWidth(167); cAkt3.setWidth(167);
+          cAkt1.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+          cAkt2.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+          cAkt3.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+
+          // Penutup Terbeza
+          var rowPenCols = tableRph.appendTableRow();
+          var cPen1 = rowPenCols.appendTableCell("PENUTUP (KUMP 1):\nMelengkapkan lembaran pengayaan dan refleksi kendiri.");
+          var cPen2 = rowPenCols.appendTableCell("PENUTUP (KUMP 2):\nMenyemak jawapan bersama guru dan membuat rumusan.");
+          var cPen3 = rowPenCols.appendTableCell("PENUTUP (KUMP 3):\nLatihan pemulihan berfokus bersama bimbingan guru.");
+          cPen1.setWidth(166); cPen2.setWidth(167); cPen3.setWidth(167);
+          cPen1.setBackgroundColor("#f8fafc"); cPen2.setBackgroundColor("#f8fafc"); cPen3.setBackgroundColor("#f8fafc");
+          cPen1.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+          cPen2.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+          cPen3.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+
+          // Elemen Sokongan & Pentaksiran
+          var rphFooterRows = [
+            ["BUKU TEKS", "Halaman 018 - 020", "BUKU AKTIVITI", "Halaman 022 - 024"],
+            ["SEKOLAHKU SEJAHTERA", "Tekun, Teliti, Terampil, Selamat", "STRATEGI PdP", "Pembelajaran Masteri & Terbeza"],
+            ["KBAT", "Menganalisis & Mengaplikasi", "PETA PEMIKIRAN", ithinkStr],
+            ["EMK: NILAI MURNI", "Kerjasama, Bertanggungjawab, Berdikari", "KEMAHIRAN BERFIKIR", "Mengecam, Menjana Idea"],
+            ["EMK: ILMU & TEMA", "Pendidikan Sivik & Moral", "PENILAIAN P&P", "Hasil Kerja Murid & Pemerhatian"],
+            ["PENTAKSIRAN PBD", "[ TP1 ]  [ TP2 ]  [ TP3 ]  [ TP4 ]  [ TP5 ]  [ TP6 ]", "TINDAKAN SUSULAN", pemulihanStr],
+            ["REFLEKSI & IMPAK", "1. ____ / ____ murid mencapai objektif PdP dan diberi aktiviti pengayaan.\n2. ____ / ____ murid diberi bimbingan berfokus dalam sesi pemulihan.", "", ""]
+          ];
+
+          rphFooterRows.forEach(function(item) {
+            var row = tableRph.appendTableRow();
+            if (item[2] !== "") {
+              var c1 = row.appendTableCell(item[0]); var c2 = row.appendTableCell(item[1]);
+              var c3 = row.appendTableCell(item[2]); var c4 = row.appendTableCell(item[3]);
+              c1.setWidth(110); c2.setWidth(140); c3.setWidth(110); c4.setWidth(140);
+              c1.setBackgroundColor("#f1f5f9"); c3.setBackgroundColor("#f1f5f9");
+              c1.getChild(0).asParagraph().setBold(true).setFontSize(8).setFontFamily("Arial");
+              c2.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+              c3.getChild(0).asParagraph().setBold(true).setFontSize(8).setFontFamily("Arial");
+              c4.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+            } else {
+              var cLabel = row.appendTableCell(item[0]);
+              var cVal = row.appendTableCell(item[1]);
+              cLabel.setWidth(110); cVal.setWidth(390);
+              cLabel.setBackgroundColor("#f8fafc");
+              cLabel.getChild(0).asParagraph().setBold(true).setFontSize(8).setFontFamily("Arial");
+              cVal.getChild(0).asParagraph().setFontSize(8).setFontFamily("Arial");
+            }
+          });
+
+          body.appendParagraph("").setSpacingAfter(6);
+        }
+
+        if (w < 40) {
+          body.appendPageBreak();
+        }
+      }
+
+      doc.saveAndClose();
+
+      if (emel && emel.includes("@")) {
+        try {
+          var file = DriveApp.getFileById(doc.getId());
+          file.addEditor(emel);
+        } catch (eDrive) {}
+      }
+
+      docId = doc.getId();
+      downloadUrl = "https://docs.google.com/document/d/" + docId + "/export?format=docx";
+      docViewUrl = doc.getUrl();
+    } catch (eDoc) {
+      console.warn("DocumentApp notice: " + eDoc.message);
+    }
+
+    return {
+      success: true,
+      docId: docId,
+      fileUrl: downloadUrl,
+      downloadUrl: downloadUrl,
+      docUrl: docViewUrl,
+      dskpList: dskpList,
+      message: "Fail Word 40 Minggu Terbeza (" + (jadualMingguan.length * 40) + " sesi PdP) telah siap dijana!"
+    };
+
+  } catch (err) {
+    console.error("Ralat janaRph40MingguDocx:", err);
+    return { success: false, message: "Ralat penjanaan dokumen Word 40 minggu: " + (err.message || err) };
+  }
+}
+
 function janaRph40MingguBackend(payload) {
   try {
     if (!payload) return { success: false, message: "Data jadual tidak lengkap." };
-    var emel = payload.emel || "";
-    if (!emel) {
-      return { success: false, message: "Sila sahkan profil guru dengan emel sah terlebih dahulu." };
-    }
-
-    var slots = payload.jadualMingguan || [];
-    if (!slots || slots.length === 0) {
-      return { success: false, message: "Sila tetapkan sekurang-kurangnya 1 slot PdP dalam jadual aSc." };
-    }
-
-    if (!payload.token) {
-      payload.token = "DFY-APP-" + Math.floor(100000 + Math.random() * 900000);
-    }
-
-    // Panggil enjin penjanaan 40 minggu berkelajuan tinggi
-    return generateFullYearRPH(payload);
+    return janaRph40MingguDocx(payload);
   } catch (err) {
     console.error("Ralat janaRph40MingguBackend:", err);
     return { success: false, message: "Ralat sistem: " + (err.message || err) };
