@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
@@ -67,6 +67,19 @@
   </div>
 
   <!-- 2. Iframe Web App dengan Sambungan Rasmi Google Apps Script Baharu -->
+<script>
+    (function() {
+      var baseGasUrl = "https://script.google.com/macros/s/AKfycbwZzDr6LTt1ycX-7v0vzVFQspB7vrYIR8vxppONA3XQScjeCbZdCmsrTtLtSMX5eXPyhQ/exec";
+      if (window.location.search) {
+        window.addEventListener('DOMContentLoaded', function() {
+          var frame = document.getElementById('pwaFrame');
+          if (frame) {
+            frame.src = baseGasUrl + window.location.search;
+          }
+        });
+      }
+    })();
+  </script>
   <iframe id="pwaFrame"
           src="https://script.google.com/macros/s/AKfycbwZzDr6LTt1ycX-7v0vzVFQspB7vrYIR8vxppONA3XQScjeCbZdCmsrTtLtSMX5eXPyhQ/exec"
           allow="geolocation *; camera *; microphone *"

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sistem Penjanaan RPH Auto - Penebusan Pantas Shopee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-jawi {
+      font-family: 'Noto Naskh Arabic', serif;
+      direction: rtl;
+    }
+    .custom-checkbox:checked {
+      background-color: #15803d;
+      border-color: #15803d;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-2 sm:p-4">
+
+  <!-- Container Bingkai Telefon (Mobile-First Frame) -->
+  <div class="max-w-md w-full mx-auto bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden flex flex-col my-auto">
+
+    <!-- Header Tajuk Utama -->
+    <div class="bg-white py-4 px-5 text-center border-b border-slate-100">
+      <h1 class="text-base font-extrabold text-slate-900 tracking-tight uppercase leading-snug">
+        SISTEM PENJANAAN RPH AUTO
+      </h1>
+      <p class="text-xs font-semibold text-slate-600">
+        (Penebusan Pantas Shopee)
+      </p>
+    </div>
+
+    <!-- Kandungan Borang -->
+    <form id="dfyForm" onsubmit="hantarJanaSetahun(event)" class="p-4 space-y-4 text-xs">
+
+      <!-- [1] PENGESAHAN PESANAN -->
+      <div class="rounded-xl overflow-hidden border border-slate-200 shadow-2xs">
+        <div class="bg-emerald-700 text-white font-extrabold px-3 py-2 text-xs flex items-center justify-between">
+          <span>[1] PENGESAHAN PESANAN</span>
+          <span class="text-[10px] bg-emerald-800 px-2 py-0.5 rounded text-emerald-100 font-medium">Langkah 1</span>
+        </div>
+        <div class="p-3 bg-slate-50/70 space-y-2.5">
+          <div>
+            <label for="txtToken" class="block font-bold text-slate-700 mb-1">
+              Kod Token Shopee:
+            </label>
+            <div class="flex gap-2">
+              <input type="text" 
+                     id="txtToken" 
+                     name="token" 
+                     required 
+                     placeholder="cth: RPH-8921-X"
+                     value="RPH-8921-X"
+                     oninput="this.value = this.value.toUpperCase(); semakTokenLive();"
+                     class="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2 font-bold text-slate-800 uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs">
+              <button type="button" 
+                      onclick="semakTokenLive(true)" 
+                      class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-2 rounded-lg font-bold transition active:scale-95 text-xs">
+                Semak
+              </button>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-1.5 pt-0.5">
+            <span class="font-bold text-slate-700">Status Token:</span>
+            <span id="badgeStatusToken" class="font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>SAH - 1 Penebusan Tersedia</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- [2] MAKLUMAT SUBJEK -->
+      <div class="rounded-xl overflow-hidden border border-slate-200 shadow-2xs">
+        <div class="bg-emerald-700 text-white font-extrabold px-3 py-2 text-xs flex flex-col">
+          <span>[2] MAKLUMAT SUBJEK</span>
+          <span class="text-[10px] font-normal text-emerald-100 opacity-90">(Terkunci mengikut belian Shopee)</span>
+        </div>
+        <div class="p-3 bg-slate-50/70 space-y-2.5">
+          <div>
+            <label for="selSubjek" class="block font-bold text-slate-700 mb-1">Subjek:</label>
+            <select id="selSubjek" name="subjek" class="w-full bg-white border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs">
+              <option value="Bahasa Inggeris (SK)" selected>Bahasa Inggeris (SK)</option>
+              <option value="Bahasa Melayu">Bahasa Melayu</option>
+              <option value="Sains">Sains</option>
+              <option value="Matematik">Matematik</option>
+              <option value="Pendidikan Islam">Pendidikan Islam</option>
+              <option value="Bahasa Arab">Bahasa Arab</option>
+              <option value="Sejarah">Sejarah</option>
+              <option value="Reka Bentuk dan Teknologi">Reka Bentuk dan Teknologi</option>
+              <option value="Pendidikan Seni Visual">Pendidikan Seni Visual</option>
+              <option value="Pendidikan Muzik">Pendidikan Muzik</option>
+              <option value="Pendidikan Jasmani dan Pendidikan Kesihatan">Pendidikan Jasmani dan Pendidikan Kesihatan (PJPK)</option>
+              <option value="Pendidikan Moral">Pendidikan Moral</option>
+              <option value="Prasekolah (KSPK)">Prasekolah (KSPK)</option>
+              <option value="Pendidikan Khas (PPKI)">Pendidikan Khas (PPKI)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="selTahun" class="block font-bold text-slate-700 mb-1">Tahun:</label>
+              <select id="selTahun" name="tahun" class="w-full bg-white border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs">
+                <option value="Tahun 1">Tahun 1</option>
+                <option value="Tahun 2">Tahun 2</option>
+                <option value="Tahun 3">Tahun 3</option>
+                <option value="Tahun 4" selected>Tahun 4</option>
+                <option value="Tahun 5">Tahun 5</option>
+                <option value="Tahun 6">Tahun 6</option>
+                <option value="Prasekolah">Prasekolah</option>
+              </select>
+            </div>
+            <div>
+              <label for="txtKelas" class="block font-bold text-slate-700 mb-1">Kelas:</label>
+              <input type="text" 
+                     id="txtKelas" 
+                     name="kelas" 
+                     required 
+                     value="4 Bakawali" 
+                     placeholder="cth: 4 Bakawali"
+                     class="w-full bg-white border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [3] TETAPAN JADUAL MINGGUAN -->
+      <div class="rounded-xl overflow-hidden border border-slate-200 shadow-2xs">
+        <div class="bg-emerald-700 text-white font-extrabold px-3 py-2 text-xs flex flex-col">
+          <span>[3] TETAPAN JADUAL MINGGUAN</span>
+          <span class="text-[10px] font-normal text-emerald-100 opacity-90">(Tandakan hari &amp; masa kelas)</span>
+        </div>
+        <div class="p-3 bg-slate-50/70 space-y-2.5">
+          
+          <!-- Hari Isnin -->
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk_ISNIN" checked onchange="toggleHari('ISNIN')" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+              <span class="font-extrabold text-slate-900 text-xs">[X] ISNIN</span>
+            </label>
+            <div id="row_ISNIN" class="mt-2 pl-6 flex items-center gap-1.5 flex-wrap text-[11px]">
+              <span class="text-slate-500 font-medium">Masa:</span>
+              <select id="mula_ISNIN" onchange="kiraJumlahMinit()" class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="07:30 AM">07:30 AM</option>
+                <option value="08:00 AM" selected>08:00 AM</option>
+                <option value="08:30 AM">08:30 AM</option>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="09:30 AM">09:30 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+              </select>
+              <span class="text-slate-500 font-medium">hingga</span>
+              <select id="tamat_ISNIN" onchange="kiraJumlahMinit()" class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="08:30 AM">08:30 AM</option>
+                <option value="09:00 AM" selected>09:00 AM</option>
+                <option value="09:30 AM">09:30 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="01:00 PM">01:00 PM</option>
+              </select>
+              <span id="dur_ISNIN" class="font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[10px]">(60 min)</span>
+            </div>
+          </div>
+
+          <!-- Hari Selasa -->
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk_SELASA" onchange="toggleHari('SELASA')" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+              <span class="font-extrabold text-slate-900 text-xs">[ &nbsp; ] SELASA</span>
+            </label>
+            <div id="row_SELASA" class="mt-2 pl-6 flex items-center gap-1.5 flex-wrap text-[11px] opacity-40 pointer-events-none">
+              <span class="text-slate-500 font-medium">Masa:</span>
+              <select id="mula_SELASA" onchange="kiraJumlahMinit()" disabled class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="--:--">--:--</option>
+                <option value="08:00 AM">08:00 AM</option>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+              </select>
+              <span class="text-slate-500 font-medium">hingga</span>
+              <select id="tamat_SELASA" onchange="kiraJumlahMinit()" disabled class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="--:--">--:--</option>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+              </select>
+              <span id="dur_SELASA" class="font-bold text-slate-400 text-[10px]">-</span>
+            </div>
+          </div>
+
+          <!-- Hari Rabu -->
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk_RABU" checked onchange="toggleHari('RABU')" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+              <span class="font-extrabold text-slate-900 text-xs">[X] RABU</span>
+            </label>
+            <div id="row_RABU" class="mt-2 pl-6 flex items-center gap-1.5 flex-wrap text-[11px]">
+              <span class="text-slate-500 font-medium">Masa:</span>
+              <select id="mula_RABU" onchange="kiraJumlahMinit()" class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="07:30 AM">07:30 AM</option>
+                <option value="08:00 AM" selected>08:00 AM</option>
+                <option value="08:30 AM">08:30 AM</option>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="09:30 AM">09:30 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+              </select>
+              <span class="text-slate-500 font-medium">hingga</span>
+              <select id="tamat_RABU" onchange="kiraJumlahMinit()" class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="08:30 AM">08:30 AM</option>
+                <option value="09:00 AM" selected>09:00 AM</option>
+                <option value="09:30 AM">09:30 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+              </select>
+              <span id="dur_RABU" class="font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[10px]">(60 min)</span>
+            </div>
+          </div>
+
+          <!-- Hari Khamis -->
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk_KHAMIS" checked onchange="toggleHari('KHAMIS')" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+              <span class="font-extrabold text-slate-900 text-xs">[X] KHAMIS</span>
+            </label>
+            <div id="row_KHAMIS" class="mt-2 pl-6 flex items-center gap-1.5 flex-wrap text-[11px]">
+              <span class="text-slate-500 font-medium">Masa:</span>
+              <select id="mula_KHAMIS" onchange="kiraJumlahMinit()" class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="07:30 AM">07:30 AM</option>
+                <option value="08:00 AM" selected>08:00 AM</option>
+                <option value="08:30 AM">08:30 AM</option>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+              </select>
+              <span class="text-slate-500 font-medium">hingga</span>
+              <select id="tamat_KHAMIS" onchange="kiraJumlahMinit()" class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="08:30 AM">08:30 AM</option>
+                <option value="09:00 AM" selected>09:00 AM</option>
+                <option value="09:30 AM">09:30 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+              </select>
+              <span id="dur_KHAMIS" class="font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[10px]">(60 min)</span>
+            </div>
+          </div>
+
+          <!-- Hari Jumaat -->
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk_JUMAAT" onchange="toggleHari('JUMAAT')" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+              <span class="font-extrabold text-slate-900 text-xs">[ &nbsp; ] JUMAAT</span>
+            </label>
+            <div id="row_JUMAAT" class="mt-2 pl-6 flex items-center gap-1.5 flex-wrap text-[11px] opacity-40 pointer-events-none">
+              <span class="text-slate-500 font-medium">Masa:</span>
+              <select id="mula_JUMAAT" onchange="kiraJumlahMinit()" disabled class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="--:--">--:--</option>
+                <option value="08:00 AM">08:00 AM</option>
+              </select>
+              <span class="text-slate-500 font-medium">hingga</span>
+              <select id="tamat_JUMAAT" onchange="kiraJumlahMinit()" disabled class="bg-slate-50 border border-slate-300 rounded px-1.5 py-1 font-bold text-slate-800 text-xs">
+                <option value="--:--">--:--</option>
+                <option value="09:00 AM">09:00 AM</option>
+              </select>
+              <span id="dur_JUMAAT" class="font-bold text-slate-400 text-[10px]">-</span>
+            </div>
+          </div>
+
+          <!-- Jumlah Jam Seminggu -->
+          <div class="flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 text-xs font-bold text-emerald-900">
+            <span>Jumlah Masa Seminggu:</span>
+            <span id="txtJumlahMasa" class="text-emerald-700 font-extrabold">180 Minit (3.0 Jam)</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- [4] SERAHAN HASIL KERJA -->
+      <div class="rounded-xl overflow-hidden border border-slate-200 shadow-2xs">
+        <div class="bg-emerald-700 text-white font-extrabold px-3 py-2 text-xs">
+          [4] SERAHAN HASIL KERJA
+        </div>
+        <div class="p-3 bg-slate-50/70 space-y-2">
+          <label for="txtEmelDrive" class="block font-bold text-slate-700">
+            Emel Google Drive:
+          </label>
+          <input type="email" 
+                 id="txtEmelDrive" 
+                 name="emel" 
+                 required 
+                 value="cikgu.ayu@moe-dl.edu.my" 
+                 placeholder="cth: nama.guru@moe-dl.edu.my"
+                 class="w-full bg-white border border-slate-300 rounded-lg p-2 font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs">
+          <p class="text-[10px] text-slate-500 leading-tight">
+            * Pautan fail Google Sheet yang boleh diedit sepenuhnya akan dikongsi terus ke emel ini.
+          </p>
+        </div>
+      </div>
+
+      <!-- BUTANG UTAMA JANA RPH -->
+      <div class="pt-2">
+        <button type="submit" 
+                id="btnJanaSetahun"
+                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 px-4 rounded-xl shadow-md transition active:scale-98 flex flex-col items-center justify-center gap-0.5">
+          <span class="text-sm font-extrabold tracking-wide">[+] JANA RPH SETAHUN SEKARANG</span>
+          <span class="text-[10px] font-normal text-emerald-100 opacity-90">(Mengambil masa sekitar 10 saat)</span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Footer Logo -->
+    <div class="py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-center gap-2 text-slate-500 text-[11px] font-bold">
+      <div class="w-5 h-5 rounded-md bg-emerald-600 flex items-center justify-center text-white text-[10px] font-black">
+        âœ“
+      </div>
+      <span>Jana RPH Auto &bull; Sesi 2026</span>
+    </div>
+
+  </div>
+
+  <!-- Modal Proses (Loading Spinner) -->
+  <div id="modalProses" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl border border-slate-100 space-y-4">
+      <div class="w-14 h-14 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto"></div>
+      <div>
+        <h3 class="font-extrabold text-slate-900 text-sm mb-1">Sedang Menjana e-RPH 40 Minggu...</h3>
+        <p id="lblStatusProses" class="text-xs text-slate-600">Menyusun pemetaan DSKP progresif dan membina Google Sheet rasmi...</p>
+      </div>
+      <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+        <div class="bg-emerald-600 h-2 rounded-full animate-pulse w-3/4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Berjaya (Hasil Kerja) -->
+  <div id="modalBerjaya" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full text-center shadow-2xl border border-emerald-100 space-y-4">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-2xl font-black shadow-inner">
+        âœ“
+      </div>
+      <div>
+        <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1">
+          Penebusan Shopee Berjaya
+        </span>
+        <h3 class="font-extrabold text-slate-900 text-base">e-RPH 40 Minggu Telah Siap!</h3>
+        <p id="lblMesejBerjaya" class="text-xs text-slate-600 mt-1">
+          Fail e-RPH setahun penuh telah berjaya dijana dan dikongsi dengan akses edit ke Google Drive anda.
+        </p>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-left space-y-1 text-xs">
+        <div class="flex justify-between"><span class="text-slate-500">Subjek &amp; Kelas:</span><span id="resSubjekKelas" class="font-bold text-slate-800">-</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Jumlah Slot PdP:</span><span id="resJumlahSlot" class="font-bold text-emerald-700">~120 Slot (40 Minggu)</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Emel Dihantar:</span><span id="resEmel" class="font-bold text-slate-800 truncate max-w-[180px]">-</span></div>
+      </div>
+
+      <div class="space-y-2 pt-1">
+        <a id="btnBukaSheet" 
+           href="#" 
+           target="_blank" 
+           class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-xs">
+          <span>ðŸ“Š</span>
+          <span>Buka Google Sheet di Drive</span>
+        </a>
+        <button type="button" 
+                onclick="tutupModalBerjaya()" 
+                class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 px-4 rounded-xl transition text-xs">
+          Tutup &amp; Jana Lagi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State Semasa Jadual
+    const SENARAI_HARI = ["ISNIN", "SELASA", "RABU", "KHAMIS", "JUMAAT"];
+
+    function toggleHari(hari) {
+      const chk = document.getElementById("chk_" + hari);
+      const row = document.getElementById("row_" + hari);
+      const selMula = document.getElementById("mula_" + hari);
+      const selTamat = document.getElementById("tamat_" + hari);
+      const spanDur = document.getElementById("dur_" + hari);
+      const labelText = chk.nextElementSibling;
+
+      if (chk.checked) {
+        row.classList.remove("opacity-40", "pointer-events-none");
+        selMula.disabled = false;
+        selTamat.disabled = false;
+        if (selMula.value === "--:--") selMula.value = "08:00 AM";
+        if (selTamat.value === "--:--") selTamat.value = "09:00 AM";
+        labelText.textContent = "[X] " + hari;
+      } else {
+        row.classList.add("opacity-40", "pointer-events-none");
+        selMula.disabled = true;
+        selTamat.disabled = true;
+        spanDur.textContent = "-";
+        labelText.textContent = "[   ] " + hari;
+      }
+      kiraJumlahMinit();
+    }
+
+    function parseMasaKeMinit(str) {
+      if (!str || str === "--:--") return 0;
+      const parts = str.split(' ');
+      const timeParts = parts[0].split(':');
+      let jam = parseInt(timeParts[0], 10);
+      let min = parseInt(timeParts[1], 10);
+      const ampm = (parts[1] || 'AM').toUpperCase();
+      if (ampm === 'PM' && jam < 12) jam += 12;
+      if (ampm === 'AM' && jam === 12) jam = 0;
+      return (jam * 60) + min;
+    }
+
+    function kiraJumlahMinit() {
+      let totalMinit = 0;
+      SENARAI_HARI.forEach(h => {
+        const chk = document.getElementById("chk_" + h);
+        const durSpan = document.getElementById("dur_" + h);
+        if (chk && chk.checked) {
+          const mula = document.getElementById("mula_" + h).value;
+          const tamat = document.getElementById("tamat_" + h).value;
+          const mMula = parseMasaKeMinit(mula);
+          const mTamat = parseMasaKeMinit(tamat);
+          let diff = mTamat - mMula;
+          if (diff <= 0) diff = 30; // Minima 30 minit
+          durSpan.textContent = `(${diff} min)`;
+          totalMinit += diff;
+        }
+      });
+      const jam = (totalMinit / 60).toFixed(1);
+      document.getElementById("txtJumlahMasa").textContent = `${totalMinit} Minit (${jam} Jam)`;
+    }
+
+    // Semak Token Live dengan Backend
+    function semakTokenLive(forceAlert = false) {
+      const tokenVal = document.getElementById("txtToken").value.trim();
+      const badge = document.getElementById("badgeStatusToken");
+      if (!tokenVal) {
+        badge.innerHTML = `<span class="text-slate-400 font-bold">Masukkan Kod Token</span>`;
+        return;
+      }
+
+      badge.innerHTML = `<span class="text-slate-500 font-bold animate-pulse">Menyemak Token...</span>`;
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            kemaskiniPaparanToken(res, forceAlert);
+          })
+          .withFailureHandler(function(err) {
+            badge.innerHTML = `<span class="text-rose-600 font-bold">Ralat semakan: ${err.message}</span>`;
+          })
+          .semakTokenShopee(tokenVal);
+      } else {
+        // Simulasi Mode Ujian
+        setTimeout(() => {
+          if (tokenVal.startsWith("RPH-") || tokenVal.includes("2026") || tokenVal.length >= 6) {
+            kemaskiniPaparanToken({
+              valid: true,
+              status: "ACTIVE",
+              subjectAllowed: "SEMUA",
+              yearAllowed: "SEMUA",
+              message: "SAH - 1 Penebusan Tersedia"
+            }, forceAlert);
+          } else {
+            kemaskiniPaparanToken({
+              valid: false,
+              status: "INVALID",
+              message: "Token Tidak Sah"
+            }, forceAlert);
+          }
+        }, 400);
+      }
+    }
+
+    function kemaskiniPaparanToken(res, showAlert) {
+      const badge = document.getElementById("badgeStatusToken");
+      if (res.valid && res.status === "ACTIVE") {
+        badge.className = "font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-flex items-center gap-1";
+        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span>${res.message || 'SAH - 1 Penebusan Tersedia'}</span>`;
+        
+        // Kunci subjek jika ditetapkan
+        if (res.subjectAllowed && res.subjectAllowed !== "SEMUA") {
+          const selSub = document.getElementById("selSubjek");
+          for (let opt of selSub.options) {
+            if (opt.value.toLowerCase().includes(res.subjectAllowed.toLowerCase())) {
+              selSub.value = opt.value;
+              break;
+            }
+          }
+        }
+        if (res.yearAllowed && res.yearAllowed !== "SEMUA") {
+          const selThn = document.getElementById("selTahun");
+          for (let opt of selThn.options) {
+            if (opt.value.toLowerCase().includes(res.yearAllowed.toLowerCase())) {
+              selThn.value = opt.value;
+              break;
+            }
+          }
+        }
+        if (showAlert) alert("Token Shopee Sah! Sila lengkapkan jadual waktu anda di bawah.");
+      } else {
+        badge.className = "font-extrabold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200 inline-flex items-center gap-1";
+        badge.innerHTML = `<span>&#9888;</span><span>${res.message || 'Token Tidak Sah'}</span>`;
+        if (showAlert) alert(res.message || "Kod token tidak sah atau telah digunakan.");
+      }
+    }
+
+    // Hantar Penjanaan e-RPH 40 Minggu
+    function hantarJanaSetahun(e) {
+      e.preventDefault();
+
+      const token = document.getElementById("txtToken").value.trim();
+      const subjek = document.getElementById("selSubjek").value;
+      const tahun = document.getElementById("selTahun").value;
+      const kelas = document.getElementById("txtKelas").value.trim();
+      const emel = document.getElementById("txtEmelDrive").value.trim();
+
+      // Kumpulkan Slot Jadual Mingguan
+      const jadual = [];
+      SENARAI_HARI.forEach(h => {
+        const chk = document.getElementById("chk_" + h);
+        if (chk && chk.checked) {
+          const mula = document.getElementById("mula_" + h).value;
+          const tamat = document.getElementById("tamat_" + h).value;
+          const mMula = parseMasaKeMinit(mula);
+          const mTamat = parseMasaKeMinit(tamat);
+          let min = mTamat - mMula;
+          if (min <= 0) min = 30;
+          jadual.push({ hari: h, mula: mula, tamat: tamat, minit: min });
+        }
+      });
+
+      if (jadual.length === 0) {
+        alert("Sila tandakan sekurang-kurangnya SATU (1) hari kelas dalam jadual mingguan anda.");
+        return;
+      }
+
+      const payload = {
+        token: token,
+        subjek: subjek,
+        tahun: tahun,
+        kelas: kelas,
+        emel: emel,
+        jadualMingguan: jadual
+      };
+
+      // Paparkan Modal Loading
+      document.getElementById("modalProses").classList.remove("hidden");
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            document.getElementById("modalProses").classList.add("hidden");
+            if (res && res.success) {
+              paparModalBerjaya(res, payload);
+            } else {
+              alert("Ralat Penjanaan: " + (res.message || "Sila semak maklumat anda."));
+            }
+          })
+          .withFailureHandler(function(err) {
+            document.getElementById("modalProses").classList.add("hidden");
+            alert("Ralat Sistem: " + err.message);
+          })
+          .batchGenerateRPH(payload);
+      } else {
+        // Simulasi Localhost / Offline Preview
+        setTimeout(() => {
+          document.getElementById("modalProses").classList.add("hidden");
+          paparModalBerjaya({
+            success: true,
+            fileUrl: "https://docs.google.com/spreadsheets/d/simulasi_erph_40minggu/edit",
+            fileName: `eRPH_2026_FullYear_${subjek}_${kelas}`,
+            totalSessions: jadual.length * 40,
+            message: "e-RPH 40 Minggu Penuh berjaya dijana!"
+          }, payload);
+        }, 1500);
+      }
+    }
+
+    function paparModalBerjaya(res, payload) {
+      document.getElementById("resSubjekKelas").textContent = `${payload.subjek} (${payload.tahun} - ${payload.kelas})`;
+      document.getElementById("resJumlahSlot").textContent = `${res.totalSessions || (payload.jadualMingguan.length * 40)} Slot PdP (40 Minggu Penuh)`;
+      document.getElementById("resEmel").textContent = payload.emel;
+      document.getElementById("btnBukaSheet").href = res.fileUrl || "#";
+      document.getElementById("modalBerjaya").classList.remove("hidden");
+    }
+
+    function tutupModalBerjaya() {
+      document.getElementById("modalBerjaya").classList.add("hidden");
+    }
+
+    // Kira masa awal semasa muat
+    window.addEventListener('load', () => {
+      kiraJumlahMinit();
+      semakTokenLive(false);
+    });
+  </script>
+</body>
+</html>

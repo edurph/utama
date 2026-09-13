@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
@@ -104,6 +104,30 @@
         </div>
       </div>
     </header>
+  </div>
+
+    <!-- ðŸŽ BANNER KHAS PENEBUSAN TOKEN SHOPEE (DFY 40 MINGGU) -->
+  <div class="max-w-2xl mx-auto px-3.5 sm:px-4 pt-3">
+    <a href="?page=dfy" target="_top" class="block relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-[2px] shadow-lg shadow-orange-500/20 group hover:scale-[1.01] transition-all">
+      <div class="bg-slate-950/90 rounded-[14px] p-3.5 flex items-center justify-between gap-3 text-white">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-xl shrink-0 group-hover:rotate-12 transition-transform">
+            ðŸŽ
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black tracking-tight text-amber-300">Mod Shopee: DFY 40 Minggu Penuh</span>
+              <span class="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.2 rounded uppercase">VIP</span>
+            </div>
+            <p class="text-[10px] text-slate-300 leading-snug">Ada Token Shopee? Jana terus silibus penuh 40 minggu ke Google Drive anda secara automatik!</p>
+          </div>
+        </div>
+        <div class="shrink-0 bg-amber-400 text-slate-950 font-black text-xs px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm">
+          <span>Tebus</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
   </div>
 
   <!-- NOTIFIKASI STATUS TOAST -->
@@ -818,6 +842,43 @@ var SUBJEK_PERDANA = [
       if (!sub) return false;
       var up = String(sub).trim().toUpperCase();
       return up.includes("ISLAM") || up.includes("PAI") || sub.includes("اسلام") || sub.includes("إسلام") || sub.includes("ڤنديديقن") || sub.includes("فنديديقن") || sub.includes("جاوي") || up.includes("JAWI");
+    }
+
+    // ==========================================================================
+    // PEMULIHAN PINTAR AKSARA JAWI/ARAB (SELF-HEALING RUNTIME DECODER)
+    // Membetulkan teks Jawi/Arab rosak akibat salah bacaan encoding (UTF-8 dikesan sbg Windows-1252)
+    // ==========================================================================
+    function pulihkanMojikakeTeks(str) {
+      if (!str || typeof str !== 'string') return str;
+      if (!/[\u00D8\u00D9]/.test(str)) return str;
+      try {
+        var win1252Map = {
+          0x20AC: 0x80, 0x201A: 0x82, 0x0192: 0x83, 0x201E: 0x84, 0x2026: 0x85,
+          0x2020: 0x86, 0x2021: 0x87, 0x02C6: 0x88, 0x2030: 0x89, 0x0160: 0x8A,
+          0x2039: 0x8B, 0x0152: 0x8C, 0x017D: 0x8E, 0x2018: 0x91, 0x2019: 0x92,
+          0x201C: 0x93, 0x201D: 0x94, 0x2022: 0x95, 0x2013: 0x96, 0x2014: 0x97,
+          0x02DC: 0x98, 0x2122: 0x99, 0x0161: 0x9A, 0x203A: 0x9B, 0x0153: 0x9C,
+          0x017E: 0x9E, 0x0178: 0x9F
+        };
+        var bytes = [];
+        for (var i = 0; i < str.length; i++) {
+          var c = str.charCodeAt(i);
+          if (c <= 0xFF) {
+            bytes.push(c);
+          } else if (win1252Map[c] !== undefined) {
+            bytes.push(win1252Map[c]);
+          } else {
+            return str;
+          }
+        }
+        var decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+        if (decoded && decoded.length > 0 && !decoded.includes('\uFFFD')) {
+          return decoded;
+        }
+        return str;
+      } catch (e) {
+        return str;
+      }
     }
 
     // ==========================================================================
@@ -1600,28 +1661,33 @@ var SUBJEK_PERDANA = [
         return slot;
       }
 
+      if (slot.tema) slot.tema = pulihkanMojikakeTeks(slot.tema);
+      if (slot.tajuk) slot.tajuk = pulihkanMojikakeTeks(slot.tajuk);
+      if (slot.sk) slot.sk = pulihkanMojikakeTeks(slot.sk);
+      if (slot.sp) slot.sp = pulihkanMojikakeTeks(slot.sp);
+
       var padanan = dapatkanDskpBagiSlot(slot.subjek, slot.tahun, slot.kelas);
       var pertama = padanan[0] || {};
       
-      if (!slot.tema || !padanan.some(function(r){ return r.tema === slot.tema; })) {
+      if (/[\u00D8\u00D9]/.test(slot.tema) || !slot.tema || !padanan.some(function(r){ return r.tema === slot.tema; })) {
         slot.tema = pertama.tema || "";
       }
       var padanTema = padanan.filter(function(r){ return r.tema === slot.tema; });
       var refTema = padanTema.length > 0 ? padanTema : padanan;
 
-      if (!slot.tajuk || !refTema.some(function(r){ return r.tajuk === slot.tajuk; })) {
+      if (/[\u00D8\u00D9]/.test(slot.tajuk) || !slot.tajuk || !refTema.some(function(r){ return r.tajuk === slot.tajuk; })) {
         slot.tajuk = (refTema[0] && refTema[0].tajuk) ? refTema[0].tajuk : (pertama.tajuk || "");
       }
       var padanTajuk = refTema.filter(function(r){ return r.tajuk === slot.tajuk; });
       var refTajuk = padanTajuk.length > 0 ? padanTajuk : refTema;
 
-      if (!slot.sk || !refTajuk.some(function(r){ return r.sk === slot.sk; })) {
+      if (/[\u00D8\u00D9]/.test(slot.sk) || !slot.sk || !refTajuk.some(function(r){ return r.sk === slot.sk; })) {
         slot.sk = (refTajuk[0] && refTajuk[0].sk) ? refTajuk[0].sk : (pertama.sk || "");
       }
       var padanSk = refTajuk.filter(function(r){ return r.sk === slot.sk; });
       var refSk = padanSk.length > 0 ? padanSk : refTajuk;
 
-      if (!slot.sp || !refSk.some(function(r){ return r.sp === slot.sp; })) {
+      if (/[\u00D8\u00D9]/.test(slot.sp) || !slot.sp || !refSk.some(function(r){ return r.sp === slot.sp; })) {
         slot.sp = (refSk[0] && refSk[0].sp) ? refSk[0].sp : (pertama.sp || "");
       }
       return slot;
@@ -2344,11 +2410,9 @@ var SUBJEK_PERDANA = [
         dskpList.filter(function(d) { return d.tema === slot.tema; }).forEach(function(d) {
           if (d.tajuk && !senaraiTajuk.includes(d.tajuk)) senaraiTajuk.push(d.tajuk);
         });
-        if (senaraiTajuk.length === 0) {
-          dskpList.forEach(function(d) {
-            if (d.tajuk && !senaraiTajuk.includes(d.tajuk)) senaraiTajuk.push(d.tajuk);
-          });
-        }
+        dskpList.forEach(function(d) {
+          if (d.tajuk && !senaraiTajuk.includes(d.tajuk)) senaraiTajuk.push(d.tajuk);
+        });
         var selectTajukHtml = `<select onchange="tukarTajukSlot('${namaHari}', ${idx}, this.value)" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-[11px] font-medium text-slate-800 truncate focus:ring-1 focus:ring-indigo-500${jawiClass}"${jawiDir}>`;
         senaraiTajuk.forEach(function(tj) {
           var selTj = (slot.tajuk === tj) ? 'selected' : '';
@@ -2357,16 +2421,14 @@ var SUBJEK_PERDANA = [
         });
         selectTajukHtml += `</select>`;
 
-        // SK
+        // SK (Standard Kandungan) - Menyenaraikan SK tema semasa dan seluruh subjek supaya guru boleh bebas membuat pilihan
         var senaraiSk = [];
         dskpList.filter(function(d) { return d.tema === slot.tema && d.tajuk === slot.tajuk; }).forEach(function(d) {
           if (d.sk && !senaraiSk.includes(d.sk)) senaraiSk.push(d.sk);
         });
-        if (senaraiSk.length === 0) {
-          dskpList.forEach(function(d) {
-            if (d.sk && !senaraiSk.includes(d.sk)) senaraiSk.push(d.sk);
-          });
-        }
+        dskpList.forEach(function(d) {
+          if (d.sk && !senaraiSk.includes(d.sk)) senaraiSk.push(d.sk);
+        });
         var selectSkHtml = `<select onchange="tukarSkSlot('${namaHari}', ${idx}, this.value)" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-[11px] font-medium text-slate-800 truncate focus:ring-1 focus:ring-indigo-500${jawiClass}"${jawiDir}>`;
         senaraiSk.forEach(function(sk) {
           var selSk = (slot.sk === sk) ? 'selected' : '';
@@ -2375,16 +2437,14 @@ var SUBJEK_PERDANA = [
         });
         selectSkHtml += `</select>`;
 
-        // SP
+        // SP (Standard Pembelajaran) - Menyenaraikan SP bagi SK terpilih
         var senaraiSp = [];
-        dskpList.filter(function(d) { return d.tema === slot.tema && d.tajuk === slot.tajuk && d.sk === slot.sk; }).forEach(function(d) {
+        dskpList.filter(function(d) { return d.sk === slot.sk; }).forEach(function(d) {
           if (d.sp && !senaraiSp.includes(d.sp)) senaraiSp.push(d.sp);
         });
-        if (senaraiSp.length === 0) {
-          dskpList.forEach(function(d) {
-            if (d.sp && !senaraiSp.includes(d.sp)) senaraiSp.push(d.sp);
-          });
-        }
+        dskpList.forEach(function(d) {
+          if (d.sp && !senaraiSp.includes(d.sp)) senaraiSp.push(d.sp);
+        });
         var selectSpHtml = `<select onchange="tukarSpSlot('${namaHari}', ${idx}, this.value)" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-[11px] font-medium text-slate-800 truncate focus:ring-1 focus:ring-indigo-500${jawiClass}"${jawiDir}>`;
         senaraiSp.forEach(function(sp) {
           var selSp = (slot.sp === sp) ? 'selected' : '';
@@ -2816,9 +2876,16 @@ var SUBJEK_PERDANA = [
     }
 
     function resetJadualAsal() {
+      try {
+        var emel = document.getElementById('txtEmail') ? document.getElementById('txtEmail').value : "";
+        if (emel) localStorage.removeItem('jadual_guru_' + emel);
+      } catch (e) {}
       inisialisasiSemuaSlotJadual(JADUAL_DEFAULT);
       JADUAL_AKTIF = JSON.parse(JSON.stringify(JADUAL_DEFAULT));
       renderSlotHari(hariSemasaDipilih);
+      if (typeof paparMesej === "function") {
+        paparMesej("Jadual Direset", "Jadual dan pilihan DSKP telah dikembalikan kepada susunan asal piawai KPM.", "info");
+      }
     }
 
     function hantarJanaSeminggu() {
@@ -3714,6 +3781,14 @@ var SUBJEK_PERDANA = [
         google.script.run.withSuccessHandler(function(senaraiMinggu) {
           pasangPilihanMinggu(senaraiMinggu);
         }).getPilihanMingguWeb();
+
+        // Muat DSKP terus dari Google Sheets sekiranya wujud
+        google.script.run.withSuccessHandler(function(dskpSheet) {
+          if (dskpSheet && dskpSheet.length > 0) {
+            CACHE_DSKP_SHEET = dskpSheet;
+            console.log("e-RPH: Berjaya menyelaraskan " + dskpSheet.length + " rekod DSKP dari Google Sheets.");
+          }
+        }).dapatkanDskpDariSheet();
       } else {
         pasangPilihanMinggu([
           { m: "Minggu 1", isnin: "2026-01-05" },
