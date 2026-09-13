@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ============================================================================
  * e-RPH PINTAR AI 2026 (CORE ENGINE & BULK MONTHLY GENERATOR)
  * SISTEM PENGURUSAN REKOD PENGAJARAN HARIAN, DSKP & PENJANAAN PUKAL SEBULAN
@@ -1844,7 +1844,10 @@ function binaDashboardJadual(sheet, payload, token) {
 /**
  * Membina Tab 2: Pangkalan Data Rekod 40 Minggu Penuh
  */
-function binaRekod40MingguSheet(sheet, payload, dskpList) {
+/**
+ * Membina Tab 2: Pangkalan Data Rekod 40 Minggu Penuh (Sequential DSKP Progression & Overflow Handling)
+ */
+function binaRekod40MingguSheet(sheet, payload, dskpListDefault) {
   var headers = [
     "BIL", "MINGGU", "TARIKH", "HARI", "MASA", "DURASI", "KELAS", "SUBJEK",
     "TEMA / BIDANG / TERAS", "TAJUK / KEMAHIRAN / NILAI",
@@ -1860,14 +1863,47 @@ function binaRekod40MingguSheet(sheet, payload, dskpList) {
   sheet.setRowHeight(1, 32);
   sheet.setFrozenRows(1);
 
-  var subjek = payload.subjek;
-  var tahun = payload.tahun;
-  var kelas = payload.kelas;
+  var subjekDefault = payload.subjek || "Bahasa Inggeris";
+  var tahunDefault = payload.tahun || "Tahun 4";
+  var kelasDefault = payload.kelas || "4 USM";
   var slots = payload.jadualMingguan || [];
 
-  // Tarikh mula Isnin sesi 2026 (cth: 12 Januari 2026 atau Kalendar Semasa)
-  var baseDate = new Date(2026, 0, 12); // Isnin 12 Jan 2026
-  var offsetHari = { "ISNIN": 0, "SELASA": 1, "RABU": 2, "KHAMIS": 3, "JUMAAT": 4 };
+  // Susun slot mengikut urutan hari (Isnin -> Jumaat) dan masa mula
+  var urutanHari = { "ISNIN": 1, "MO": 1, "SELASA": 2, "TU": 2, "RABU": 3, "WE": 3, "KHAMIS": 4, "TH": 4, "JUMAAT": 5, "FR": 5 };
+  slots.sort(function(a, b) {
+    var hA = urutanHari[String(a.hari || "").toUpperCase()] || 99;
+    var hB = urutanHari[String(b.hari || "").toUpperCase()] || 99;
+    if (hA !== hB) return hA - hB;
+    return String(a.mula || "").localeCompare(String(b.mula || ""));
+  });
+
+  // Tarikh mula Isnin sesi 2026 (12 Januari 2026)
+  var baseDate = new Date(2026, 0, 12);
+  var offsetHari = { "ISNIN": 0, "MO": 0, "SELASA": 1, "TU": 1, "RABU": 2, "WE": 2, "KHAMIS": 3, "TH": 3, "JUMAAT": 4, "FR": 4 };
+
+  // Cache DSKP per subjek & tahun
+  var dskpCache = {};
+  dskpCache[subjekDefault + "_" + tahunDefault] = (dskpListDefault && dskpListDefault.length > 0) 
+    ? dskpListDefault 
+    : janaDskpSilibusPenuh(subjekDefault, tahunDefault);
+
+  function getDskpForSlot(sub, thn) {
+    var key = (sub || subjekDefault) + "_" + (thn || tahunDefault);
+    if (!dskpCache[key] || dskpCache[key].length === 0) {
+      var d = dapatkanDskpDariSheet(sub, thn);
+      if (!d || d.length === 0) {
+        d = janaDskpSilibusPenuh(sub, thn);
+      }
+      dskpCache[key] = d;
+    }
+    return dskpCache[key];
+  }
+
+  // =========================================================================
+  // LOGIK PENJANAAN SILIBUS: SEQUENTIAL DSKP MAPPING (POINTER INDEX)
+  // Tidak rawak! Mengikut susunan nombor DSKP (SP 1.1.1 -> 1.1.2 -> 2.1.1 dst.)
+  // =========================================================================
+  var dskpPointerMap = {}; // key: subjek + "_" + kelas -> index berturutan
 
   var rowCounter = 0;
   var allRows = [];
@@ -1879,33 +1915,113 @@ function binaRekod40MingguSheet(sheet, payload, dskpList) {
     for (var s = 0; s < slots.length; s++) {
       rowCounter++;
       var slot = slots[s];
-      var dayOffset = offsetHari[slot.hari.toUpperCase()] || 0;
+      var slotHari = String(slot.hari || "ISNIN").toUpperCase();
+      var dayOffset = offsetHari[slotHari] !== undefined ? offsetHari[slotHari] : 0;
       var slotDate = new Date(mondayTimestamp + (dayOffset * 24 * 60 * 60 * 1000));
       var tarikhStr = Utilities.formatDate(slotDate, "GMT+8", "dd/MM/yyyy");
 
-      // Ambil DSKP progresif bagi minggu dan slot ini
-      var dskpIdx = (w - 1 + s) % dskpList.length;
-      var d = dskpList[dskpIdx] || {};
+      var currentSubjek = slot.subjek || subjekDefault;
+      var currentKelas = slot.kelas || kelasDefault;
+      var currentTahun = slot.tahun || tahunDefault;
 
-      var tema = d.tema || "Standard Kurikulum Kebangsaan";
-      var tajuk = d.tajuk || ("Unit " + w + ": Kemahiran Pembelajaran " + subjek);
-      var sk = d.sk || ("1." + w + " Standard Kandungan sukatan kurikulum standard KPM");
-      var sp = d.sp || ("1." + w + ".1 Menguasai kemahiran pembelajaran yang ditetapkan");
-      var obj = d.objektif || ("Pada akhir PdP, murid berupaya menguasai kemahiran pembelajaran: " + tajuk + " dengan baik.");
-      var kriteria = "Murid dapat:\n1. Menyatakan sekurang-kurangnya 3 konsep utama dengan tepat.\n2. Melengkapkan lembaran kerja terbeza dengan kemas.";
-      var akt = "Set Induksi : Guru memaparkan rangsangan kontekstual dan bersoal jawab.\nAktiviti Utama : Penerangan guru, aktiviti berkumpulan PAK21 & latih tubi bertulis berfokus.\nPenutup : Rumusan sesi, penilaian lisan dan refleksi murid.";
-      var bbm = "BBM: Buku Teks, Lembaran Kerja | Nilai: Ketekunan | KBAT: Mengaplikasi | PBD: Lisan & Bertulis";
-      var ref = "Murid menguasai objektif pembelajaran dengan bimbingan minima.";
+      // Kunci pointer untuk gabungan subjek & kelas
+      var pointerKey = currentSubjek + "_" + currentKelas;
+      if (dskpPointerMap[pointerKey] === undefined) {
+        dskpPointerMap[pointerKey] = 0;
+      }
+      var ptr = dskpPointerMap[pointerKey];
+
+      var slotDskpList = getDskpForSlot(currentSubjek, currentTahun);
+      var totalDskpCount = slotDskpList.length;
+
+      var tema = "";
+      var tajuk = "";
+      var sk = "";
+      var sp = "";
+      var obj = "";
+      var kriteria = "";
+      var akt = "";
+      var bbm = "";
+      var ref = "";
+
+      // Format pilihan i-THINK & Pemulihan dari tetapan modal jadual
+      var iThinkStr = "";
+      if (slot.iThink && Array.isArray(slot.iThink) && slot.iThink.length > 0) {
+        iThinkStr = slot.iThink.join(", ");
+      } else if (typeof slot.iThink === "string" && slot.iThink.trim()) {
+        iThinkStr = slot.iThink;
+      }
+
+      var pemulihanStr = "";
+      if (slot.pemulihan && Array.isArray(slot.pemulihan) && slot.pemulihan.length > 0) {
+        pemulihanStr = slot.pemulihan.join(", ");
+      } else if (typeof slot.pemulihan === "string" && slot.pemulihan.trim()) {
+        pemulihanStr = slot.pemulihan;
+      }
+
+      if (ptr < totalDskpCount) {
+        // [1] PERKEMBANGAN KRONOLOGI BERURUTAN (NORMAL PROGRESSION)
+        var d = slotDskpList[ptr] || {};
+        tema = d.tema || "Standard Kurikulum Kebangsaan";
+        tajuk = d.tajuk || ("Unit " + (ptr + 1) + ": Kemahiran Pembelajaran " + currentSubjek);
+        sk = d.sk || ("Standard Kandungan " + (ptr + 1) + " Kurikulum Standard KPM");
+        sp = d.sp || ("Standard Pembelajaran " + (ptr + 1) + ".1 Penguasaan Konsep Asas");
+        obj = d.objektif || ("Pada akhir PdP, murid berupaya menguasai standard pembelajaran: " + sp + " dengan baik.");
+        kriteria = "Murid berjaya sekiranya:\n1. Menyatakan sekurang-kurangnya 3 konsep utama dengan tepat.\n2. Melengkapkan lembaran kerja latihan berfokus.";
+        
+        akt = "Set Induksi : Guru memaparkan rangsangan kontekstual dan bersoal jawab.\n" +
+              "Aktiviti Utama : Penerangan berperingkat, bimbingan guru & latihan bertulis terbeza.\n" +
+              (iThinkStr ? ("Aktiviti KBAT / i-THINK : Mengaplikasi " + iThinkStr + " untuk sintesis maklumat.\n") : "") +
+              (pemulihanStr ? ("Aktiviti Terbeza : " + pemulihanStr + " mengikut tahap penguasaan murid.\n") : "") +
+              "Penutup : Rumusan pengajaran, penilaian formatif lisan dan refleksi murid.";
+        
+        bbm = "BBM: Buku Teks, Lembaran Kerja" + (iThinkStr ? (" | Peta Pemikiran: " + iThinkStr) : "") + " | Nilai: Ketekunan | KBAT: Mengaplikasi | PBD: Lisan & Bertulis";
+        ref = "Murid menguasai objektif pembelajaran" + (pemulihanStr ? (" dengan " + pemulihanStr) : " dengan bimbingan guru minima") + ".";
+
+        // Naikkan pointer secara jujukan untuk slot seterusnya
+        dskpPointerMap[pointerKey] = ptr + 1;
+      } else {
+        // [2] PENGENDALIAN LEBIHAN (OVERFLOW HANDLING)
+        // Apabila slot melebihi SP DSKP, tanda sebagai Pengukuhan / Pemulihan / Ulang Kaji
+        var lastDskp = slotDskpList[totalDskpCount - 1] || {};
+        var revIdx = (ptr - totalDskpCount) + 1;
+
+        tema = lastDskp.tema || "Pengukuhan & Penilaian Berterusan";
+        tajuk = "Aktiviti Pengukuhan & Ulang Kaji Topikal Siri " + revIdx + " (" + (lastDskp.tajuk || currentSubjek) + ")";
+        sk = lastDskp.sk || "Standard Kandungan Pengukuhan dan Penilaian Formatif";
+        sp = (lastDskp.sp || "Standard Pembelajaran") + " [Sesi Pengukuhan, Pemulihan & Pentaksiran Bilik Darjah]";
+        obj = "Pada akhir PdP, murid berupaya memperkukuh, memulihkan dan mengaplikasikan kemahiran bagi topik: " + (lastDskp.tajuk || currentSubjek) + " melalui latihan terbeza.";
+        kriteria = "Murid berjaya sekiranya:\n1. Menjawab sekurang-kurangnya 4 daripada 5 soalan pengukuhan topik dengan betul.\n2. Menyelesaikan bimbingan pemulihan berfokus.";
+        
+        akt = "Set Induksi : Ujian diagnostik pantas / soal jawab imbas kembali konsep utama.\n" +
+              "Aktiviti Utama : " + (pemulihanStr ? ("Pelaksanaan modul: " + pemulihanStr + ". ") : "Bimbingan pemulihan berfokus guru. ") +
+              "Murid aras tinggi melengkapkan pengayaan cerdas manakala murid pemulihan menerima bimbingan terus.\n" +
+              (iThinkStr ? ("Aplikasi i-THINK : Menggunakan " + iThinkStr + " sebagai peta konsep ulangkaji.\n") : "") +
+              "Penutup : Refleksi pentaksiran bilik darjah (PBD) dan penetapan tindakan susulan.";
+
+        bbm = "BBM: Modul Pengukuhan & Pemulihan" + (iThinkStr ? (" | Peta Pemikiran: " + iThinkStr) : "") + " | Nilai: Kerjasama | KBAT: Menganalisis | PBD: Pentaksiran Formatif";
+        ref = "Sesi pengukuhan dan pemulihan berjalan lancar. Murid menunjukkan peningkatan aras penguasaan kemahiran.";
+
+        // Teruskan pointer
+        dskpPointerMap[pointerKey] = ptr + 1;
+      }
+
+      var namaHariPenuh = slotHari;
+      if (slotHari === "MO" || slotHari === "ISNIN") namaHariPenuh = "Isnin";
+      else if (slotHari === "TU" || slotHari === "SELASA") namaHariPenuh = "Selasa";
+      else if (slotHari === "WE" || slotHari === "RABU") namaHariPenuh = "Rabu";
+      else if (slotHari === "TH" || slotHari === "KHAMIS") namaHariPenuh = "Khamis";
+      else if (slotHari === "FR" || slotHari === "JUMAAT") namaHariPenuh = "Jumaat";
 
       allRows.push([
         rowCounter,
         kodMinggu,
         tarikhStr,
-        slot.hari,
-        slot.mula + " - " + slot.tamat,
-        slot.minit + " Minit",
-        kelas,
-        subjek,
+        namaHariPenuh,
+        (slot.mula || "07:10 AM") + " - " + (slot.tamat || "07:40 AM"),
+        (slot.minit || 30) + " Minit",
+        currentKelas,
+        currentSubjek,
         tema,
         tajuk,
         sk,
@@ -1948,15 +2064,12 @@ function binaRekod40MingguSheet(sheet, payload, dskpList) {
   sheet.setColumnWidth(13, 220);
   sheet.setColumnWidth(14, 200);
   sheet.setColumnWidth(15, 240);
-  sheet.setColumnWidth(16, 160);
-  sheet.setColumnWidth(17, 180);
+  sheet.setColumnWidth(16, 180);
+  sheet.setColumnWidth(17, 200);
 
   return allRows.length;
 }
 
-/**
- * Membina Tab 3: Template Cetakan 1 Muka Surat (A4) Interaktif
- */
 function binaTemplateCetakanA4(sheet, payload) {
   sheet.setColumnWidth(1, 30);
   sheet.setColumnWidth(2, 150);
@@ -2077,4 +2190,29 @@ function janaDskpSilibusPenuh(subjek, tahun) {
   }
 
   return hasil;
+}
+/**
+ * ============================================================================
+ * ENDPOINT UTAMA: PENJANAAN RPH 40 MINGGU DARI WEB APP (TAB 2 aSc GRID)
+ * ============================================================================
+ */
+function janaRph40MingguBackend(payload) {
+  try {
+    if (!payload) return { success: false, message: "Data jadual tidak lengkap." };
+    var emel = payload.emel || "";
+    if (!emel) {
+      return { success: false, message: "Sila sahkan profil guru dengan emel sah terlebih dahulu." };
+    }
+
+    var slots = payload.jadualMingguan || [];
+    if (!slots || slots.length === 0) {
+      return { success: false, message: "Sila tetapkan sekurang-kurangnya 1 slot PdP dalam jadual aSc." };
+    }
+
+    // Panggil enjin penjanaan 40 minggu
+    return generateFullYearRPH(payload);
+  } catch (err) {
+    console.error("Ralat janaRph40MingguBackend:", err);
+    return { success: false, message: "Ralat sistem: " + (err.message || err) };
+  }
 }

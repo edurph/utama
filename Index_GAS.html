@@ -106,49 +106,21 @@
     </header>
   </div>
 
-    <!-- ðŸŽ BANNER KHAS PENEBUSAN TOKEN SHOPEE (DFY 40 MINGGU) -->
-  <div class="max-w-2xl mx-auto px-3.5 sm:px-4 pt-3">
-    <a href="?page=dfy" target="_top" class="block relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-[2px] shadow-lg shadow-orange-500/20 group hover:scale-[1.01] transition-all">
-      <div class="bg-slate-950/90 rounded-[14px] p-3.5 flex items-center justify-between gap-3 text-white">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-xl shrink-0 group-hover:rotate-12 transition-transform">
-            ðŸŽ
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-black tracking-tight text-amber-300">Mod Shopee: DFY 40 Minggu Penuh</span>
-              <span class="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.2 rounded uppercase">VIP</span>
-            </div>
-            <p class="text-[10px] text-slate-300 leading-snug">Ada Token Shopee? Jana terus silibus penuh 40 minggu ke Google Drive anda secara automatik!</p>
-          </div>
-        </div>
-        <div class="shrink-0 bg-amber-400 text-slate-950 font-black text-xs px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm">
-          <span>Tebus</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-        </div>
-      </div>
-    </a>
-  </div>
-
   <!-- NOTIFIKASI STATUS TOAST -->
   <div class="max-w-2xl mx-auto px-3.5 sm:px-4 pt-3">
     <div id="statusBox" class="hidden p-3.5 rounded-2xl text-xs font-semibold shadow-sm border transition-all"></div>
   </div>
 
-  <!-- ==================== STEPPER INDIKATOR PROGRES ==================== -->
-  <div class="max-w-2xl mx-auto px-3.5 sm:px-4 pt-3">
-    <div class="grid grid-cols-3 gap-2 p-2 bg-white rounded-2xl border border-slate-200 shadow-xs text-center text-xs font-bold">
-      <button type="button" onclick="klikStepper(1)" id="stepBadge1" class="py-2.5 px-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+  <!-- ==================== STEPPER INDIKATOR PROGRES (2 LANGKAH TANGKAS) ==================== -->
+  <div class="max-w-4xl mx-auto px-3.5 sm:px-4 pt-3">
+    <div class="grid grid-cols-2 gap-2.5 p-2 bg-white rounded-2xl border border-slate-200 shadow-xs text-center text-xs font-bold">
+      <button type="button" onclick="klikStepper(1)" id="stepBadge1" class="py-2.5 px-3 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2 cursor-pointer">
         <span id="stepNum1" class="w-5 h-5 rounded-full bg-white text-indigo-700 text-[10px] font-black flex items-center justify-center">1</span>
-        <span class="truncate">Profil &amp; Akses</span>
+        <span class="truncate font-black text-xs sm:text-sm">Profil &amp; Akses Pendidik</span>
       </button>
-      <button type="button" onclick="klikStepper(2)" id="stepBadge2" class="py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-400 flex items-center justify-center gap-1.5 cursor-pointer">
+      <button type="button" onclick="klikStepper(2)" id="stepBadge2" class="py-2.5 px-3 rounded-xl transition-all bg-slate-100 text-slate-400 flex items-center justify-center gap-2 cursor-pointer">
         <span id="stepNum2" class="w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black flex items-center justify-center">2</span>
-        <span class="truncate">Jadual &amp; RPH</span>
-      </button>
-      <button type="button" onclick="klikStepper(3)" id="stepBadge3" class="py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-400 flex items-center justify-center gap-1.5 cursor-pointer">
-        <span id="stepNum3" class="w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black flex items-center justify-center">3</span>
-        <span class="truncate">Jana Sebulan</span>
+        <span class="truncate font-black text-xs sm:text-sm">Jadual aSc &amp; Jana 40 Minggu</span>
       </button>
     </div>
   </div>
@@ -261,7 +233,7 @@
     <div class="bg-white rounded-3xl p-8 border-2 border-dashed border-slate-300 text-center space-y-3 shadow-xs">
       <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center text-2xl mx-auto shadow-xs">&#128274;</div>
       <div class="space-y-1">
-        <h3 class="text-sm font-extrabold text-slate-800">Langkah 2 (Jadual) &amp; Langkah 3 (Jana RPH) Terkunci</h3>
+        <h3 class="text-sm font-extrabold text-slate-800">Langkah 2 (Jadual aSc &amp; Jana 40 Minggu) Terkunci</h3>
         <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
           Sila lengkapkan borang profil dan tekan butang <b>"Sahkan Profil &amp; Teruskan &#10148;"</b> di Langkah 1.
         </p>
@@ -271,7 +243,10 @@
 
 
   <!-- ==================== KONTAINER UTAMA e-RPH (LANGKAH 2 & 3 - TERKUNCI SECARA LALAI) ==================== -->
-  <div id="kontainerUtamaErph" class="hidden max-w-2xl mx-auto px-3.5 sm:px-4 pt-3 space-y-4"><!-- 2. KAD PROFIL GURU AKTIF & BUTANG LOG KELUAR -->
+  <!-- ==================== KONTAINER UTAMA e-RPH (LANGKAH 2: JADUAL aSc & JANA 40 MINGGU) ==================== -->
+  <div id="kontainerUtamaErph" class="hidden max-w-6xl mx-auto px-3 sm:px-4 pt-3 space-y-4">
+    
+    <!-- 1. KAD PROFIL GURU AKTIF & BUTANG LOG KELUAR -->
     <div class="bg-white rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center font-black text-indigo-700 text-sm shadow-inner shrink-0">
@@ -280,7 +255,7 @@
         <div class="space-y-0.5">
           <div class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Akaun Pendidik Aktif</span>
+            <span>Akaun Pendidik Berdaftar</span>
           </div>
           <div id="lblNamaGuruHeader" class="text-xs sm:text-sm font-extrabold text-slate-900 leading-tight">
             Pendidik KPM
@@ -292,253 +267,225 @@
       </div>
 
       <button type="button" onclick="logKeluarGuru()" title="Log Keluar / Tukar Profil Guru" class="text-[11px] font-bold text-slate-600 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 px-3 py-2 rounded-xl transition flex items-center gap-1 shrink-0 active:scale-95">
-        <span>&#128275;</span> <span class="hidden sm:inline">Tukar Guru</span>
+        <span>🔓</span> <span class="hidden sm:inline">Tukar Profil</span>
       </button>
     </div>
 
-    <!-- 3. BAR PENUKAR MOD: MINGGUAN VS SEBULAN PUKAL -->
-    <div class="bg-slate-200/80 p-1.5 rounded-2xl flex items-center gap-1.5 shadow-inner">
-      <button type="button" onclick="tukarModUtama('mingguan')" id="tabBtn_mingguan" class="flex-1 py-2.5 px-3 rounded-xl font-black text-xs transition flex items-center justify-center gap-2 bg-white text-indigo-700 shadow-sm">
-        <span>&#128197;</span>
-        <span>Mod Mingguan (Jadual &amp; Jana)</span>
-      </button>
-      <button type="button" onclick="tukarModUtama('bulanan')" id="tabBtn_bulanan" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 text-slate-600 hover:text-slate-900">
-        <span>&#9889;</span>
-        <span>Jana RPH Sebulan (Pukal)</span>
-        <span class="text-[9px] bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded-md uppercase">Baru</span>
-      </button>
+    <!-- 2. TAJUK SISTEM aSc POPUP TILES -->
+    <div class="text-center py-1">
+      <h2 class="text-base sm:text-xl font-black text-slate-900 tracking-tight">
+        SISTEM PENJANAAN RPH AUTO (POPUP TILES INTERAKTIF)
+      </h2>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- PANEL 1: MOD MINGGUAN (JADUAL WAKTU & JANA SEMINGGU)                      -->
-    <!-- ========================================================================= -->
-    <div id="panelMingguan" class="space-y-4">
+    <!-- 3. TOP INSTRUCTION BOX (ARAHAN BIRU MENEPATI MOCKUP) -->
+    <div class="rounded-2xl border-2 border-blue-400/80 bg-blue-50/70 p-3.5 sm:p-4 text-center shadow-xs">
+      <p class="text-xs sm:text-sm font-black text-blue-900 leading-relaxed">
+        ARAHAN: 1. Semak masa di baris atas | 2. Tekan mana-mana petak jadual untuk tetapkan Subjek, Kelas, Peta i-THINK &amp; Pemulihan | 3. Klik Jana RPH 40 Minggu.
+      </p>
+    </div>
 
-      <!-- Pilihan Minggu Persekolahan & Status DB -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-2">
-        <div class="flex items-center justify-between">
-          <label class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5">
-            <span>&#128197;</span>
-            <span>Pilih Minggu Persekolahan (Takwim 2026)</span>
-          </label>
-          <span id="statusMingguDb" class="text-[10px] font-bold text-slate-400">Semakan...</span>
-        </div>
-        <select id="selMinggu" onchange="semakStatusMingguSemasa()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none">
-          <option value="">Memuatkan takwim persekolahan...</option>
+    <!-- 4. TOOLBAR KAWALAN MASA JADUAL aSc -->
+    <div class="bg-white rounded-2xl p-3 border border-slate-200 flex items-center justify-between flex-wrap gap-2 text-xs">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="font-extrabold text-slate-700 flex items-center gap-1">
+          <span>⏰</span> <span>Tetapan Waktu Persekolahan:</span>
+        </span>
+        <select id="selPresetWaktu" onchange="tukarPresetWaktu()" class="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-bold text-indigo-700 outline-none cursor-pointer">
+          <option value="07:10" selected>Sesi Pagi (07:10 AM - 01:40 PM)</option>
+          <option value="07:30">Sesi Pagi Standard (07:30 AM - 02:00 PM)</option>
+          <option value="13:00">Sesi Petang (01:00 PM - 07:30 PM)</option>
         </select>
-
-        <input type="hidden" id="txtEmail" value="" />
-
-        
       </div>
 
-      <!-- Jadual Mengajar Fleksibel (Pra, Perdana, DLP, PPKI) -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <label class="text-xs font-extrabold text-slate-800 block">Jadual Mengajar Fleksibel</label>
-            <p class="text-[10px] text-slate-500">Sesuaikan slot PdP harian mengikut kelas &amp; subjek.</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button type="button" onclick="simpanTemplatJadualTetapUi()" title="Simpan jadual semasa sebagai templat kekal" class="text-[11px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-extrabold px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center gap-1 active:scale-95 shadow-2xs">
-              <span>&#128190;</span> <span>Simpan Templat</span>
-            </button>
-            <button type="button" onclick="resetJadualAsal()" class="text-[10px] text-slate-400 hover:text-rose-600 font-bold underline">
-              Reset Asal
-            </button>
-          </div>
-        </div>
-
-        <!-- Tab Hari (Isnin - Jumaat) -->
-        <div class="grid grid-cols-5 gap-1 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
-          <button type="button" onclick="pilihTabHari('1. Isnin')" id="btnHari_1" class="tab-hari text-[11px] font-bold py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm">Isnin</button>
-          <button type="button" onclick="pilihTabHari('2. Selasa')" id="btnHari_2" class="tab-hari text-[11px] font-semibold py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Selasa</button>
-          <button type="button" onclick="pilihTabHari('3. Rabu')" id="btnHari_3" class="tab-hari text-[11px] font-semibold py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Rabu</button>
-          <button type="button" onclick="pilihTabHari('4. Khamis')" id="btnHari_4" class="tab-hari text-[11px] font-semibold py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Khamis</button>
-          <button type="button" onclick="pilihTabHari('5. Jumaat')" id="btnHari_5" class="tab-hari text-[11px] font-semibold py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Jumaat</button>
-        </div>
-
-        <!-- Senarai Slot Hari Dipilih -->
-        <div id="senaraiSlotHari" class="space-y-3 pt-1"></div>
-
-        <!-- Butang Tambah Slot & Butang Templat KSPK Prasekolah -->
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="tambahSlotBaharu()" class="flex-1 py-2.5 border-2 border-dashed border-slate-300 hover:border-indigo-400 rounded-2xl text-[11px] font-bold text-slate-600 hover:text-indigo-600 transition flex items-center justify-center gap-1.5 bg-slate-50/50">
-            <span>&#10133;</span> <span>Tambah Kelas Pada Hari Ini</span>
-          </button>
-          <button type="button" onclick="muatTemplatJadualKspk()" id="btnTemplatKspk" title="Muat 7 slot jadual harian prasekolah automatik (08:00 - 11:30)" class="hidden py-2.5 px-3 border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-2xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
-            <span>&#129528;</span> <span>Templat 7 Slot KSPK (Khas Prasekolah)</span>
-          </button>
-        </div>
-        <!-- Nota Panduan Khas Prasekolah (Hanya muncul jika mod Prasekolah aktif) -->
-        <div id="notisPanduanKspk" class="hidden text-[10px] text-amber-800 bg-amber-50/90 border border-amber-200 rounded-xl px-2.5 py-1.5 font-medium flex items-center gap-1.5">
-          <span>ℹ️</span> <span><strong>Mod Prasekolah Aktif:</strong> Jadual mengikut struktur 7 slot rutin harian KSPK (08:00 - 11:30).</span>
-        </div>
-      </div>
-
-      <!-- Tindakan Jana & Cetakan Mingguan -->
-      <div class="space-y-2.5">
-        <button type="button" onclick="hantarJanaSeminggu()" id="btnJanaSeminggu" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white py-3.5 px-4 rounded-2xl font-black text-xs shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2">
-          <span id="btnText">&#128640; JANA RPH SEMINGGU SEKARANG</span>
+      <div class="flex items-center gap-2 ml-auto">
+        <button type="button" onclick="muatContohJadualGuru()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3 py-1.5 rounded-xl border border-indigo-200 transition active:scale-95 text-[11px] cursor-pointer">
+          ✨ Muat Contoh Jadual
         </button>
+        <button type="button" onclick="kosongkanSemuaSlotJadual()" class="text-rose-600 hover:text-rose-700 font-bold underline px-2 py-1 text-[11px] cursor-pointer">
+          Kosongkan Grid
+        </button>
+      </div>
+    </div>
 
-        <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="bukaModalPratonton()" class="w-full bg-slate-800 hover:bg-slate-900 active:scale-[0.98] text-white py-3 px-3 rounded-xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5">
-            <span>&#128065;</span> <span>Pratonton RPH</span>
-          </button>
-          <button type="button" onclick="cetakPdfMinggu()" id="btnCetakPdf" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white py-3 px-3 rounded-xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5">
-            <span>&#128196;</span> <span>Cetak PDF Rasmi</span>
-          </button>
+    <!-- 5. 13-PERIOD aSc TIMETABLE GRID WRAPPER (W1 - W13 x Mo - Fr) -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 sm:p-4 overflow-hidden space-y-2">
+      <div class="overflow-x-auto pb-2 scrollbar-thin">
+        <table id="tableAscGrid" class="w-full border-separate border-spacing-1.5 min-w-[980px] text-center select-none">
+          <thead>
+            <tr id="rowHeaderAsc">
+              <!-- Rendered dynamically by renderAscHeader() -->
+            </tr>
+          </thead>
+          <tbody id="tbodyAscGrid">
+            <!-- Rendered dynamically by renderAscGridBody() -->
+          </tbody>
+        </table>
+      </div>
+      <div class="text-[10px] text-slate-400 text-center sm:text-right">
+        * Petak ungu menandakan slot yang telah diisi. Tekan petak untuk menyunting atau memadam.
+      </div>
+    </div>
+
+    <!-- 6. BOTTOM ACTION BAR (KOTAK HIJAU RINGKASAN & BUTANG CTA JANA 40 MINGGU) -->
+    <div class="rounded-3xl border-2 border-emerald-500 bg-white p-4 sm:p-5 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="space-y-1.5 text-center md:text-left flex-1">
+        <div class="text-xs sm:text-sm font-black text-emerald-900 leading-snug">
+          Ringkasan RPH: Sistem akan menjana RPH 40 Minggu lengkap dengan Strategi i-THINK &amp; Pemulihan terpilih.
+        </div>
+        <p class="text-[11px] text-slate-500 leading-snug">
+          Format standard KPM / PPD | Sedia untuk dijana terus ke Google Sheets peribadi anda (Sequential DSKP Progression).
+        </p>
+        <div class="pt-1 flex items-center justify-center md:justify-start gap-2 flex-wrap">
+          <span class="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full text-xs font-black text-emerald-800 shadow-2xs">
+            <span>📊</span>
+            <span id="lblStatJadualSeminggu">0 Slot PdP Dipilih • 0 Minit (0.0 Jam) Seminggu</span>
+          </span>
         </div>
       </div>
 
-      <!-- Kotak Muat Turun Hasil PDF Mingguan -->
-      <div id="kotakHasilPdf" class="hidden p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs space-y-2">
-        <div class="font-extrabold text-emerald-900 flex items-center gap-1.5">
-          <span>&#9989;</span> <span>Fail PDF Rasmi Telah Dihasilkan!</span>
+      <div class="w-full md:w-auto shrink-0">
+        <button type="button" onclick="laksanaJanaRph40Minggu()" id="btnJana40Minggu" class="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black text-sm sm:text-base py-4 px-8 rounded-2xl shadow-xl shadow-emerald-600/25 transition flex items-center justify-center gap-2 cursor-pointer">
+          <span id="btnText40Minggu">JANA RPH 40 MINGGU &gt;&gt;</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== MODAL POPUP TETAPAN SLOT aSc (POPUP TILES) ==================== -->
+  <div id="modalSlotAsc" class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-150">
+      
+      <!-- Header Modal (Biru Gelap / Dark Navy Menepati Mockup) -->
+      <div class="px-5 py-4 bg-indigo-950 text-white flex items-center justify-between">
+        <h3 id="modalSlotTajuk" class="text-xs sm:text-sm font-black tracking-wide truncate pr-2">
+          TETAPAN SLOT: ISNIN (10:10 - 11:10) [60 MINIT]
+        </h3>
+        <button type="button" onclick="tutupModalSlot()" class="text-white/80 hover:text-white text-base font-black px-2 py-1 rounded-lg hover:bg-white/10 transition leading-none shrink-0 cursor-pointer">
+          [X]
+        </button>
+      </div>
+
+      <!-- Body Borang Tetapan Slot -->
+      <div class="p-5 space-y-4 text-xs max-h-[76vh] overflow-y-auto">
+        
+        <!-- 1. Subjek -->
+        <div>
+          <label class="block font-extrabold text-slate-800 mb-1.5">1. Subjek:</label>
+          <select id="modalSelSubjek" onchange="kemaskiniSubjekModal(this.value)" class="w-full bg-white border border-slate-300 rounded-xl p-2.5 font-bold text-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none text-xs sm:text-sm">
+            <!-- Diisi secara dinamik -->
+          </select>
         </div>
-        <p class="text-[11px] text-emerald-700">Tersedia untuk muat turun langsung tanpa sekatan domain MOE-DL.</p>
-        <div class="flex gap-2 pt-1">
-          <a id="linkLihatPdf" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 text-center bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl font-bold shadow text-xs">Buka PDF</a>
-          <a id="linkDownloadPdf" href="#" class="flex-1 text-center bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl font-bold shadow text-xs">Muat Turun</a>
+
+        <!-- 2. Kelas (Boleh Taip) -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="font-extrabold text-slate-800">2. Kelas (Boleh Taip):</label>
+            <span class="text-[10px] font-black text-indigo-600 tracking-wider">SEDANG DIPILIH...</span>
+          </div>
+          <input type="text" id="modalTxtKelas" value="4 USM" placeholder="cth: 4 USM, 2 UMS" class="w-full bg-white border-2 border-blue-500 rounded-xl p-2.5 font-extrabold text-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none text-xs sm:text-sm">
         </div>
+
+        <!-- 3. Fokus Peta Pemikiran (i-THINK) -->
+        <div>
+          <label class="block font-extrabold text-slate-800 mb-2">3. Fokus Peta Pemikiran (i-THINK):</label>
+          <div id="kontenaCipIThink" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <!-- Chips i-THINK dijana secara dinamik -->
+          </div>
+        </div>
+
+        <!-- 4. Modul Pemulihan & Pengayaan Terbina -->
+        <div>
+          <label class="block font-extrabold text-slate-800 mb-2">4. Modul Pemulihan &amp; Pengayaan Terbina:</label>
+          <div id="kontenaCipPemulihan" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <!-- Chips Pemulihan dijana secara dinamik -->
+          </div>
+        </div>
+
+        <!-- 5. Panjang Waktu (Gabung Petak) -->
+        <div>
+          <label class="block font-extrabold text-slate-800 mb-2">5. Panjang Waktu (Gabung Petak):</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" onclick="setModalPanjangWaktu(1)" id="btnWaktuOption1" class="p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer">
+              <span id="iconWaktu1" class="font-mono text-sm">( )</span>
+              <span>1 Waktu (30 Minit)</span>
+            </button>
+            <button type="button" onclick="setModalPanjangWaktu(2)" id="btnWaktuOption2" class="p-3 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer">
+              <span id="iconWaktu2" class="font-mono text-sm">(-)</span>
+              <span>2 Waktu Kembar (60 Minit)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Modal -->
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="padamSlotDariModal()" id="btnModalPadam" class="hidden px-4 py-2.5 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 font-bold transition text-xs cursor-pointer">
+            Padam Slot
+          </button>
+          <button type="button" onclick="tutupModalSlot()" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold transition text-xs cursor-pointer">
+            Batal
+          </button>
+        </div>
+        <button type="button" onclick="simpanSlotDariModal()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black shadow-md transition flex items-center gap-1.5 active:scale-95 text-xs sm:text-sm cursor-pointer">
+          <span>SIMPAN KE JADUAL</span> <span>✓</span>
+        </button>
       </div>
 
     </div>
+  </div>
 
-    <!-- ========================================================================= -->
-    <!-- PANEL 2: MOD JANA RPH SEBULAN (PUKAL) [CIRI UTAMA BARU]                  -->
-    <!-- ========================================================================= -->
-    <div id="panelBulanan" class="hidden space-y-4">
+  <!-- ==================== MODAL KEMAJUAN PENJANAAN 40 MINGGU ==================== -->
+  <div id="modalProses40Minggu" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full text-center shadow-2xl border border-slate-100 space-y-4">
+      <div class="w-14 h-14 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto"></div>
+      <div>
+        <h3 class="font-black text-slate-900 text-base mb-1">Sedang Menjana e-RPH 40 Minggu Penuh...</h3>
+        <p id="lblStatusProses40Minggu" class="text-xs text-slate-600">Menyusun pemetaan DSKP progresif kronologi dan membina Google Sheet rasmi...</p>
+      </div>
+      <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+        <div id="barProses40Minggu" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-300 w-1/3"></div>
+      </div>
+    </div>
+  </div>
 
-      <!-- Hero Penerangan Mod Sebulan -->
-      <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-5 text-white shadow-lg shadow-orange-500/15 space-y-2">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-white">
-            &#9889; PUKAL AUTO-GENERATOR
-          </span>
-          <span class="bg-slate-950/30 px-2 py-0.5 rounded-full text-[9px] font-black">2026</span>
-        </div>
-        <h2 class="text-base sm:text-lg font-black tracking-tight leading-tight">
-          Penjanaan e-RPH Sebulan Pukal
-        </h2>
-        <p class="text-xs text-white/90 leading-relaxed">
-          Jana draf penuh semua minggu dalam sebulan secara serentak berpandukan templat jadual mengajar anda.
+  <!-- ==================== MODAL BERJAYA PENJANAAN 40 MINGGU ==================== -->
+  <div id="modalBerjaya40Minggu" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full text-center shadow-2xl border border-emerald-100 space-y-4">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-2xl font-black shadow-inner">
+        ✓
+      </div>
+      <div>
+        <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1">
+          Penjanaan Selesai
+        </span>
+        <h3 class="font-black text-slate-900 text-lg">e-RPH 40 Minggu Telah Siap!</h3>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          Google Spreadsheet rasmi telah berjaya dibina dan disimpan dalam Google Drive anda dengan pemetaan DSKP berurutan.
         </p>
       </div>
 
-      <!-- Borang Pilihan Bulan & Strategi DSKP -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3.5">
-        <div class="space-y-1.5">
-          <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-            <span>&#128197;</span> <span>Pilih Bulan Persekolahan (Tahun 2026):</span>
-          </label>
-          <select id="selBulanPukal" onchange="kemaskiniMaklumatBulanPukal()" class="w-full bg-slate-50 border-2 border-slate-200 focus:border-indigo-600 rounded-xl px-3.5 py-3 text-xs font-bold text-slate-800 outline-none transition">
-            <option value="Januari">Januari 2026 (Minggu 1 - Minggu 4)</option>
-            <option value="Februari">Februari 2026 (Minggu 5 - Minggu 8)</option>
-            <option value="Mac">Mac 2026 (Minggu 9 - Minggu 12)</option>
-            <option value="April">April 2026 (Minggu 13 - Minggu 16)</option>
-            <option value="Mei">Mei 2026 (Minggu 17 - Minggu 20)</option>
-            <option value="Jun">Jun 2026 (Minggu 21 - Minggu 24)</option>
-            <option value="Julai">Julai 2026 (Minggu 25 - Minggu 28)</option>
-            <option value="Ogos">Ogos 2026 (Minggu 29 - Minggu 32)</option>
-            <option value="September">September 2026 (Minggu 33 - Minggu 36)</option>
-            <option value="Oktober">Oktober 2026 (Minggu 37 - Minggu 40)</option>
-            <option value="November">November 2026 (Minggu 41 - Minggu 43)</option>
-            <option value="Disember">Disember 2026 (Minggu 44 - Minggu 45)</option>
-          </select>
-          <div class="flex items-center gap-1.5 text-[11px] text-slate-500 pt-0.5">
-            <span class="font-bold text-indigo-700">&#128204; Minggu Terlibat:</span>
-            <span id="lblMingguTerlibatBulan" class="font-semibold text-slate-700">Minggu 1, Minggu 2, Minggu 3, Minggu 4</span>
-          </div>
-        </div>
+      <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-left space-y-1.5 font-medium">
+        <div class="flex justify-between"><span class="text-slate-500">Subjek &amp; Kelas:</span><span id="resSubjekKelas40" class="font-bold text-slate-800">-</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Jumlah Slot PdP:</span><span id="resJumlahSlot40" class="font-bold text-emerald-700">-</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Emel Dihantar:</span><span id="resEmel40" class="font-bold text-slate-800 truncate max-w-[180px]">-</span></div>
+      </div>
 
-        <!-- Pilihan Strategi DSKP -->
-        <div class="space-y-1.5 pt-1">
-          <label class="text-xs font-bold text-slate-800 block">&#127919; Strategi Penjanaan Kandungan DSKP:</label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <label class="flex items-start gap-2.5 p-3 rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 cursor-pointer transition">
-              <input type="radio" name="radModJanaPukal" value="progresif" checked class="mt-0.5 text-indigo-600 focus:ring-indigo-500">
-              <div class="text-xs space-y-0.5">
-                <span class="font-extrabold text-indigo-950 block">Mod Progresif DSKP</span>
-                <span class="text-[10px] text-indigo-700 block leading-tight">Tajuk bersiri mengikut giliran minggu (Bahagian 1 hingga N).</span>
-              </div>
-            </label>
-
-            <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 cursor-pointer transition">
-              <input type="radio" name="radModJanaPukal" value="tetap" class="mt-0.5 text-indigo-600 focus:ring-indigo-500">
-              <div class="text-xs space-y-0.5">
-                <span class="font-extrabold text-slate-800 block">Mod Ulang Templat</span>
-                <span class="text-[10px] text-slate-500 block leading-tight">Menggunakan DSKP persis templat sedia ada untuk semua minggu.</span>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Butang Jana Pukal -->
-        <button type="button" onclick="janaRphSebulanPukal()" id="btnJanaPukal" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 active:scale-[0.99] text-white py-3.5 px-4 rounded-2xl font-black text-xs shadow-lg shadow-orange-500/20 transition flex items-center justify-center gap-2">
-          <span>&#128640;</span>
-          <span id="btnTextPukal">JANA DRAF SEBULAN (AUTO)</span>
+      <div class="flex flex-col gap-2 pt-2">
+        <a id="btnBukaSheet40" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow transition text-center text-xs">
+          [+] BUKA GOOGLE SHEETS SEKARANG
+        </a>
+        <button type="button" onclick="document.getElementById('modalBerjaya40Minggu').classList.add('hidden')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition text-xs cursor-pointer">
+          Tutup
         </button>
-
-        <!-- Bar Kemajuan (Progress Bar & Spinner) Semasa Memproses -->
-        <div id="kotakProgressPukal" class="hidden space-y-2 pt-2 border-t border-slate-100">
-          <div class="flex items-center justify-between text-xs font-bold">
-            <span id="txtStatusPukal" class="text-indigo-700 flex items-center gap-1.5">
-              <span class="animate-spin text-sm">&#9696;</span>
-              <span>Menyediakan data penjanaan...</span>
-            </span>
-            <span id="txtPeratusPukal" class="text-slate-600 font-extrabold">0%</span>
-          </div>
-          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
-            <div id="barProgressPukal" class="bg-gradient-to-r from-indigo-600 to-orange-500 h-full w-0 progress-bar-fill rounded-full"></div>
-          </div>
-        </div>
       </div>
-
-      <!-- Bar Tindakan Pukal Refleksi & Kompilasi PDF Sebulan -->
-      <div id="barTindakanPukal" class="hidden bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <div id="lblInfoBulanPukal" class="text-xs font-black text-slate-900 uppercase">
-              DRAF RPH SEBULAN (JANUARI 2026)
-            </div>
-            <p class="text-[10px] text-slate-500">Semak draf, sunting refleksi, dan eksport PDF kompilasi.</p>
-          </div>
-          <button type="button" onclick="cetakPdfBulananPukal()" id="btnCetakKompilasi" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-2 px-3.5 rounded-xl shadow transition flex items-center gap-1.5 active:scale-95">
-            <span>&#128196;</span> <span>Jana PDF Kompilasi Sebulan</span>
-          </button>
-        </div>
-
-        <!-- Butang Pintas Tindakan Pukal Refleksi -->
-        <div class="flex items-center gap-2 flex-wrap pt-1 border-t border-slate-100">
-          <span class="text-[10px] font-bold text-slate-400">&#9889; Aksi Pukal Refleksi:</span>
-          <button type="button" onclick="isiRefleksiPukalBulan(1)" class="text-[10px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-lg border border-indigo-200 transition">
-            &#128221; Impak KPM (Standard)
-          </button>
-          <button type="button" onclick="isiRefleksiPukalBulan(2)" class="text-[10px] bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-2.5 py-1 rounded-lg border border-emerald-200 transition">
-            &#127881; 100% Menguasai
-          </button>
-          <button type="button" onclick="simpanSemuaRefleksiBulan()" class="text-[10px] bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-1 rounded-lg transition ml-auto shadow-sm">
-            &#128190; Simpan Semua Refleksi
-          </button>
-        </div>
-      </div>
-
-      <!-- Paparan Hasil Accordion / Calendar View -->
-      <div id="kontenaAccordionSebulan" class="space-y-3">
-        <!-- Dimuatkan secara dinamik melalui renderAccordionSebulan() -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-2 text-slate-400">
-          <div class="text-3xl">&#128197;</div>
-          <div class="text-xs font-bold text-slate-600">Tiada Draf Sebulan Dipaparkan</div>
-          <p class="text-[11px] text-slate-400 max-w-sm mx-auto">
-            Sila pilih bulan dan tekan <b>JANA DRAF SEBULAN (AUTO)</b> atau muat draf sedia ada untuk menyemak rekod.
-          </p>
-        </div>
-      </div>
-
     </div>
-  </div><!-- ==================== MODAL PRATONTON RPH MINGGUAN ==================== -->
+  </div>
+
+  <!-- ==================== MODAL PRATONTON RPH MINGGUAN ==================== -->
   <div id="modalPratonton" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white w-full max-w-2xl max-h-[92vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-150">
       
@@ -1782,46 +1729,32 @@ var SUBJEK_PERDANA = [
       }
     }
 
-    function updateStepper(step) {
+        function updateStepper(step) {
       var b1 = document.getElementById('stepBadge1');
       var b2 = document.getElementById('stepBadge2');
-      var b3 = document.getElementById('stepBadge3');
       var n1 = document.getElementById('stepNum1');
       var n2 = document.getElementById('stepNum2');
-      var n3 = document.getElementById('stepNum3');
-      if (!b1 || !b2 || !b3) return;
+      if (!b1 || !b2) return;
 
       var isVerified = guruPilihanSemasa && guruPilihanSemasa.emel;
 
       if (step === 1) {
-        b1.className = "py-2.5 px-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1.5 cursor-pointer";
+        b1.className = "py-2.5 px-3 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2 cursor-pointer";
         if (n1) { n1.className = "w-5 h-5 rounded-full bg-white text-indigo-700 text-[10px] font-black flex items-center justify-center"; n1.textContent = "1"; }
 
         if (isVerified) {
-          b2.className = "py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-600 hover:text-indigo-600 flex items-center justify-center gap-1.5 cursor-pointer";
-          b3.className = "py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-600 hover:text-indigo-600 flex items-center justify-center gap-1.5 cursor-pointer";
+          b2.className = "py-2.5 px-3 rounded-xl transition-all bg-slate-100 text-slate-700 hover:text-indigo-600 flex items-center justify-center gap-2 cursor-pointer";
+          if (n2) { n2.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-black flex items-center justify-center"; n2.textContent = "2"; }
         } else {
-          b2.className = "py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-400 flex items-center justify-center gap-1.5 cursor-not-allowed";
-          b3.className = "py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-400 flex items-center justify-center gap-1.5 cursor-not-allowed";
+          b2.className = "py-2.5 px-3 rounded-xl transition-all bg-slate-100 text-slate-400 flex items-center justify-center gap-2 cursor-not-allowed";
+          if (n2) { n2.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black flex items-center justify-center"; n2.textContent = "2"; }
         }
       } else if (step === 2) {
-        b1.className = "py-2.5 px-2 rounded-xl transition-all bg-emerald-50 border border-emerald-300 text-emerald-700 flex items-center justify-center gap-1.5 cursor-pointer";
-        if (n1) { n1.className = "w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-black flex items-center justify-center"; n1.textContent = "\u2713"; }
+        b1.className = "py-2.5 px-3 rounded-xl transition-all bg-emerald-50 border border-emerald-300 text-emerald-700 flex items-center justify-center gap-2 cursor-pointer";
+        if (n1) { n1.className = "w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-black flex items-center justify-center"; n1.textContent = "âœ“"; }
 
-        b2.className = "py-2.5 px-2 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1.5 cursor-pointer";
+        b2.className = "py-2.5 px-3 rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2 cursor-pointer";
         if (n2) { n2.className = "w-5 h-5 rounded-full bg-white text-indigo-700 text-[10px] font-black flex items-center justify-center"; n2.textContent = "2"; }
-
-        b3.className = "py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5 cursor-pointer";
-        if (n3) { n3.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black flex items-center justify-center"; n3.textContent = "3"; }
-      } else if (step === 3) {
-        b1.className = "py-2.5 px-2 rounded-xl transition-all bg-emerald-50 border border-emerald-300 text-emerald-700 flex items-center justify-center gap-1.5 cursor-pointer";
-        if (n1) { n1.className = "w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-black flex items-center justify-center"; n1.textContent = "\u2713"; }
-
-        b2.className = "py-2.5 px-2 rounded-xl transition-all bg-slate-100 text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5 cursor-pointer";
-        if (n2) { n2.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[10px] font-black flex items-center justify-center"; n2.textContent = "2"; }
-
-        b3.className = "py-2.5 px-2 rounded-xl transition-all bg-orange-600 text-white shadow-sm flex items-center justify-center gap-1.5 cursor-pointer";
-        if (n3) { n3.className = "w-5 h-5 rounded-full bg-white text-orange-600 text-[10px] font-black flex items-center justify-center"; n3.textContent = "3"; }
       }
     }
 
@@ -1830,6 +1763,7 @@ var SUBJEK_PERDANA = [
       if (step === 1) {
         var k1 = document.getElementById('kotakStep1Profil');
         if (k1) k1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        updateStepper(1);
         return;
       }
 
@@ -1841,9 +1775,14 @@ var SUBJEK_PERDANA = [
       }
 
       if (step === 2) {
-        tukarModUtama('mingguan');
-        var pM = document.getElementById('panelMingguan');
-        if (pM) pM.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        updateStepper(2);
+        var k2 = document.getElementById('kontainerUtamaErph');
+        if (k2) {
+          k2.classList.remove('hidden');
+          k2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
       } else if (step === 3) {
         tukarModUtama('bulanan');
         var pB = document.getElementById('panelBulanan');
@@ -3735,7 +3674,561 @@ var SUBJEK_PERDANA = [
     // =========================================================================
     // PEMULA APLIKASI & PEMULIHAN SESI PROFIL
     // =========================================================================
+    // =========================================================================
+    // ENJIN JADUAL WAKTU aSc INTERAKTIF 13-WAKTU (POPUP TILES)
+    // =========================================================================
+    var HARI_ASC = [
+      { kod: "Mo", nama: "Isnin" },
+      { kod: "Tu", nama: "Selasa" },
+      { kod: "We", nama: "Rabu" },
+      { kod: "Th", nama: "Khamis" },
+      { kod: "Fr", nama: "Jumaat" }
+    ];
+
+    var SENARAI_ITHINK = [
+      "Peta Buih (Bubble)",
+      "Peta Titi",
+      "Peta Alir",
+      "Peta Pokok",
+      "Peta Bulatan",
+      "Peta Pelbagai Alir",
+      "Peta Dakap",
+      "Peta Buih Berganda"
+    ];
+
+    var SENARAI_PEMULIHAN = [
+      "Bimbingan Guru (Scaffolding)",
+      "Lembaran Kerja Pemulihan",
+      "Aktiviti Pengayaan Cerdas"
+    ];
+
+    var WAKTU_PRESET_MULA = "07:10";
+    var JADUAL_ASC_SLOTS = []; // Menyimpan semua slot PdP aktif dalam grid aSc
+    var SLOT_MODAL_SEMASA = null; // { hari, periodMula, panjangWaktu, subjek, kelas, iThink, pemulihan, isEdit }
+
+    function binaSenarai13Waktu(waktuMulaStr) {
+      var parts = waktuMulaStr.split(":");
+      var jam = parseInt(parts[0], 10);
+      var minit = parseInt(parts[1], 10);
+      var senarai = [];
+
+      for (var i = 1; i <= 13; i++) {
+        var startTotal = jam * 60 + minit + ((i - 1) * 30);
+        var endTotal = startTotal + 30;
+
+        function formatMasa(totalM) {
+          var h = Math.floor(totalM / 60) % 24;
+          var m = totalM % 60;
+          var hh = (h < 10 ? "0" : "") + h;
+          var mm = (m < 10 ? "0" : "") + m;
+          return hh + ":" + mm;
+        }
+
+        senarai.push({
+          period: i,
+          label: "W" + i,
+          mula: formatMasa(startTotal),
+          tamat: formatMasa(endTotal)
+        });
+      }
+      return senarai;
+    }
+
+    function tukarPresetWaktu() {
+      var sel = document.getElementById("selPresetWaktu");
+      if (sel) WAKTU_PRESET_MULA = sel.value;
+      renderAscGrid();
+    }
+
+    function renderAscHeader() {
+      var theadRow = document.getElementById("rowHeaderAsc");
+      if (!theadRow) return;
+
+      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
+      var html = '<th class="bg-slate-900 text-white font-black text-xs py-3 px-2 rounded-xl min-w-[75px] sticky left-0 z-20 shadow-xs">HARI</th>';
+
+      waktuList.forEach(function(w) {
+        html += '<th class="bg-slate-100/90 border border-slate-200 rounded-xl p-1.5 min-w-[74px] text-center font-bold text-slate-800 shadow-2xs">' +
+                  '<div class="text-xs font-black text-slate-900">' + w.label + '</div>' +
+                  '<div class="text-[10px] text-slate-500 font-semibold leading-tight">' + w.mula + '<br>' + w.tamat + '</div>' +
+                '</th>';
+      });
+
+      theadRow.innerHTML = html;
+    }
+
+    function getSubjekShortCode(sub) {
+      if (!sub) return "PdP";
+      var up = sub.toUpperCase();
+      if (up.includes("INGGERIS") || up.includes("ENGLISH") || up.includes("BI")) return "BI";
+      if (up.includes("MELAYU") || up.includes("BM")) return "BM";
+      if (up.includes("MATEMATIK") || up.includes("MATH")) return "MT";
+      if (up.includes("SAINS") || up.includes("SCIENCE")) return "SN";
+      if (up.includes("ISLAM") || up.includes("PAI")) return "PI";
+      if (up.includes("ARAB")) return "BA";
+      if (up.includes("JASMANI") || up.includes("PJPK")) return "PJPK";
+      if (up.includes("SENI") || up.includes("PSV")) return "PSV";
+      if (up.includes("MUZIK")) return "MZ";
+      if (up.includes("SEJARAH")) return "SEJ";
+      if (up.includes("REKA BENTUK") || up.includes("RBT")) return "RBT";
+      if (up.includes("MORAL")) return "PM";
+      if (up.includes("PRASEKOLAH")) return "PRA";
+      if (up.includes("PPKI") || up.includes("KHAS")) return "PPKI";
+      return sub.substring(0, 3).toUpperCase();
+    }
+
+    function renderAscGridBody() {
+      var tbody = document.getElementById("tbodyAscGrid");
+      if (!tbody) return;
+
+      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
+      var html = "";
+
+      HARI_ASC.forEach(function(hariObj) {
+        html += '<tr>';
+        // Label Hari (Sticky Left Column)
+        html += '<td class="bg-slate-900 text-white font-black text-sm py-4 px-2 rounded-xl sticky left-0 z-10 shadow-xs">' + hariObj.kod + '</td>';
+
+        var p = 1;
+        while (p <= 13) {
+          var currentPeriod = p;
+          var slot = JADUAL_ASC_SLOTS.find(function(s) {
+            return s.hari === hariObj.kod && s.periodMula === currentPeriod;
+          });
+
+          if (slot) {
+            var span = slot.panjangWaktu || 1;
+            var shortCode = getSubjekShortCode(slot.subjek);
+            var kelasText = slot.kelas || "4 USM";
+
+            html += '<td colspan="' + span + '" onclick="bukaModalSlotEdit(\'' + slot.id + '\')" class="p-1 cursor-pointer">' +
+                      '<div class="h-[66px] w-full rounded-xl border-2 border-indigo-500 bg-indigo-50/95 hover:bg-indigo-100 p-1 flex flex-col items-center justify-between text-center transition shadow-2xs hover:scale-[1.01]">' +
+                        '<div class="text-xs font-black text-indigo-900 tracking-wide">' + shortCode + '</div>' +
+                        '<div class="text-[10px] text-indigo-400 font-bold leading-none">&#10010;</div>' +
+                        '<div class="text-[11px] font-black text-slate-800 truncate max-w-[120px]">' + kelasText + '</div>' +
+                      '</div>' +
+                    '</td>';
+            p += span;
+          } else {
+            // Petak kosong
+            html += '<td onclick="bukaModalSlotTambah(\'' + hariObj.kod + '\', ' + p + ')" class="p-1 cursor-pointer">' +
+                      '<div class="h-[66px] w-full rounded-xl border border-dashed border-slate-300 hover:border-indigo-400 bg-white hover:bg-indigo-50/50 flex items-center justify-center text-slate-300 hover:text-indigo-600 transition shadow-2xs">' +
+                        '<span class="text-base font-bold">&#10010;</span>' +
+                      '</div>' +
+                    '</td>';
+            p++;
+          }
+        }
+
+        html += '</tr>';
+      });
+
+      tbody.innerHTML = html;
+      kemaskiniRingkasanJadualAsc();
+    }
+
+    function renderAscGrid() {
+      renderAscHeader();
+      renderAscGridBody();
+    }
+
+    function kemaskiniRingkasanJadualAsc() {
+      var totalSlot = JADUAL_ASC_SLOTS.length;
+      var totalMinit = 0;
+      JADUAL_ASC_SLOTS.forEach(function(s) {
+        totalMinit += ((s.panjangWaktu || 1) * 30);
+      });
+      var jam = (totalMinit / 60).toFixed(1);
+
+      var lbl = document.getElementById("lblStatJadualSeminggu");
+      if (lbl) {
+        lbl.textContent = totalSlot + " Slot PdP Dipilih • " + totalMinit + " Minit (" + jam + " Jam) Seminggu";
+      }
+
+      // Simpan ke local cache
+      try {
+        if (guruPilihanSemasa && guruPilihanSemasa.emel) {
+          localStorage.setItem('jadual_asc_' + guruPilihanSemasa.emel, JSON.stringify(JADUAL_ASC_SLOTS));
+        }
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // KAWALAN MODAL POPUP TETAPAN SLOT aSc
+    // =========================================================================
+    function populateModalSubjekDropdown(selectedVal) {
+      var sel = document.getElementById("modalSelSubjek");
+      if (!sel) return;
+
+      var subjekList = [
+        "Bahasa Inggeris (BI)",
+        "Bahasa Melayu (BM)",
+        "Matematik (MT)",
+        "Sains (SN)",
+        "Pendidikan Islam (PI)",
+        "Bahasa Arab (BA)",
+        "Pendidikan Jasmani dan Pendidikan Kesihatan (PJPK)",
+        "Pendidikan Seni Visual (PSV)",
+        "Pendidikan Muzik (MZ)",
+        "Sejarah (SEJ)",
+        "Reka Bentuk dan Teknologi (RBT)",
+        "Pendidikan Moral (PM)",
+        "Prasekolah (KSPK)",
+        "Pendidikan Khas (PPKI)"
+      ];
+
+      var html = "";
+      subjekList.forEach(function(sub) {
+        var isSel = (selectedVal && sub.toUpperCase().includes(selectedVal.toUpperCase())) ? "selected" : "";
+        html += '<option value="' + sub + '" ' + isSel + '>' + sub + '</option>';
+      });
+      sel.innerHTML = html;
+    }
+
+    function renderModalChips() {
+      // 1. i-THINK Chips
+      var kIThink = document.getElementById("kontenaCipIThink");
+      if (kIThink && SLOT_MODAL_SEMASA) {
+        var html = "";
+        SENARAI_ITHINK.forEach(function(it) {
+          var isChecked = (SLOT_MODAL_SEMASA.iThink || []).includes(it);
+          var activeClass = isChecked 
+            ? "border-blue-500 bg-blue-50 text-blue-800 font-extrabold shadow-2xs" 
+            : "border-slate-200 bg-white text-slate-600 font-semibold hover:border-slate-300";
+          var prefix = isChecked ? "[X]" : "[]";
+
+          html += '<button type="button" onclick="toggleChipIThink(\'' + it + '\')" class="p-2.5 rounded-xl border text-[11px] flex items-center justify-center gap-1.5 transition text-center cursor-pointer ' + activeClass + '">' +
+                    '<span>' + prefix + '</span> <span class="truncate">' + it + '</span>' +
+                  '</button>';
+        });
+        kIThink.innerHTML = html;
+      }
+
+      // 2. Pemulihan & Pengayaan Chips
+      var kPemulihan = document.getElementById("kontenaCipPemulihan");
+      if (kPemulihan && SLOT_MODAL_SEMASA) {
+        var html = "";
+        SENARAI_PEMULIHAN.forEach(function(pm) {
+          var isChecked = (SLOT_MODAL_SEMASA.pemulihan || []).includes(pm);
+          var activeClass = isChecked 
+            ? "border-emerald-500 bg-emerald-50 text-emerald-900 font-extrabold shadow-2xs" 
+            : "border-slate-200 bg-white text-slate-600 font-semibold hover:border-slate-300";
+          var prefix = isChecked ? "[X]" : "[]";
+
+          html += '<button type="button" onclick="toggleChipPemulihan(\'' + pm + '\')" class="p-2.5 rounded-xl border text-[11px] flex items-center justify-center gap-1.5 transition text-center cursor-pointer ' + activeClass + '">' +
+                    '<span>' + prefix + '</span> <span class="truncate">' + pm + '</span>' +
+                  '</button>';
+        });
+        kPemulihan.innerHTML = html;
+      }
+    }
+
+    function toggleChipIThink(name) {
+      if (!SLOT_MODAL_SEMASA) return;
+      if (!SLOT_MODAL_SEMASA.iThink) SLOT_MODAL_SEMASA.iThink = [];
+      var idx = SLOT_MODAL_SEMASA.iThink.indexOf(name);
+      if (idx > -1) {
+        SLOT_MODAL_SEMASA.iThink.splice(idx, 1);
+      } else {
+        SLOT_MODAL_SEMASA.iThink.push(name);
+      }
+      renderModalChips();
+    }
+
+    function toggleChipPemulihan(name) {
+      if (!SLOT_MODAL_SEMASA) return;
+      if (!SLOT_MODAL_SEMASA.pemulihan) SLOT_MODAL_SEMASA.pemulihan = [];
+      var idx = SLOT_MODAL_SEMASA.pemulihan.indexOf(name);
+      if (idx > -1) {
+        SLOT_MODAL_SEMASA.pemulihan.splice(idx, 1);
+      } else {
+        SLOT_MODAL_SEMASA.pemulihan.push(name);
+      }
+      renderModalChips();
+    }
+
+    function setModalPanjangWaktu(waktuVal) {
+      if (!SLOT_MODAL_SEMASA) return;
+      SLOT_MODAL_SEMASA.panjangWaktu = waktuVal;
+
+      var b1 = document.getElementById("btnWaktuOption1");
+      var b2 = document.getElementById("btnWaktuOption2");
+      var i1 = document.getElementById("iconWaktu1");
+      var i2 = document.getElementById("iconWaktu2");
+
+      if (waktuVal === 1) {
+        if (b1) b1.className = "p-3 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer";
+        if (b2) b2.className = "p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer";
+        if (i1) i1.textContent = "(*)";
+        if (i2) i2.textContent = "( )";
+      } else {
+        if (b1) b1.className = "p-3 rounded-2xl border-2 border-slate-200 bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-2 transition hover:bg-slate-100 cursor-pointer";
+        if (b2) b2.className = "p-3 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 font-extrabold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer";
+        if (i1) i1.textContent = "( )";
+        if (i2) i2.textContent = "(-)";
+      }
+
+      kemaskiniTajukModalSlot();
+    }
+
+    function kemaskiniTajukModalSlot() {
+      if (!SLOT_MODAL_SEMASA) return;
+      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
+      var startIdx = SLOT_MODAL_SEMASA.periodMula - 1;
+      var wStart = waktuList[startIdx] || { mula: "07:10" };
+      var endIdx = startIdx + (SLOT_MODAL_SEMASA.panjangWaktu || 1) - 1;
+      var wEnd = waktuList[endIdx] || waktuList[waktuList.length - 1];
+
+      var hariObj = HARI_ASC.find(function(h) { return h.kod === SLOT_MODAL_SEMASA.hari; }) || { nama: "Isnin" };
+      var minit = (SLOT_MODAL_SEMASA.panjangWaktu || 1) * 30;
+
+      var tajukEl = document.getElementById("modalSlotTajuk");
+      if (tajukEl) {
+        tajukEl.textContent = "TETAPAN SLOT: " + hariObj.nama.toUpperCase() + " (" + wStart.mula + " - " + wEnd.tamat + ") [" + minit + " MINIT]";
+      }
+    }
+
+    function bukaModalSlotTambah(hariKod, periodNum) {
+      SLOT_MODAL_SEMASA = {
+        id: hariKod + "_" + periodNum + "_" + Date.now(),
+        hari: hariKod,
+        periodMula: periodNum,
+        panjangWaktu: 2, // Default 2 waktu kembar 60 min
+        subjek: "Bahasa Inggeris (BI)",
+        kelas: "4 USM",
+        iThink: ["Peta Buih (Bubble)"],
+        pemulihan: ["Bimbingan Guru (Scaffolding)", "Lembaran Kerja Pemulihan"],
+        isEdit: false
+      };
+
+      populateModalSubjekDropdown(SLOT_MODAL_SEMASA.subjek);
+      var inKelas = document.getElementById("modalTxtKelas");
+      if (inKelas) inKelas.value = SLOT_MODAL_SEMASA.kelas;
+
+      setModalPanjangWaktu(2);
+      renderModalChips();
+      kemaskiniTajukModalSlot();
+
+      var btnPadam = document.getElementById("btnModalPadam");
+      if (btnPadam) btnPadam.classList.add("hidden");
+
+      var modal = document.getElementById("modalSlotAsc");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function bukaModalSlotEdit(slotId) {
+      var slot = JADUAL_ASC_SLOTS.find(function(s) { return s.id === slotId; });
+      if (!slot) return;
+
+      SLOT_MODAL_SEMASA = JSON.parse(JSON.stringify(slot));
+      SLOT_MODAL_SEMASA.isEdit = true;
+
+      populateModalSubjekDropdown(SLOT_MODAL_SEMASA.subjek);
+      var inKelas = document.getElementById("modalTxtKelas");
+      if (inKelas) inKelas.value = SLOT_MODAL_SEMASA.kelas || "4 USM";
+
+      setModalPanjangWaktu(SLOT_MODAL_SEMASA.panjangWaktu || 1);
+      renderModalChips();
+      kemaskiniTajukModalSlot();
+
+      var btnPadam = document.getElementById("btnModalPadam");
+      if (btnPadam) btnPadam.classList.remove("hidden");
+
+      var modal = document.getElementById("modalSlotAsc");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function tutupModalSlot() {
+      var modal = document.getElementById("modalSlotAsc");
+      if (modal) modal.classList.add("hidden");
+      SLOT_MODAL_SEMASA = null;
+    }
+
+    function simpanSlotDariModal() {
+      if (!SLOT_MODAL_SEMASA) return;
+
+      var selSub = document.getElementById("modalSelSubjek");
+      var inKelas = document.getElementById("modalTxtKelas");
+
+      SLOT_MODAL_SEMASA.subjek = selSub ? selSub.value : "Bahasa Inggeris";
+      SLOT_MODAL_SEMASA.kelas = inKelas ? (inKelas.value.trim() || "4 USM") : "4 USM";
+
+      var startP = SLOT_MODAL_SEMASA.periodMula;
+      var endP = startP + (SLOT_MODAL_SEMASA.panjangWaktu || 1) - 1;
+
+      // Filter out overlapping slots on the same day
+      JADUAL_ASC_SLOTS = JADUAL_ASC_SLOTS.filter(function(s) {
+        if (s.id === SLOT_MODAL_SEMASA.id) return false;
+        if (s.hari !== SLOT_MODAL_SEMASA.hari) return true;
+        var sStart = s.periodMula;
+        var sEnd = sStart + (s.panjangWaktu || 1) - 1;
+        var overlap = (startP <= sEnd && endP >= sStart);
+        return !overlap;
+      });
+
+      // Masukkan slot baharu
+      JADUAL_ASC_SLOTS.push({
+        id: SLOT_MODAL_SEMASA.id,
+        hari: SLOT_MODAL_SEMASA.hari,
+        periodMula: SLOT_MODAL_SEMASA.periodMula,
+        panjangWaktu: SLOT_MODAL_SEMASA.panjangWaktu,
+        subjek: SLOT_MODAL_SEMASA.subjek,
+        kelas: SLOT_MODAL_SEMASA.kelas,
+        iThink: SLOT_MODAL_SEMASA.iThink || [],
+        pemulihan: SLOT_MODAL_SEMASA.pemulihan || []
+      });
+
+      tutupModalSlot();
+      renderAscGridBody();
+    }
+
+    function padamSlotDariModal() {
+      if (!SLOT_MODAL_SEMASA) return;
+      JADUAL_ASC_SLOTS = JADUAL_ASC_SLOTS.filter(function(s) {
+        return s.id !== SLOT_MODAL_SEMASA.id;
+      });
+      tutupModalSlot();
+      renderAscGridBody();
+    }
+
+    function kosongkanSemuaSlotJadual() {
+      if (confirm("Adakah anda pasti mahu mengosongkan semua slot dalam jadual?")) {
+        JADUAL_ASC_SLOTS = [];
+        renderAscGridBody();
+      }
+    }
+
+    function muatContohJadualGuru() {
+      JADUAL_ASC_SLOTS = [
+        { id: "Mo_2", hari: "Mo", periodMula: 2, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "4 USM", iThink: ["Peta Buih (Bubble)"], pemulihan: ["Bimbingan Guru (Scaffolding)", "Lembaran Kerja Pemulihan"] },
+        { id: "Mo_7", hari: "Mo", periodMula: 7, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "2 UMS", iThink: ["Peta Alir"], pemulihan: ["Bimbingan Guru (Scaffolding)"] },
+        { id: "Tu_3", hari: "Tu", periodMula: 3, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "4 USM", iThink: ["Peta Pokok"], pemulihan: ["Lembaran Kerja Pemulihan"] },
+        { id: "We_4", hari: "We", periodMula: 4, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "2 UMS", iThink: ["Peta Buih (Bubble)"], pemulihan: ["Aktiviti Pengayaan Cerdas"] },
+        { id: "Th_2", hari: "Th", periodMula: 2, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "4 USM", iThink: ["Peta Titi"], pemulihan: ["Bimbingan Guru (Scaffolding)"] },
+        { id: "Fr_3", hari: "Fr", periodMula: 3, panjangWaktu: 2, subjek: "Bahasa Inggeris (BI)", kelas: "2 UMS", iThink: ["Peta Bulatan"], pemulihan: ["Lembaran Kerja Pemulihan"] }
+      ];
+      renderAscGridBody();
+    }
+
+    // =========================================================================
+    // TINDAKAN JANA RPH 40 MINGGU DARI aSc GRID (SEQUENTIAL DSKP PROGRESSION)
+    // =========================================================================
+    function laksanaJanaRph40Minggu() {
+      var isVerified = guruPilihanSemasa && guruPilihanSemasa.emel;
+      if (!isVerified) {
+        paparMesej("Akses Belum Sah", "Sila lengkapkan profil pendidik pada Langkah 1 terlebih dahulu.", "warning");
+        klikStepper(1);
+        return;
+      }
+
+      if (JADUAL_ASC_SLOTS.length === 0) {
+        paparMesej("Jadual Kosong", "Sila tekan mana-mana petak jadual untuk menetapkan sekurang-kurangnya 1 slot PdP mingguan.", "warning");
+        return;
+      }
+
+      var modalProses = document.getElementById("modalProses40Minggu");
+      var barProses = document.getElementById("barProses40Minggu");
+      var lblStatus = document.getElementById("lblStatusProses40Minggu");
+
+      if (modalProses) modalProses.classList.remove("hidden");
+      if (barProses) barProses.style.width = "25%";
+      if (lblStatus) lblStatus.textContent = "Menyediakan jadual mingguan aSc dan memetakan silibus DSKP...";
+
+      var waktuList = binaSenarai13Waktu(WAKTU_PRESET_MULA);
+
+      // Susun dan format jadual mingguan untuk dihantar ke backend
+      var jadualMingguanFormatted = JADUAL_ASC_SLOTS.map(function(s) {
+        var hariObj = HARI_ASC.find(function(h) { return h.kod === s.hari; }) || { nama: "Isnin" };
+        var wStart = waktuList[s.periodMula - 1] || { mula: "07:10" };
+        var wEnd = waktuList[s.periodMula + (s.panjangWaktu || 1) - 2] || waktuList[s.periodMula - 1];
+
+        return {
+          hari: hariObj.nama.toUpperCase(),
+          mula: wStart.mula,
+          tamat: wEnd.tamat,
+          minit: (s.panjangWaktu || 1) * 30,
+          subjek: s.subjek,
+          kelas: s.kelas,
+          tahun: ekstrakTahunDariKelas(s.kelas),
+          iThink: s.iThink || [],
+          pemulihan: s.pemulihan || []
+        };
+      });
+
+      var slotPertama = JADUAL_ASC_SLOTS[0] || {};
+      var payload = {
+        emel: guruPilihanSemasa.emel,
+        nama: guruPilihanSemasa.nama,
+        sekolah: guruPilihanSemasa.sekolah,
+        sesi: guruPilihanSemasa.sesi || "2026",
+        aliran: guruPilihanSemasa.aliran || "PERDANA",
+        subjek: slotPertama.subjek || "Bahasa Inggeris",
+        tahun: ekstrakTahunDariKelas(slotPertama.kelas) || "Tahun 4",
+        kelas: slotPertama.kelas || "4 USM",
+        jadualMingguan: jadualMingguanFormatted
+      };
+
+      setTimeout(function() {
+        if (barProses) barProses.style.width = "65%";
+        if (lblStatus) lblStatus.textContent = "Menjana rekod kronologi 40 minggu (Urutan DSKP berperingkat & overflow handling)...";
+      }, 600);
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (barProses) barProses.style.width = "100%";
+            if (lblStatus) lblStatus.textContent = "Penjanaan siap!";
+
+            setTimeout(function() {
+              if (modalProses) modalProses.classList.add("hidden");
+              if (res && res.success) {
+                tunjukModalBerjaya40(res, payload);
+              } else {
+                paparMesej("Ralat Penjanaan", (res && res.message) ? res.message : "Gagal menjana e-RPH 40 Minggu.", "error");
+              }
+            }, 600);
+          })
+          .withFailureHandler(function(err) {
+            if (modalProses) modalProses.classList.add("hidden");
+            paparMesej("Ralat Sistem", "Ralat penjanaan pelayan: " + (err.message || err), "error");
+          })
+          .janaRph40MingguBackend(payload);
+      } else {
+        // Simulasi Luar Talian
+        setTimeout(function() {
+          if (barProses) barProses.style.width = "100%";
+          setTimeout(function() {
+            if (modalProses) modalProses.classList.add("hidden");
+            tunjukModalBerjaya40({
+              success: true,
+              totalSessions: JADUAL_ASC_SLOTS.length * 40,
+              fileUrl: "https://docs.google.com/spreadsheets/d/simulasi-40-minggu"
+            }, payload);
+          }, 500);
+        }, 1200);
+      }
+    }
+
+    function tunjukModalBerjaya40(res, payload) {
+      var modal = document.getElementById("modalBerjaya40Minggu");
+      if (!modal) return;
+
+      var subKelas = document.getElementById("resSubjekKelas40");
+      var jmSlot = document.getElementById("resJumlahSlot40");
+      var emelText = document.getElementById("resEmel40");
+      var btnSheet = document.getElementById("btnBukaSheet40");
+
+      if (subKelas) subKelas.textContent = payload.subjek + " (" + payload.kelas + ")";
+      if (jmSlot) jmSlot.textContent = (res.totalSessions || (payload.jadualMingguan.length * 40)) + " Slot PdP (Lengkap 40 Minggu)";
+      if (emelText) emelText.textContent = payload.emel;
+      if (btnSheet) btnSheet.href = res.fileUrl || "#";
+
+      modal.classList.remove("hidden");
+    }
+
     window.onload = function() {
+      renderAscGrid();
+      muatContohJadualGuru();
       inisialisasiSemuaSlotJadual(JADUAL_DEFAULT);
       renderSlotHari(hariSemasaDipilih);
       kemaskiniMaklumatBulanPukal();
